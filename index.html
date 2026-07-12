@@ -309,6 +309,37 @@
   .anvil-tip{margin-top:14px;font-size:15px;color:var(--ink-dim);line-height:1.45;border-top:2px solid rgba(255,255,255,.12);padding-top:10px}
   .anvil-tip b{color:var(--emerald)}
 
+  /* ---- Hover-Erklärungen (Tooltips) ---- */
+  .tip{cursor:help;border-bottom:1px dotted currentColor}
+  [data-tip]{position:relative}
+  .tip .q{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:5px;
+    font-family:'Silkscreen',sans-serif;font-size:9px;color:#03122b;background:#7fa3e8;border:1px solid #000;vertical-align:middle}
+  [data-tip]:hover::after,[data-tip]:focus::after{
+    content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
+    width:max-content;max-width:250px;background:#0f0f16;color:#e8e8e8;border:2px solid #7fa3e8;
+    font-family:'VT323',monospace;font-size:15px;line-height:1.35;letter-spacing:0;text-transform:none;text-align:left;
+    padding:8px 10px;z-index:60;box-shadow:0 6px 0 rgba(0,0,0,.5);white-space:normal;pointer-events:none}
+  [data-tip]:hover::before,[data-tip]:focus::before{
+    content:'';position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);
+    border:6px solid transparent;border-top-color:#7fa3e8;z-index:60;pointer-events:none}
+  .opt-chip.tip{border-bottom:2px solid #000}
+  .sumbox.tip{cursor:help}
+  .anvil-token[data-tip]{cursor:help}
+  .anvil-token[data-tip]::after{max-width:230px}
+
+  /* ---- Farbige Schritt-Verkettung ---- */
+  .astep{border-left-width:6px}
+  .step-badge{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:24px;padding:0 6px;
+    font-family:'Silkscreen',sans-serif;font-size:13px;color:#0a0a0a;border:2px solid #000;font-weight:700}
+  .anvil-token.ref{padding-left:6px}
+  .anvil-token.ref .refnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+    font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
+  .anvil-token.result-out{font-weight:700}
+  .anvil-token.result-out .outnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+    font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
+  .anvil-token.final-out{border-color:var(--emerald) !important;background:#0f2a19}
+  .astep-legend{font-size:14px;color:var(--ink-dim);margin:2px 0 10px;line-height:1.4}
+
   @media(max-width:560px){
     .itemname .de{display:inline;margin-left:6px}
     thead th{font-size:9px;padding:6px}
@@ -402,9 +433,9 @@
           <div class="ench-pick-list" id="anvilEnchList"></div>
 
           <div class="anvil-opts">
-            <span class="opt-chip active" data-opt="xp" id="optXp">💠 Wenigste Level</span>
-            <span class="opt-chip" data-opt="pwp" id="optPwp">🛡 Wenigste Reparaturstrafe</span>
-            <span class="opt-chip" data-opt="incompat" id="optIncompat">⚠ Unverträgliche erlauben</span>
+            <span class="opt-chip tip active" tabindex="0" data-opt="xp" id="optXp" data-tip="Findet die Reihenfolge mit den WENIGSTEN Erfahrungsleveln insgesamt. Das ist fast immer, was du willst — der billigste Weg zum fertigen Item.">💠 Wenigste Level <span class="q">?</span></span>
+            <span class="opt-chip tip" tabindex="0" data-opt="pwp" id="optPwp" data-tip="Hält die Reparaturstrafe des FERTIGEN Items so niedrig wie möglich (kann etwas mehr Level kosten). Sinnvoll, wenn du das Item SPÄTER nochmal am Amboss reparieren oder erweitern willst.">🛡 Wenigste Reparaturstrafe <span class="q">?</span></span>
+            <span class="opt-chip tip" tabindex="0" data-opt="incompat" id="optIncompat" data-tip="Erlaubt Kombis, die normal nicht zusammengehen (z.B. Schärfe + Bann, oder Behutsamkeit + Glück). Nur für Spezialfälle/alte Versionen — im normalen Minecraft 26.2 nicht baubar.">⚠ Unverträgliche erlauben <span class="q">?</span></span>
           </div>
           <div class="anvil-actions">
             <button class="anvil-btn" id="anvilCalcBtn" type="button">🔨 Reihenfolge berechnen</button>
@@ -1475,6 +1506,13 @@ document.addEventListener('keydown', e=>{
   /* Baum -> nummerierte Schritte (Post-Order: Kinder zuerst) */
   function flatten(node, leaves){
     const steps=[]; let counter=0;
+    // Inhalt eines Knotens: Item-ja/nein + welche Verzauberungen drauf sind
+    function contents(n){
+      if(n.t==='item') return {isItem:true, bits:[]};
+      if(n.t==='book') return {isItem:false, bits:[n.bit]};
+      const L=contents(n.L), R=contents(n.R);
+      return {isItem:L.isItem||R.isItem, bits:L.bits.concat(R.bits)};
+    }
     function tok(n){
       if(n.t==='item') return {kind:'item'};
       if(n.t==='book'){ const e=leaves[n.bit]; return {kind:'book', e}; }
@@ -1485,7 +1523,7 @@ document.addEventListener('keydown', e=>{
       walk(n.L); walk(n.R);
       n._step = ++counter;
       steps.push({n:n._step, left:tok(n.L), right:tok(n.R), tc:n.tc, step:n.step, sac:n.sac,
-        resPw: Math.max(pwOf(n.L), pwOf(n.R))+1});
+        resPw: Math.max(pwOf(n.L), pwOf(n.R))+1, contents: contents(n)});
     }
     function pwOf(n){ if(n.t==='item'||n.t==='book') return 0; return n._pw; }
     // pw-Rekonstruktion parallel zur Nummerierung
@@ -1494,14 +1532,32 @@ document.addEventListener('keydown', e=>{
     return steps;
   }
 
-  function tokenHtml(t){
+  // Tooltip-Text: „was ist auf Ergebnis N drauf?"
+  function contentsTip(c, leaves){
+    const list = c.bits.map(b=>`${leaves[b].de} ${ROMAN[leaves[b].level]}`).join(', ');
+    if(c.isItem) return `${curItem.de} mit: ${list || '(noch nichts)'}`;
+    return `📖 Verzaubertes Buch mit: ${list}`;
+  }
+
+  /* Deutlich unterscheidbare Farben je Schritt — so kann man „kommt aus Schritt X" verfolgen */
+  const STEP_COLORS = ['#e0b341','#5cc8ff','#8b7cff','#57d982','#ff8f6b','#ff79c6','#4ad0c0','#f4d03f','#b39ddb','#7fd1ae','#ffab73','#9bd0ff'];
+  function stepColor(n){ return STEP_COLORS[(n-1) % STEP_COLORS.length]; }
+
+  // t = Token einer Seite; tip = optionaler Hover-Text (was ist auf dem Ergebnis drauf)
+  function tokenHtml(t, tip){
     if(t.kind==='item'){
-      return `<span class="anvil-token"><span class="slot">${iconImg(curItem.icon)}</span><span><span class="tk-name">${curItem.de}</span><small>frisch, Strafe 0</small></span></span>`;
+      return `<span class="anvil-token"><span class="slot">${iconImg(curItem.icon)}</span><span><span class="tk-name">${curItem.de}</span><small>frisch · Strafe 0</small></span></span>`;
     }
     if(t.kind==='book'){
-      return `<span class="anvil-token"><span class="slot">${bookIcon()}</span><span><span class="tk-name">${t.e.de} ${ROMAN[t.e.level]}</span><small>${t.e.en}</small></span></span>`;
+      return `<span class="anvil-token" style="border-color:#8b7cff"><span class="slot">${bookIcon()}</span><span><span class="tk-name">${t.e.de} ${ROMAN[t.e.level]}</span><small>📖 Buch</small></span></span>`;
     }
-    return `<span class="anvil-token" style="border-color:#7fa3e8"><span class="slot" style="background:#2c3c5c;display:flex;align-items:center;justify-content:center;font-size:16px">🔩</span><span><span class="tk-name">Ergebnis</span><small>aus Schritt ${t.step}</small></span></span>`;
+    // Referenz auf das Ergebnis eines früheren Schritts — gleiche Farbe wie jener Schritt,
+    // beim Hovern zeigt der Tooltip, was genau auf diesem Ergebnis liegt.
+    const c = stepColor(t.step);
+    const tipAttr = tip ? ` data-tip="${tip.replace(/"/g,'&quot;')}" tabindex="0"` : '';
+    return `<span class="anvil-token ref" style="border-color:${c}"${tipAttr}>`+
+      `<span class="refnum" style="background:${c}">${t.step}</span>`+
+      `<span><span class="tk-name" style="color:${c}">Ergebnis ${t.step}</span><small>aus Schritt ${t.step} ↑ · hover für Inhalt</small></span></span>`;
   }
 
   function costClass(c){ return c>=40?'too-exp':(c>=25?'warn':'good'); }
@@ -1542,25 +1598,41 @@ document.addEventListener('keydown', e=>{
       html += `<div class="anvil-warn-banner"><b>Achtung — in Survival nicht baubar!</b> Mindestens ein Schritt kostet 40 Level oder mehr → der Amboss sagt „Zu teuer!". Das Ganze klappt nur im Kreativmodus. Die roten Schritte zeigen, wo es klemmt.</div>`;
     }
     html += `<div class="anvil-summary">
-      <div class="sumbox"><div class="k">GESAMT-LEVEL</div><div class="v ${overCap?'warn':'good'}">${totalLevels}</div></div>
-      <div class="sumbox"><div class="k">TEUERSTER SCHRITT</div><div class="v ${costClass(maxStep)}">${maxStep} Lvl</div></div>
-      <div class="sumbox"><div class="k">SCHRITTE</div><div class="v info">${steps.length}×</div></div>
-      <div class="sumbox"><div class="k">END-STRAFE</div><div class="v info">Stufe ${finalPw}</div></div>
+      <div class="sumbox tip" tabindex="0" data-tip="Alle Level zusammengezählt, die du über sämtliche Amboss-Vorgänge ausgibst. Das ist der Wert, den „Wenigste Level" minimiert.">
+        <div class="k">GESAMT-LEVEL <span class="q">?</span></div><div class="v ${overCap?'warn':'good'}">${totalLevels}</div></div>
+      <div class="sumbox tip" tabindex="0" data-tip="Der teuerste einzelne Amboss-Vorgang. So viele Erfahrungslevel brauchst du mindestens auf einmal auf dem Konto. Ab 40 sagt der Amboss ‚Zu teuer!'.">
+        <div class="k">TEUERSTER SCHRITT <span class="q">?</span></div><div class="v ${costClass(maxStep)}">${maxStep} Lvl</div></div>
+      <div class="sumbox tip" tabindex="0" data-tip="So oft musst du den Amboss insgesamt benutzen, um das fertige Item zu bauen.">
+        <div class="k">SCHRITTE <span class="q">?</span></div><div class="v info">${steps.length}×</div></div>
+      <div class="sumbox tip" tabindex="0" data-tip="Reparaturstrafe des FERTIGEN Items. Jede Amboss-Nutzung erhöht sie; sie kostet beim nächsten Bearbeiten 2^Stufe − 1 Extra-Level. Niedrig = du kannst das Item später günstiger weiter verzaubern/reparieren. Genau das minimiert ‚Wenigste Reparaturstrafe'.">
+        <div class="k">END-STRAFE <span class="q">?</span></div><div class="v info">Stufe ${finalPw}</div></div>
     </div>`;
+
+    html += `<div class="astep-legend">🎨 <b style="color:#8b7cff">Lila</b> = Buch &nbsp;·&nbsp; <b>graues Item</b> = dein frisches Teil &nbsp;·&nbsp; <b>farbige Nummer</b> = Zwischen-Ergebnis. Taucht dieselbe Farbe/Nummer später wieder auf, ist es genau <b>dieses</b> Ergebnis — <b>fahr mit der Maus drüber</b>, dann siehst du, was drauf ist. 🔍</div>`;
+
+    const stepContents = {};
+    steps.forEach(s=>{ stepContents[s.n] = s.contents; });
+    const tipFor = tok => (tok.kind==='result' && stepContents[tok.step]) ? contentsTip(stepContents[tok.step], out.leaves) : '';
 
     html += `<div class="anvil-steps">`;
     steps.forEach(s=>{
       const cc = costClass(s.step);
-      html += `<div class="astep ${s.step>=40?'too-exp':''}">
+      const isFinal = s.n === steps.length;
+      const col = stepColor(s.n);
+      const lp = penalty(pwSide(s.left,steps)), rp = penalty(pwSide(s.right,steps));
+      const outTip = contentsTip(s.contents, out.leaves).replace(/"/g,'&quot;');
+      const outToken = isFinal
+        ? `<span class="anvil-token result-out final-out" data-tip="${outTip}" tabindex="0"><span class="slot" style="background:#173c22;display:flex;align-items:center;justify-content:center;font-size:15px">🏆</span><span><span class="tk-name" style="color:var(--emerald)">FERTIGES ITEM</span><small>Strafe → Stufe ${s.resPw} · hover für Inhalt</small></span></span>`
+        : `<span class="anvil-token result-out" style="border-color:${col}" data-tip="${outTip}" tabindex="0"><span class="outnum" style="background:${col}">${s.n}</span><span><span class="tk-name" style="color:${col}">Ergebnis ${s.n}</span><small>Strafe → Stufe ${s.resPw} · hover für Inhalt</small></span></span>`;
+      html += `<div class="astep ${s.step>=40?'too-exp':''}" style="border-left-color:${isFinal?'var(--emerald)':col}">
         <div class="astep-top">
-          <span class="anvil-step-num">Schritt ${s.n}</span>
+          <span class="step-badge" style="background:${isFinal?'var(--emerald)':col}">Schritt ${s.n}</span>
           <span class="astep-cost ${cc}">💠 ${s.step} Level${s.step>=40?' — ZU TEUER':''}</span>
         </div>
         <div class="astep-combo">
-          ${tokenHtml(s.left)}<span class="anvil-plus">+</span>${tokenHtml(s.right)}<span class="anvil-eq">=</span>
-          <span class="anvil-token" style="border-color:var(--emerald)"><span class="slot" style="background:#173c22;display:flex;align-items:center;justify-content:center;font-size:15px">✨</span><span><span class="tk-name">Ergebnis ${s.n}</span><small>Strafe → Stufe ${s.resPw}</small></span></span>
+          ${tokenHtml(s.left, tipFor(s.left))}<span class="anvil-plus">+</span>${tokenHtml(s.right, tipFor(s.right))}<span class="anvil-eq">=</span>${outToken}
         </div>
-        <div class="astep-pw">TRANSFER ${s.tc} + STRAFE LINKS ${penalty(pwSide(s.left,steps))} + STRAFE RECHTS ${penalty(pwSide(s.right,steps))} = ${s.step} LEVEL</div>
+        <div class="astep-pw tip" tabindex="0" data-tip="Amboss-Kosten = Verzauber-Transfer + Reparaturstrafe des linken Teils + Reparaturstrafe des rechten Teils. Strafe(Stufe n) = 2^n − 1.">Transfer ${s.tc} + Strafe links ${lp} + Strafe rechts ${rp} = <b>${s.step} Level</b> <span class="q">?</span></div>
       </div>`;
     });
     html += `</div>`;
