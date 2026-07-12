@@ -221,11 +221,100 @@
   footer b{color:var(--emerald)}
   footer .treasure-word{color:var(--treasure)}
 
+  /* ---- Hero toolbar button (Amboss-Planer) ---- */
+  .tool-btn-hero{background:#4a6fb0;border-top-color:#7fa3e8;border-left-color:#7fa3e8}
+  .tool-btn-hero:hover{background:#5a7fc0}
+  .tool-btn-hero.on{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
+
+  /* ============ AMBOSS-PLANER (Anvil order optimiser) ============ */
+  .anvil-panel{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:16px;margin-bottom:16px;display:none}
+  .anvil-panel.show{display:block}
+  .anvil-head{font-family:'Silkscreen',sans-serif;font-size:13px;color:#7fa3e8;margin-bottom:6px;letter-spacing:.4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .anvil-intro{font-size:17px;color:var(--ink-dim);line-height:1.45;margin-bottom:14px;max-width:760px}
+  .anvil-intro b{color:var(--emerald)}
+  .anvil-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:780px){ .anvil-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)} }
+
+  .anvil-card{background:#2c2c2c;border:3px solid #000;padding:14px}
+  .anvil-card-title{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--treasure);letter-spacing:.5px;margin-bottom:10px}
+  .anvil-step-num{display:inline-block;font-family:'Silkscreen',sans-serif;font-size:10px;background:#7fa3e8;color:#03122b;padding:2px 6px;margin-right:6px}
+
+  /* item picker */
+  .anvil-item-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .anvil-item-row .slot{width:46px;height:46px}
+  .anvil-select{flex:1;font-family:'VT323',monospace;font-size:20px;color:#fff;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:7px 10px;outline:none;cursor:pointer}
+  .anvil-select:focus{border-color:var(--emerald)}
+  .anvil-select option{background:#2c2c2c}
+
+  /* enchant checklist */
+  .ench-pick-search{display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:2px solid #000;padding:5px 10px;margin-bottom:10px}
+  .ench-pick-search input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:18px;color:#fff}
+  .ench-pick-list{max-height:340px;overflow-y:auto;border:2px solid #000;background:#232323}
+  .ench-pick-list::-webkit-scrollbar{width:12px}
+  .ench-pick-list::-webkit-scrollbar-thumb{background:#555;border:2px solid #000}
+  .ench-pick{display:flex;align-items:center;gap:10px;padding:7px 10px;border-bottom:2px solid #2b2b2b;cursor:pointer;user-select:none}
+  .ench-pick:hover{background:#3a3a3a}
+  .ench-pick.picked{background:rgba(23,195,78,.14)}
+  .ench-check{width:20px;height:20px;flex-shrink:0;border:2px solid #000;background:var(--slot);box-shadow:inset -2px -2px 0 var(--slot-dark),inset 2px 2px 0 var(--slot-light);display:flex;align-items:center;justify-content:center;font-family:'Silkscreen',sans-serif;font-size:12px;color:#04220f}
+  .ench-pick.picked .ench-check{background:var(--emerald)}
+  .ench-pick-name{flex:1;min-width:0;line-height:1.15}
+  .ench-pick-name .en{font-size:18px;color:#fff}
+  .ench-pick-name .de{display:block;font-size:14px;color:var(--ink-dim)}
+  .ench-pick-name .tag{margin-left:6px}
+  .ench-lvl-select{font-family:'VT323',monospace;font-size:17px;color:#fff;background:var(--panel-mid);border:2px solid #000;padding:3px 6px;outline:none;cursor:pointer}
+  .ench-lvl-select:disabled{opacity:.35;cursor:default}
+  .ench-pick-empty{padding:20px;text-align:center;color:var(--ink-dim);font-size:18px}
+  .ench-pick.incompat{opacity:.4}
+  .incompat-note{font-family:'Silkscreen',sans-serif;font-size:8px;color:#ff9d6b;display:block;margin-top:2px}
+
+  /* options row */
+  .anvil-opts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+  .opt-chip{font-family:'VT323',monospace;font-size:16px;color:#fff;background:var(--stone);border:2px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:5px 10px;cursor:pointer;user-select:none}
+  .opt-chip.active{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
+  .opt-chip:hover{filter:brightness(1.08)}
+  .anvil-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .anvil-btn{font-family:'Silkscreen',sans-serif;font-size:11px;color:#03122b;background:#7fa3e8;border:3px solid #000;border-top-color:#b3ccf5;border-left-color:#b3ccf5;padding:10px 16px;cursor:pointer;transition:transform .05s ease}
+  .anvil-btn:hover{background:#94b4ef}
+  .anvil-btn:active{transform:translateY(1px)}
+  .anvil-btn.ghost{background:var(--panel-mid);color:#fff;border-top-color:#7a7a7a;border-left-color:#7a7a7a}
+
+  /* results */
+  .anvil-summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+  .sumbox{flex:1;min-width:120px;background:#232323;border:3px solid #000;padding:10px 12px;text-align:center}
+  .sumbox .k{font-family:'Silkscreen',sans-serif;font-size:8px;color:var(--ink-dim);letter-spacing:.5px}
+  .sumbox .v{font-family:'Silkscreen',sans-serif;font-size:20px;margin-top:6px}
+  .sumbox .v.good{color:var(--emerald)}
+  .sumbox .v.warn{color:#ff9d6b}
+  .sumbox .v.info{color:#7fa3e8}
+
+  .anvil-steps{display:flex;flex-direction:column;gap:10px}
+  .astep{background:#232323;border:2px solid #000;padding:10px 12px;position:relative}
+  .astep.too-exp{border-color:#c0392b;box-shadow:inset 3px 0 0 #c0392b}
+  .astep-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+  .astep-cost{margin-left:auto;font-family:'Silkscreen',sans-serif;font-size:12px;color:#fff;background:#3a3a3a;border:2px solid #000;padding:3px 8px}
+  .astep-cost.good{background:var(--emerald-dark);color:#eafff0}
+  .astep-cost.warn{background:#b06a2c;color:#fff}
+  .astep-cost.too-exp{background:#c0392b;color:#fff}
+  .astep-combo{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:18px;color:#f0f0f0}
+  .anvil-token{display:inline-flex;align-items:center;gap:6px;background:var(--panel-mid);border:2px solid #000;padding:4px 8px;line-height:1.1}
+  .anvil-token .slot{width:26px;height:26px}
+  .anvil-token small{display:block;font-size:12px;color:var(--ink-dim)}
+  .anvil-token .tk-name{font-size:15px}
+  .anvil-plus{color:#7fa3e8;font-size:20px;font-weight:bold}
+  .anvil-eq{color:var(--ink-dim);font-size:20px}
+  .astep-pw{font-family:'Silkscreen',sans-serif;font-size:8px;color:var(--ink-dim);margin-top:6px}
+  .anvil-placeholder{padding:30px 16px;text-align:center;color:var(--ink-dim);font-size:19px;line-height:1.5}
+  .anvil-warn-banner{background:#3a1f1c;border:3px solid #c0392b;color:#ffb3a6;font-size:16px;line-height:1.4;padding:10px 12px;margin-bottom:12px}
+  .anvil-warn-banner b{color:#ff7a63}
+  .anvil-tip{margin-top:14px;font-size:15px;color:var(--ink-dim);line-height:1.45;border-top:2px solid rgba(255,255,255,.12);padding-top:10px}
+  .anvil-tip b{color:var(--emerald)}
+
   @media(max-width:560px){
     .itemname .de{display:inline;margin-left:6px}
     thead th{font-size:9px;padding:6px}
     tbody td{padding:6px}
     table{font-size:17px}
+    .anvil-summary .sumbox{min-width:calc(50% - 5px)}
   }
 </style>
 </head>
@@ -241,6 +330,7 @@
         <div class="badge"><b>13</b> Berufe</div>
         <div class="badge">Preise bei <b>64 Smaragd</b> gedeckelt</div>
         <div class="badge">Mending <b>ohne Trade-Rebalance</b> aktiv</div>
+        <div class="badge">Neu: <b>🔨 Amboss-Planer</b></div>
       </div>
     </div>
   </header>
@@ -260,7 +350,7 @@
       <button class="tool-btn" id="collapseAllBtn" type="button">⬆ Alle zuklappen</button>
       <button class="tool-btn" id="calcToggleBtn" type="button">🌲 Holz-Rechner</button>
       <button class="tool-btn" id="sortPriceBtn" type="button">💎 Günstigste zuerst</button>
-      <button class="tool-btn" id="soundToggleBtn" type="button">🔊 Klick-Sound</button>
+      <button class="tool-btn tool-btn-hero" id="anvilToggleBtn" type="button">🔨 Amboss-Planer</button>
       <div class="budget-box">
         <span class="budget-icon">💰</span>
         <input type="number" min="0" id="budgetInput" placeholder="Meine Smaragde...">
@@ -284,6 +374,64 @@
     <div class="calc-note">Tipp: Trag eine beliebige Zahl in <b>irgendein</b> Feld ein — der Rest wird automatisch umgerechnet (1 Stamm = 4 Bretter = 8 Stöcke = 0,25 Smaragd beim Bogner).</div>
   </div>
 
+  <!-- ============ AMBOSS-PLANER ============ -->
+  <div class="anvil-panel" id="anvilPanel">
+    <div class="anvil-head">🔨 AMBOSS-PLANER <span style="font-family:'VT323',monospace;font-size:16px;color:var(--ink-dim)">— beste Reihenfolge zum Verzaubern</span></div>
+    <p class="anvil-intro">
+      Beim Zusammenlegen von Ausrüstung und Büchern im Amboss steigt jedes Mal die <b>Reparaturstrafe</b>.
+      Wird sie zu hoch, sagt der Amboss <b>„Zu teuer!"</b>. Wähl dein Item, hak die gewünschten Verzauberungen an —
+      und der Planer sagt dir die <b>günstigste Reihenfolge</b> Schritt für Schritt. Es wird davon ausgegangen,
+      dass Item und Bücher <b>frisch</b> sind (noch nie am Amboss bearbeitet).
+    </p>
+
+    <div class="anvil-grid">
+      <!-- LEFT: inputs -->
+      <div>
+        <div class="anvil-card">
+          <div class="anvil-card-title"><span class="anvil-step-num">1</span>ITEM WÄHLEN</div>
+          <div class="anvil-item-row">
+            <div class="slot"><img id="anvilItemIcon" src="" alt="" onerror="this.style.display='none'"></div>
+            <select class="anvil-select" id="anvilItemSelect"></select>
+          </div>
+
+          <div class="anvil-card-title" style="margin-top:6px"><span class="anvil-step-num">2</span>VERZAUBERUNGEN ANHAKEN</div>
+          <div class="ench-pick-search">
+            <span>🔎</span>
+            <input type="text" id="anvilEnchSearch" placeholder="Verzauberung filtern... z.B. Schärfe">
+          </div>
+          <div class="ench-pick-list" id="anvilEnchList"></div>
+
+          <div class="anvil-opts">
+            <span class="opt-chip active" data-opt="xp" id="optXp">💠 Wenigste Level</span>
+            <span class="opt-chip" data-opt="pwp" id="optPwp">🛡 Wenigste Reparaturstrafe</span>
+            <span class="opt-chip" data-opt="incompat" id="optIncompat">⚠ Unverträgliche erlauben</span>
+          </div>
+          <div class="anvil-actions">
+            <button class="anvil-btn" id="anvilCalcBtn" type="button">🔨 Reihenfolge berechnen</button>
+            <button class="anvil-btn ghost" id="anvilClearBtn" type="button">✖ Zurücksetzen</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: results -->
+      <div>
+        <div class="anvil-card">
+          <div class="anvil-card-title"><span class="anvil-step-num">3</span>DEIN BAUPLAN</div>
+          <div id="anvilResult">
+            <div class="anvil-placeholder">
+              Wähl links ein Item und ein paar Verzauberungen,<br>dann auf <b>„Reihenfolge berechnen"</b> tippen. 🔨
+            </div>
+          </div>
+        </div>
+        <div class="anvil-tip">
+          <b>Wie liest man den Plan?</b> Jede Zeile ist <b>ein</b> Amboss-Vorgang: links kommt ins linke Feld
+          (das behältst du), rechts ins rechte Feld (wird „geopfert"). Arbeite die Schritte <b>von oben nach unten</b> ab —
+          dann bleibt die Reparaturstrafe minimal.
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="count" id="count"></div>
   <div id="professions"></div>
 
@@ -291,7 +439,9 @@
     Preise gelten für <b>frisch angeworbene</b> Dorfbewohner ohne Reputations-Rabatt. Jedes Level schaltet
     bis zu 2 neue Angebote frei. <span class="treasure-word">TREASURE</span>-Angebote (Schatz-Handel) sind
     goldgerahmt markiert. Bei Verzauberten Büchern: Preis-Spanne siehe Bibliothekar-Tab &rarr;
-    <b>Verzauberte Bücher</b>. Klick auf den Werkstatt-Chip zeigt das Crafting-Rezept.
+    <b>Verzauberte Bücher</b>. Klick auf den Werkstatt-Chip zeigt das Crafting-Rezept.<br>
+    <span style="display:inline-block;margin-top:8px">Neu: Der <b>🔨 Amboss-Planer</b> (Knopf oben) rechnet dir die <b>günstigste Reihenfolge</b>
+    zum Verzaubern aus — damit der Amboss nie „Zu teuer!" sagt.</span>
   </footer>
 
 </div>
@@ -691,7 +841,7 @@ tabsEl.addEventListener('click', e=>{
   t.classList.add('active');
   activeProf = t.dataset.id;
   render();
-  playClick();
+
 });
 
 /* ===================== RENDER PROFESSIONS ===================== */
@@ -772,9 +922,9 @@ function buildProfession(p, q){
   head.addEventListener('click', e=>{
     if(e.target.closest('.station-btn')) return;
     wrap.classList.toggle('open');
-    playClick();
+
   });
-  head.querySelector('.station-btn').addEventListener('click', ()=>{ openModal(p); playClick(); });
+  head.querySelector('.station-btn').addEventListener('click', ()=>{ openModal(p); });
 
   const body = document.createElement('div');
   body.className = 'prof-body';
@@ -818,7 +968,9 @@ function buildEnchantPanel(searchQ){
   const panel = document.createElement('div');
   panel.className = 'ench-panel';
   panel.innerHTML = `
-    <div class="ench-head">📖 VERZAUBERTE BÜCHER — FIXE SMARAGD-PREISLISTE</div>
+    <div class="ench-head" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">📖 VERZAUBERTE BÜCHER — FIXE SMARAGD-PREISLISTE
+      <button type="button" class="anvil-btn" style="font-size:9px;padding:6px 10px;margin-left:auto" onclick="window.openAnvilPlanner&&window.openAnvilPlanner()">🔨 Reihenfolge planen</button>
+    </div>
     <div class="ench-search"><span>🔎</span><input type="text" placeholder="Verzauberung suchen... z.B. Mending, Schärfe" id="enchSearch"></div>
     <div class="ench-filters" id="enchFilters">
       <span class="chip active" data-cat="all">Alle</span>
@@ -877,7 +1029,7 @@ function buildEnchantPanel(searchQ){
       const infoTr = document.createElement('tr');
       infoTr.className = 'info-row';
       infoTr.id = rowId;
-      infoTr.innerHTML = `<td colspan="4"><b>${d.de}:</b> ${d.desc}</td>`;
+      infoTr.innerHTML = `<td colspan="4"><b>${d.de}:</b> ${d.desc} <span style="display:inline-block;margin-top:6px"><button type="button" class="anvil-btn" style="font-size:8px;padding:5px 9px" onclick="window.openAnvilPlannerByEn&&window.openAnvilPlannerByEn('${d.en.replace(/'/g,"\\'")}')">🔨 im Amboss-Planer öffnen</button></span></td>`;
       enchBody.appendChild(infoTr);
     });
     enchCountEl.textContent = rows.length + (rows.length===1?' BUCH':' BÜCHER');
@@ -939,11 +1091,11 @@ render();
 /* ===================== TOOLBAR: EXPAND / COLLAPSE ALL ===================== */
 document.getElementById('expandAllBtn').addEventListener('click', ()=>{
   document.querySelectorAll('.profession').forEach(p=>p.classList.add('open'));
-  playClick();
+
 });
 document.getElementById('collapseAllBtn').addEventListener('click', ()=>{
   document.querySelectorAll('.profession').forEach(p=>p.classList.remove('open'));
-  playClick();
+
 });
 
 /* ===================== TOOLBAR: SORT BY PRICE ===================== */
@@ -951,7 +1103,7 @@ const sortPriceBtn = document.getElementById('sortPriceBtn');
 sortPriceBtn.addEventListener('click', ()=>{
   sortByPrice = !sortByPrice;
   sortPriceBtn.classList.toggle('on', sortByPrice);
-  playClick();
+
   render();
 });
 
@@ -961,33 +1113,6 @@ document.getElementById('budgetInput').addEventListener('input', e=>{
   myBudget = e.target.value === '' ? null : v;
   render();
 });
-
-/* ===================== TOOLBAR: CLICK-SOUND (subtle UI feedback, no external asset) ===================== */
-let soundOn = false;
-let audioCtx = null;
-const soundToggleBtn = document.getElementById('soundToggleBtn');
-soundToggleBtn.addEventListener('click', ()=>{
-  soundOn = !soundOn;
-  soundToggleBtn.classList.toggle('on', soundOn);
-  soundToggleBtn.textContent = soundOn ? '🔊 Klick-Sound: An' : '🔊 Klick-Sound';
-  if(soundOn) playClick();
-});
-function playClick(){
-  if(!soundOn) return;
-  try{
-    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    const gain = audioCtx.createGain();
-    osc.type = 'square';
-    osc.frequency.setValueAtTime(700, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(340, audioCtx.currentTime + 0.06);
-    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-    osc.connect(gain).connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 0.08);
-  }catch(e){ /* audio unavailable — fail silently */ }
-}
 
 /* ===================== KEYBOARD SHORTCUTS ===================== */
 document.addEventListener('keydown', e=>{
@@ -1061,6 +1186,423 @@ document.addEventListener('keydown', e=>{
   planksEl.addEventListener('input', ()=>{ if(!updating) fromPlanks(parseFloat(planksEl.value)); });
   sticksEl.addEventListener('input', ()=>{ if(!updating) fromSticks(parseFloat(sticksEl.value)); });
   emeraldsEl.addEventListener('input', ()=>{ if(!updating) fromEmeralds(parseFloat(emeraldsEl.value)); });
+})();
+
+/* ===================================================================
+   AMBOSS-PLANER — optimale Verzauberungs-Reihenfolge
+   Rechnet mit echter Minecraft-Amboss-Mechanik:
+   Kosten je Vorgang = Verzauber-Transfer + Reparaturstrafe(links)
+                       + Reparaturstrafe(rechts),   Strafe(n) = 2^n − 1.
+   Ergebnis-Strafezähler = max(links,rechts) + 1.  ≥ 40 Level ⇒ „Zu teuer!"
+   =================================================================== */
+(function(){
+  GIF_ICONS.add("Enchanted Book"); // animierter Glitzer-Sprite
+
+  const ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
+  const bookIcon = () => `<img src="${iconUrl('Enchanted Book')}" data-name="${encodeURIComponent('Enchanted Book')}" alt="Buch" loading="lazy" onerror="handleIconError(this)">`;
+
+  /* ---- Items: Tags steuern, welche Verzauberungen passen ---- */
+  const ITEMS = [
+    {k:'helmet', en:'Helmet', de:'Helm', icon:'Diamond Helmet', tags:['helmet','armorhead','armor','durable','wearable']},
+    {k:'chestplate', en:'Chestplate', de:'Brustplatte', icon:'Diamond Chestplate', tags:['chestplate','armor','durable','wearable']},
+    {k:'leggings', en:'Leggings', de:'Hose', icon:'Diamond Leggings', tags:['leggings','armor','durable','wearable']},
+    {k:'boots', en:'Boots', de:'Stiefel', icon:'Diamond Boots', tags:['boots','armor','durable','wearable']},
+    {k:'turtle', en:'Turtle Shell', de:'Schildkrötenpanzer', icon:'Turtle Shell', tags:['helmet','armorhead','armor','durable','wearable','turtle']},
+    {k:'elytra', en:'Elytra', de:'Elytren', icon:'Elytra', tags:['elytra','durable','wearable']},
+    {k:'sword', en:'Sword', de:'Schwert', icon:'Diamond Sword', tags:['sword','melee','durable']},
+    {k:'axe', en:'Axe', de:'Axt', icon:'Diamond Axe', tags:['axe','tool','melee','durable']},
+    {k:'mace', en:'Mace', de:'Streitkolben', icon:'Mace', tags:['mace','durable']},
+    {k:'trident', en:'Trident', de:'Dreizack', icon:'Trident', tags:['trident','durable']},
+    {k:'bow', en:'Bow', de:'Bogen', icon:'Bow', tags:['bow','durable']},
+    {k:'crossbow', en:'Crossbow', de:'Armbrust', icon:'Crossbow', tags:['crossbow','durable']},
+    {k:'pickaxe', en:'Pickaxe', de:'Spitzhacke', icon:'Diamond Pickaxe', tags:['pickaxe','tool','durable']},
+    {k:'shovel', en:'Shovel', de:'Schaufel', icon:'Diamond Shovel', tags:['shovel','tool','durable']},
+    {k:'hoe', en:'Hoe', de:'Hacke', icon:'Diamond Hoe', tags:['hoe','tool','durable']},
+    {k:'shield', en:'Shield', de:'Schild', icon:'Shield', tags:['shield','durable']},
+    {k:'fishing', en:'Fishing Rod', de:'Angel', icon:'Fishing Rod', tags:['fishing','durable']},
+    {k:'shears', en:'Shears', de:'Schere', icon:'Shears', tags:['shears','tool','durable']},
+    {k:'flint', en:'Flint and Steel', de:'Feuerzeug', icon:'Flint and Steel', tags:['flint','durable']},
+    {k:'brush', en:'Brush', de:'Pinsel', icon:'Brush', tags:['brush','durable']},
+    {k:'cos', en:'Carrot on a Stick', de:'Karottenrute', icon:'Carrot on a Stick', tags:['cos','durable']},
+    {k:'wfos', en:'Warped Fungus on a Stick', de:'Wirrpilzrute', icon:'Warped Fungus on a Stick', tags:['cos','durable']},
+    {k:'pumpkin', en:'Carved Pumpkin', de:'Geschnitzter Kürbis', icon:'Carved Pumpkin', tags:['pumpkin','wearable']},
+    {k:'book', en:'Book', de:'Buch (Verzaubertes Buch bauen)', icon:'Book', tags:['*']},
+  ];
+
+  /* ---- Verzauberungen: bm = Buch-Multiplikator (Amboss-Kosten = Level × bm) ---- */
+  const E = [
+    // universal
+    {k:'unbreaking', en:'Unbreaking', de:'Haltbarkeit', max:3, bm:1, on:['durable']},
+    {k:'mending', en:'Mending', de:'Reparatur', max:1, bm:2, on:['durable'], tr:true},
+    {k:'vanishing', en:'Curse of Vanishing', de:'Fluch des Verschwindens', max:1, bm:4, on:['durable','wearable'], tr:true},
+    {k:'binding', en:'Curse of Binding', de:'Fluch der Bindung', max:1, bm:4, on:['wearable'], tr:true},
+    // armor
+    {k:'protection', en:'Protection', de:'Schutz', max:4, bm:1, on:['armor']},
+    {k:'fire_protection', en:'Fire Protection', de:'Feuerschutz', max:4, bm:1, on:['armor']},
+    {k:'blast_protection', en:'Blast Protection', de:'Explosionsschutz', max:4, bm:2, on:['armor']},
+    {k:'projectile_protection', en:'Projectile Protection', de:'Geschossschutz', max:4, bm:1, on:['armor']},
+    {k:'thorns', en:'Thorns', de:'Dornen', max:3, bm:4, on:['armor']},
+    {k:'respiration', en:'Respiration', de:'Atmung', max:3, bm:2, on:['armorhead']},
+    {k:'aqua_affinity', en:'Aqua Affinity', de:'Wassergängigkeit', max:1, bm:2, on:['armorhead']},
+    {k:'feather_falling', en:'Feather Falling', de:'Federfall', max:4, bm:1, on:['boots']},
+    {k:'depth_strider', en:'Depth Strider', de:'Tiefenläufer', max:3, bm:2, on:['boots']},
+    {k:'frost_walker', en:'Frost Walker', de:'Frostläufer', max:2, bm:2, on:['boots'], tr:true},
+    {k:'soul_speed', en:'Soul Speed', de:'Seelentempo', max:3, bm:4, on:['boots'], tr:true},
+    {k:'swift_sneak', en:'Swift Sneak', de:'Sanfter Schleicher', max:3, bm:4, on:['leggings'], tr:true},
+    // sword / melee
+    {k:'sharpness', en:'Sharpness', de:'Schärfe', max:5, bm:1, on:['sword','axe']},
+    {k:'smite', en:'Smite', de:'Bann', max:5, bm:1, on:['sword','axe']},
+    {k:'bane', en:'Bane of Arthropods', de:'Nemesis d. Gliederfüßer', max:5, bm:1, on:['sword','axe']},
+    {k:'knockback', en:'Knockback', de:'Rückstoß', max:2, bm:1, on:['sword']},
+    {k:'fire_aspect', en:'Fire Aspect', de:'Verbrennung', max:2, bm:2, on:['sword']},
+    {k:'looting', en:'Looting', de:'Plünderung', max:3, bm:2, on:['sword']},
+    {k:'sweeping', en:'Sweeping Edge', de:'Schwungkraft', max:3, bm:2, on:['sword']},
+    // tools
+    {k:'efficiency', en:'Efficiency', de:'Effizienz', max:5, bm:1, on:['pickaxe','shovel','axe','hoe','shears']},
+    {k:'silk_touch', en:'Silk Touch', de:'Behutsamkeit', max:1, bm:4, on:['pickaxe','shovel','axe','hoe']},
+    {k:'fortune', en:'Fortune', de:'Glück', max:3, bm:2, on:['pickaxe','shovel','axe','hoe']},
+    // bow
+    {k:'power', en:'Power', de:'Stärke', max:5, bm:1, on:['bow']},
+    {k:'punch', en:'Punch', de:'Schlag', max:2, bm:2, on:['bow']},
+    {k:'flame', en:'Flame', de:'Flamme', max:1, bm:2, on:['bow']},
+    {k:'infinity', en:'Infinity', de:'Unendlichkeit', max:1, bm:4, on:['bow']},
+    // crossbow
+    {k:'piercing', en:'Piercing', de:'Durchschlag', max:4, bm:1, on:['crossbow']},
+    {k:'quick_charge', en:'Quick Charge', de:'Schnellladen', max:3, bm:1, on:['crossbow']},
+    {k:'multishot', en:'Multishot', de:'Mehrfachschuss', max:1, bm:2, on:['crossbow']},
+    // trident
+    {k:'impaling', en:'Impaling', de:'Harpune', max:5, bm:2, on:['trident']},
+    {k:'loyalty', en:'Loyalty', de:'Treue', max:3, bm:1, on:['trident']},
+    {k:'riptide', en:'Riptide', de:'Sog', max:3, bm:2, on:['trident']},
+    {k:'channeling', en:'Channeling', de:'Entladung', max:1, bm:4, on:['trident']},
+    // fishing
+    {k:'luck', en:'Luck of the Sea', de:'Glück des Meeres', max:3, bm:2, on:['fishing']},
+    {k:'lure', en:'Lure', de:'Köder', max:3, bm:2, on:['fishing']},
+    // mace
+    {k:'density', en:'Density', de:'Dichte', max:5, bm:1, on:['mace']},
+    {k:'breach', en:'Breach', de:'Bruch', max:4, bm:2, on:['mace']},
+    {k:'wind_burst', en:'Wind Burst', de:'Windstoß', max:3, bm:2, on:['mace'], tr:true},
+  ];
+  const EMAP = Object.fromEntries(E.map(e=>[e.k,e]));
+
+  /* Unverträglichkeits-Gruppen (können nur gemeinsam, wenn erlaubt) */
+  const INCOMPAT_GROUPS = [
+    ['protection','fire_protection','blast_protection','projectile_protection'],
+    ['sharpness','smite','bane'],
+    ['silk_touch','fortune'],
+    ['infinity','mending'],
+    ['depth_strider','frost_walker'],
+    ['multishot','piercing'],
+    ['riptide','loyalty'],
+    ['riptide','channeling'],
+  ];
+  function conflicts(a, b){
+    return INCOMPAT_GROUPS.some(g=>g.includes(a)&&g.includes(b));
+  }
+  function itemAccepts(item, e){
+    if(item.tags.includes('*')) return true;              // Buch nimmt alles
+    return e.on.some(t=>item.tags.includes(t));
+  }
+
+  /* ---------- DOM ---------- */
+  const panel   = document.getElementById('anvilPanel');
+  const toggle  = document.getElementById('anvilToggleBtn');
+  const itemSel = document.getElementById('anvilItemSelect');
+  const itemIcon= document.getElementById('anvilItemIcon');
+  const listEl  = document.getElementById('anvilEnchList');
+  const searchE = document.getElementById('anvilEnchSearch');
+  const resultEl= document.getElementById('anvilResult');
+  const calcBtn = document.getElementById('anvilCalcBtn');
+  const clearBtn= document.getElementById('anvilClearBtn');
+  const optXp   = document.getElementById('optXp');
+  const optPwp  = document.getElementById('optPwp');
+  const optInc  = document.getElementById('optIncompat');
+
+  let curItem = ITEMS[0];
+  let picked  = new Map();   // key -> level
+  let objective = 'xp';      // 'xp' | 'pwp'
+  let allowIncompat = false;
+
+  ITEMS.forEach(it=>{
+    const o=document.createElement('option'); o.value=it.k; o.textContent=`${it.de}  ·  ${it.en}`; itemSel.appendChild(o);
+  });
+
+  function setItemIcon(){
+    itemIcon.src = iconUrl(curItem.icon);
+    itemIcon.dataset.name = encodeURIComponent(curItem.icon);
+    itemIcon.dataset.step = '0';
+    itemIcon.style.display = '';
+    itemIcon.onerror = ()=>handleIconError(itemIcon);
+  }
+
+  function renderList(){
+    const q = searchE.value.trim().toLowerCase();
+    const applicable = E.filter(e=>itemAccepts(curItem,e));
+    const rows = applicable.filter(e=>!q || (e.en+' '+e.de).toLowerCase().includes(q));
+    if(!rows.length){ listEl.innerHTML = `<div class="ench-pick-empty">Keine passenden Verzauberungen. ⛏</div>`; return; }
+    listEl.innerHTML = rows.map(e=>{
+      const isPicked = picked.has(e.k);
+      // ist e mit etwas bereits Gewähltem unverträglich?
+      let blocked=false, blocker=null;
+      if(!allowIncompat && !isPicked){
+        for(const k of picked.keys()){ if(conflicts(e.k,k)){ blocked=true; blocker=EMAP[k]; break; } }
+      }
+      const lvlOpts = Array.from({length:e.max},(_,i)=>i+1)
+        .map(l=>`<option value="${l}" ${isPicked&&picked.get(e.k)===l?'selected':''}>${ROMAN[l]}</option>`).join('');
+      return `<div class="ench-pick ${isPicked?'picked':''} ${blocked?'incompat':''}" data-k="${e.k}" ${blocked?'data-blocked="1"':''}>
+        <span class="ench-check">${isPicked?'✔':''}</span>
+        <span class="ench-pick-name">
+          <span class="en">${e.en}${e.tr?'<span class="tag">TREASURE</span>':''}</span>
+          <span class="de">${e.de}${blocked?`<span class="incompat-note">⚠ unverträglich mit ${blocker.de}</span>`:''}</span>
+        </span>
+        <select class="ench-lvl-select" data-lvlfor="${e.k}" ${e.max===1?'disabled':''} ${!isPicked?'disabled':''}>${lvlOpts}</select>
+      </div>`;
+    }).join('');
+  }
+
+  listEl.addEventListener('click', ev=>{
+    const row = ev.target.closest('.ench-pick');
+    if(!row || ev.target.closest('.ench-lvl-select')) return;
+    const k = row.dataset.k;
+    if(picked.has(k)){ picked.delete(k); }
+    else {
+      if(row.dataset.blocked) return;          // gesperrt
+      picked.set(k, EMAP[k].max);              // Standard = Maximallevel
+    }
+    renderList();
+  });
+  listEl.addEventListener('change', ev=>{
+    const sel = ev.target.closest('.ench-lvl-select'); if(!sel) return;
+    const k = sel.dataset.lvlfor;
+    if(picked.has(k)) picked.set(k, parseInt(sel.value,10));
+  });
+  searchE.addEventListener('input', renderList);
+
+  itemSel.addEventListener('change', ()=>{
+    curItem = ITEMS.find(i=>i.k===itemSel.value) || ITEMS[0];
+    picked.clear(); setItemIcon(); renderList();
+    resultEl.innerHTML = placeholderHtml();
+  });
+
+  function setObjective(o){ objective=o; optXp.classList.toggle('active',o==='xp'); optPwp.classList.toggle('active',o==='pwp'); }
+  optXp.addEventListener('click', ()=>setObjective('xp'));
+  optPwp.addEventListener('click', ()=>setObjective('pwp'));
+  optInc.addEventListener('click', ()=>{ allowIncompat=!allowIncompat; optInc.classList.toggle('active',allowIncompat); renderList(); });
+  clearBtn.addEventListener('click', ()=>{ picked.clear(); renderList(); resultEl.innerHTML=placeholderHtml(); });
+
+  function placeholderHtml(){
+    return `<div class="anvil-placeholder">Wähl links ein Item und ein paar Verzauberungen,<br>dann auf <b>„Reihenfolge berechnen"</b> tippen. 🔨</div>`;
+  }
+
+  /* ---------- SOLVER ---------- */
+  function penalty(pw){ return (1<<pw) - 1; }               // 2^pw − 1
+  function paretoPush(list, cand){
+    for(const x of list){ if(x.cost<=cand.cost && x.pw<=cand.pw) return; } // dominiert
+    for(let i=list.length-1;i>=0;i--){ if(cand.cost<=list[i].cost && cand.pw<=list[i].pw) list.splice(i,1); }
+    list.push(cand);
+  }
+
+  // Baut den optimalen Plan. leaves = Array der ausgewählten Buch-Verzauberungen.
+  // hasItem = true => es gibt ein separates Ziel-Item (kein reines Buch).
+  function solve(leaves, hasItem, capOn){
+    const N = leaves.length;
+    const cost = leaves.map(l => l.level * l.bm);           // Transferkosten je Buch
+    const groupCost = mask => { let s=0; for(let i=0;i<N;i++) if(mask&(1<<i)) s+=cost[i]; return s; };
+
+    const bookMemo = new Map();
+    function solveBook(mask){
+      if(bookMemo.has(mask)) return bookMemo.get(mask);
+      let res;
+      // einzelnes Buch
+      if((mask & (mask-1))===0){ res=[{cost:0,pw:0,node:{t:'book',bit:Math.log2(mask)}}]; }
+      else {
+        const front=[];
+        for(let a=(mask-1)&mask; a>0; a=(a-1)&mask){        // a = Ziel, b = Opfer
+          const b = mask ^ a;
+          const tf=solveBook(a), sf=solveBook(b), tc=groupCost(b);
+          for(const t of tf) for(const s of sf){
+            const step = tc + penalty(t.pw) + penalty(s.pw);
+            if(capOn && step>=40) continue;
+            paretoPush(front, {cost:t.cost+s.cost+step, pw:Math.max(t.pw,s.pw)+1,
+              node:{t:'m', L:t.node, R:s.node, tc, step, sac:b}});
+          }
+        }
+        res=front;
+      }
+      bookMemo.set(mask,res); return res;
+    }
+
+    if(!hasItem){                                            // Ziel ist ein Buch
+      const full=(1<<N)-1;
+      return {frontier: solveBook(full), leaves, cost};
+    }
+
+    const itemMemo=new Map();
+    function solveItem(mask){
+      if(itemMemo.has(mask)) return itemMemo.get(mask);
+      let res;
+      if(mask===0){ res=[{cost:0,pw:0,node:{t:'item'}}]; }
+      else{
+        const front=[];
+        for(let b=mask; b>0; b=(b-1)&mask){                 // b = zuletzt aufgelegtes Buch-Bündel (Opfer)
+          const a=mask^b;
+          const tf=solveItem(a), sf=solveBook(b), tc=groupCost(b);
+          for(const t of tf) for(const s of sf){
+            const step = tc + penalty(t.pw) + penalty(s.pw);
+            if(capOn && step>=40) continue;
+            paretoPush(front, {cost:t.cost+s.cost+step, pw:Math.max(t.pw,s.pw)+1,
+              node:{t:'m', L:t.node, R:s.node, tc, step, sac:b, item:true}});
+          }
+        }
+        res=front;
+      }
+      itemMemo.set(mask,res); return res;
+    }
+    const full=(1<<N)-1;
+    return {frontier: solveItem(full), leaves, cost};
+  }
+
+  function pickBest(frontier){
+    if(!frontier.length) return null;
+    let best=frontier[0];
+    for(const f of frontier){
+      if(objective==='xp'){ if(f.cost<best.cost || (f.cost===best.cost && f.pw<best.pw)) best=f; }
+      else { if(f.pw<best.pw || (f.pw===best.pw && f.cost<best.cost)) best=f; }
+    }
+    return best;
+  }
+
+  /* Baum -> nummerierte Schritte (Post-Order: Kinder zuerst) */
+  function flatten(node, leaves){
+    const steps=[]; let counter=0;
+    function tok(n){
+      if(n.t==='item') return {kind:'item'};
+      if(n.t==='book'){ const e=leaves[n.bit]; return {kind:'book', e}; }
+      return {kind:'result', step:n._step};
+    }
+    function walk(n){
+      if(n.t!=='m') return;
+      walk(n.L); walk(n.R);
+      n._step = ++counter;
+      steps.push({n:n._step, left:tok(n.L), right:tok(n.R), tc:n.tc, step:n.step, sac:n.sac,
+        resPw: Math.max(pwOf(n.L), pwOf(n.R))+1});
+    }
+    function pwOf(n){ if(n.t==='item'||n.t==='book') return 0; return n._pw; }
+    // pw-Rekonstruktion parallel zur Nummerierung
+    function walk2(n){ if(n.t!=='m'){ n._pw=0; return 0;} const l=walk2(n.L), r=walk2(n.R); n._pw=Math.max(l,r)+1; return n._pw; }
+    walk2(node); walk(node);
+    return steps;
+  }
+
+  function tokenHtml(t){
+    if(t.kind==='item'){
+      return `<span class="anvil-token"><span class="slot">${iconImg(curItem.icon)}</span><span><span class="tk-name">${curItem.de}</span><small>frisch, Strafe 0</small></span></span>`;
+    }
+    if(t.kind==='book'){
+      return `<span class="anvil-token"><span class="slot">${bookIcon()}</span><span><span class="tk-name">${t.e.de} ${ROMAN[t.e.level]}</span><small>${t.e.en}</small></span></span>`;
+    }
+    return `<span class="anvil-token" style="border-color:#7fa3e8"><span class="slot" style="background:#2c3c5c;display:flex;align-items:center;justify-content:center;font-size:16px">🔩</span><span><span class="tk-name">Ergebnis</span><small>aus Schritt ${t.step}</small></span></span>`;
+  }
+
+  function costClass(c){ return c>=40?'too-exp':(c>=25?'warn':'good'); }
+
+  function calculate(){
+    const leaves = [...picked.entries()].map(([k,level])=>({k, level, bm:EMAP[k].bm, en:EMAP[k].en, de:EMAP[k].de}));
+    const hasItem = curItem.k!=='book';
+
+    if(leaves.length===0){
+      resultEl.innerHTML = `<div class="anvil-placeholder">Noch keine Verzauberung angehakt. Wähl links mindestens eine aus. 👆</div>`;
+      return;
+    }
+    if(!hasItem && leaves.length===1){
+      resultEl.innerHTML = `<div class="anvil-placeholder">Nur eine Verzauberung fürs Buch — das ist schon ein fertiges Buch, kein Amboss nötig. 📖</div>`;
+      return;
+    }
+    if(hasItem && leaves.length===0){ return; }
+
+    if(leaves.length>13){
+      resultEl.innerHTML = `<div class="anvil-warn-banner"><b>Zu viele Verzauberungen (${leaves.length}).</b> Bitte auf 13 oder weniger reduzieren — mehr passt in Minecraft ohnehin nicht sinnvoll auf ein Item.</div>`;
+      return;
+    }
+
+    // 1) survival-legal (Cap an). 2) fällt aus -> ohne Cap, rot markiert.
+    let overCap=false;
+    let out = solve(leaves, hasItem, true);
+    let best = pickBest(out.frontier);
+    if(!best){ overCap=true; out = solve(leaves, hasItem, false); best = pickBest(out.frontier); }
+    if(!best){ resultEl.innerHTML = `<div class="anvil-warn-banner">Konnte keinen Plan finden. 🤔</div>`; return; }
+
+    const steps = flatten(best.node, out.leaves);
+    const totalLevels = steps.reduce((a,s)=>a+s.step,0);
+    const maxStep = steps.reduce((a,s)=>Math.max(a,s.step),0);
+    const finalPw = best.pw;
+
+    let html='';
+    if(overCap){
+      html += `<div class="anvil-warn-banner"><b>Achtung — in Survival nicht baubar!</b> Mindestens ein Schritt kostet 40 Level oder mehr → der Amboss sagt „Zu teuer!". Das Ganze klappt nur im Kreativmodus. Die roten Schritte zeigen, wo es klemmt.</div>`;
+    }
+    html += `<div class="anvil-summary">
+      <div class="sumbox"><div class="k">GESAMT-LEVEL</div><div class="v ${overCap?'warn':'good'}">${totalLevels}</div></div>
+      <div class="sumbox"><div class="k">TEUERSTER SCHRITT</div><div class="v ${costClass(maxStep)}">${maxStep} Lvl</div></div>
+      <div class="sumbox"><div class="k">SCHRITTE</div><div class="v info">${steps.length}×</div></div>
+      <div class="sumbox"><div class="k">END-STRAFE</div><div class="v info">Stufe ${finalPw}</div></div>
+    </div>`;
+
+    html += `<div class="anvil-steps">`;
+    steps.forEach(s=>{
+      const cc = costClass(s.step);
+      html += `<div class="astep ${s.step>=40?'too-exp':''}">
+        <div class="astep-top">
+          <span class="anvil-step-num">Schritt ${s.n}</span>
+          <span class="astep-cost ${cc}">💠 ${s.step} Level${s.step>=40?' — ZU TEUER':''}</span>
+        </div>
+        <div class="astep-combo">
+          ${tokenHtml(s.left)}<span class="anvil-plus">+</span>${tokenHtml(s.right)}<span class="anvil-eq">=</span>
+          <span class="anvil-token" style="border-color:var(--emerald)"><span class="slot" style="background:#173c22;display:flex;align-items:center;justify-content:center;font-size:15px">✨</span><span><span class="tk-name">Ergebnis ${s.n}</span><small>Strafe → Stufe ${s.resPw}</small></span></span>
+        </div>
+        <div class="astep-pw">TRANSFER ${s.tc} + STRAFE LINKS ${penalty(pwSide(s.left,steps))} + STRAFE RECHTS ${penalty(pwSide(s.right,steps))} = ${s.step} LEVEL</div>
+      </div>`;
+    });
+    html += `</div>`;
+    html += `<div class="anvil-tip" style="border:none;padding-top:8px;margin-top:8px"><b>Merke:</b> Du brauchst beim teuersten Schritt kurzzeitig <b>${maxStep} Erfahrungslevel</b> auf einmal. Sammle also genug XP, bevor du loslegst.</div>`;
+
+    resultEl.innerHTML = html;
+  }
+
+  // Strafe einer Seite eines Schritts (fürs Kosten-Kleingedruckte)
+  function pwSide(tok, steps){
+    if(tok.kind==='item'||tok.kind==='book') return 0;
+    const s = steps.find(x=>x.n===tok.step);
+    return s ? s.resPw : 0;
+  }
+
+  calcBtn.addEventListener('click', calculate);
+
+  /* ---------- Panel öffnen/schließen ---------- */
+  function openAnvil(prefillKey){
+    panel.classList.add('show'); toggle.classList.add('on');
+    // andere Panels schließen (aufgeräumt)
+    const cp=document.getElementById('calcPanel'); if(cp){ cp.classList.remove('show'); document.getElementById('calcToggleBtn').classList.remove('on'); }
+    if(prefillKey && EMAP[prefillKey]){
+      // passendes Item wählen, das diese Verzauberung akzeptiert
+      const it = ITEMS.find(i=>i.k!=='book' && itemAccepts(i,EMAP[prefillKey])) || ITEMS[0];
+      curItem=it; itemSel.value=it.k; setItemIcon();
+      picked.clear(); picked.set(prefillKey, EMAP[prefillKey].max); renderList();
+    }
+    panel.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+  toggle.addEventListener('click', ()=>{
+    const show=!panel.classList.contains('show');
+    panel.classList.toggle('show',show); toggle.classList.toggle('on',show);
+    if(show) panel.scrollIntoView({behavior:'smooth', block:'start'});
+  });
+  window.openAnvilPlanner = openAnvil;  // von überall aufrufbar (z.B. aus dem Bücher-Panel)
+  window.openAnvilPlannerByEn = function(en){
+    const e = E.find(x=>x.en.toLowerCase()===String(en||'').toLowerCase());
+    openAnvil(e ? e.k : null);
+  };
+
+  setItemIcon(); renderList();
 })();
 
 /* ===================== CRAFTING MODAL ===================== */
