@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luca & Fionis Minecraft Welt</title>
+<title>Luca & Fionis Minecraft Welt — Dorfbewohner-Handel</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
@@ -17,18 +17,19 @@
     --panel:#c6c6c6;
     --panel-dark:#373737;
     --panel-mid:#565656;
+    --row-a:#484848;
+    --row-b:#404040;
     --slot:#8b8b8b;
-    --slot-dark:#373737;
+    --slot-dark:#4a4a4a;
+    --slot-light:#c4c4c4;
     --emerald:#17c34e;
     --emerald-dark:#0e7a30;
+    --treasure:#d9a441;
     --ink:#e8e8e8;
     --ink-dim:#a8a8a8;
-    --treasure:#d9a441;
     --shadow:rgba(0,0,0,.45);
   }
-
   *{box-sizing:border-box;margin:0;padding:0}
-
   body{
     font-family:'VT323',monospace;
     background:
@@ -39,214 +40,140 @@
     image-rendering:pixelated;
     padding:24px 16px 60px;
   }
-
   .wrap{max-width:980px;margin:0 auto}
 
-  /* ---- Header: grass-block banner ---- */
-  header{
-    position:relative;
-    background:var(--dirt);
-    border:4px solid #000;
-    box-shadow:0 8px 0 var(--shadow);
-    margin-bottom:28px;
-    overflow:hidden;
-  }
-  .grass-strip{
-    height:26px;
-    background:
-      repeating-linear-gradient(90deg,#6ea343 0 8px,#7bb14b 8px 16px);
-    border-bottom:4px solid #3f6b2a;
-  }
-  .header-inner{
-    padding:26px 22px 28px;
-    background:
-      repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 8px,rgba(255,255,255,.02) 8px 16px),
-      var(--dirt);
-    text-align:center;
-  }
-  h1{
-    font-family:'Silkscreen',sans-serif;
-    font-size:clamp(20px,4.5vw,34px);
-    letter-spacing:1px;
-    color:#fff;
-    text-shadow:3px 3px 0 #000, 0 0 2px #000;
-    line-height:1.4;
-  }
+  /* ---- Header ---- */
+  header{position:relative;background:var(--dirt);border:4px solid #000;box-shadow:0 8px 0 var(--shadow);margin-bottom:22px;overflow:hidden}
+  .grass-strip{height:26px;background:repeating-linear-gradient(90deg,#6ea343 0 8px,#7bb14b 8px 16px);border-bottom:4px solid #3f6b2a}
+  .header-inner{padding:24px 22px 26px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 8px,rgba(255,255,255,.02) 8px 16px),var(--dirt);text-align:center}
+  h1{font-family:'Silkscreen',sans-serif;font-size:clamp(20px,4.5vw,34px);letter-spacing:1px;color:#fff;text-shadow:3px 3px 0 #000,0 0 2px #000;line-height:1.4}
   h1 .amp{color:var(--emerald);text-shadow:3px 3px 0 var(--emerald-dark)}
-  .subtitle{
-    margin-top:12px;
-    font-size:22px;
-    color:var(--ink);
-    text-shadow:2px 2px 0 #000;
-  }
+  .subtitle{margin-top:10px;font-size:21px;color:var(--ink);text-shadow:2px 2px 0 #000;max-width:640px;margin-left:auto;margin-right:auto}
   .subtitle .em{color:var(--emerald)}
+  .badges{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+  .badge{font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;background:rgba(0,0,0,.35);border:2px solid #000;padding:5px 9px}
+  .badge b{color:var(--treasure)}
 
-  /* ---- Control bar ---- */
-  .controls{
-    background:var(--panel-dark);
-    border:4px solid #000;
-    box-shadow:0 6px 0 var(--shadow);
-    padding:16px;
-    margin-bottom:22px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:12px;
-    align-items:center;
-  }
-  .search-box{
-    flex:1 1 260px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:var(--panel-mid);
-    border:3px solid #000;
-    border-top-color:#1c1c1c;
-    border-left-color:#1c1c1c;
-    padding:8px 12px;
-  }
+  /* ---- Controls ---- */
+  .controls{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px;margin-bottom:16px}
+  .search-box{display:flex;align-items:center;gap:10px;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:8px 12px;margin-bottom:12px}
   .search-box svg{flex-shrink:0}
-  .search-box input{
-    flex:1;
-    background:transparent;
-    border:none;
-    outline:none;
-    font-family:'VT323',monospace;
-    font-size:22px;
-    color:#fff;
-  }
+  .search-box input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:22px;color:#fff}
   .search-box input::placeholder{color:var(--ink-dim)}
 
-  .filters{display:flex;flex-wrap:wrap;gap:8px}
-  .chip{
-    font-family:'VT323',monospace;
-    font-size:19px;
-    color:#fff;
-    background:var(--stone);
-    border:3px solid #000;
-    border-top-color:#c8c8c8;
-    border-left-color:#c8c8c8;
-    padding:6px 14px;
-    cursor:pointer;
-    text-shadow:1px 1px 0 rgba(0,0,0,.4);
-    user-select:none;
+  .tabhint{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim);margin-bottom:8px;letter-spacing:.5px}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px}
+  .tab{
+    display:flex;align-items:center;gap:6px;
+    font-family:'VT323',monospace;font-size:17px;color:#fff;
+    background:var(--stone);border:3px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;
+    padding:5px 10px 5px 6px;cursor:pointer;user-select:none;text-shadow:1px 1px 0 rgba(0,0,0,.4);
   }
-  .chip:hover{background:#9a9a9a}
-  .chip.active{
-    background:var(--emerald);
-    border-top-color:#5cf08a;
-    border-left-color:#5cf08a;
-    color:#04220f;
-    text-shadow:none;
-  }
-  .chip:active{transform:translateY(2px)}
+  .tab img{width:20px;height:20px;image-rendering:pixelated;background:rgba(0,0,0,.25);flex-shrink:0}
+  .tab:hover{background:#9a9a9a}
+  .tab.active{background:var(--emerald);border-top-color:#5cf08a;border-left-color:#5cf08a;color:#04220f;text-shadow:none}
+  .tab.enchant-tab{background:#4a6fb0;border-top-color:#7fa3e8;border-left-color:#7fa3e8}
+  .tab.enchant-tab:hover{background:#5a7fc0}
+  .tab.enchant-tab.active{background:var(--emerald);border-top-color:#5cf08a;border-left-color:#5cf08a;color:#04220f}
 
-  /* ---- Table ---- */
-  .table-panel{
-    background:var(--panel-dark);
-    border:4px solid #000;
-    box-shadow:0 6px 0 var(--shadow);
-    padding:12px;
+  .count{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--ink-dim);margin:14px 2px 8px}
+
+  /* ---- Profession panel (accordion) ---- */
+  .profession{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);margin-bottom:12px}
+  .prof-head{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;user-select:none;background:var(--panel-mid)}
+  .prof-portrait{width:38px;height:38px;background:#222;border:3px solid #000;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .prof-portrait img{width:100%;height:100%;object-fit:cover;object-position:top;image-rendering:pixelated}
+  .prof-titles{flex:1;min-width:0}
+  .prof-titles .en{font-family:'Silkscreen',sans-serif;font-size:13px;color:#fff;text-shadow:1px 1px 0 #000}
+  .prof-titles .de{font-size:19px;color:var(--ink-dim);margin-top:2px}
+  .prof-count{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--treasure)}
+  .station-btn{
+    display:flex;align-items:center;gap:6px;font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--treasure);
+    background:rgba(0,0,0,.3);border:2px solid var(--treasure);padding:5px 8px;cursor:pointer;flex-shrink:0;
   }
-  table{width:100%;border-collapse:collapse;font-size:21px}
-  thead th{
-    font-family:'Silkscreen',sans-serif;
-    font-size:12px;
-    letter-spacing:.5px;
-    text-align:left;
-    color:var(--ink);
-    padding:10px 12px;
-    background:var(--panel-mid);
-    border:2px solid #000;
-    text-shadow:1px 1px 0 #000;
-  }
-  th.num,td.num{text-align:center;width:78px}
-  tbody tr{background:#484848}
-  tbody tr:nth-child(even){background:#404040}
+  .station-btn img{width:16px;height:16px;image-rendering:pixelated}
+  .station-btn:hover{background:rgba(217,164,65,.2)}
+  .chevron{width:16px;height:16px;flex-shrink:0;transition:transform .15s ease;opacity:.8}
+  .profession.open .chevron{transform:rotate(180deg)}
+
+  .prof-body{max-height:0;overflow:hidden;transition:max-height .2s ease}
+  .profession.open .prof-body{max-height:none}
+
+  table{width:100%;border-collapse:collapse;font-size:20px}
+  thead th{font-family:'Silkscreen',sans-serif;font-size:10px;letter-spacing:.4px;text-align:left;color:var(--ink);padding:8px 10px;background:#2f2f2f;border:2px solid #000;text-shadow:1px 1px 0 #000}
+  th.num,td.num{text-align:center;width:70px}
+  tbody tr{background:var(--row-a)}
+  tbody tr:nth-child(even){background:var(--row-b)}
   tbody tr:hover{background:#5a5a4a}
-  tbody td{
-    padding:8px 12px;
-    border:2px solid #2b2b2b;
-    color:#f0f0f0;
-    vertical-align:middle;
-  }
-  .ench-name{font-size:22px;line-height:1.15}
-  .ench-de{display:block;font-size:16px;color:var(--ink-dim)}
-  .tag{
-    display:inline-block;
-    font-family:'Silkscreen',sans-serif;
-    font-size:9px;
-    padding:3px 6px;
-    margin-left:6px;
-    background:var(--treasure);
-    color:#3a2600;
-    vertical-align:middle;
-    border:2px solid #000;
-  }
-  .lvl{
-    font-family:'Silkscreen',sans-serif;
-    font-size:11px;
-    color:#fff;
-    text-shadow:1px 1px 0 #000;
-  }
-  /* emerald cost pill */
-  .cost{
-    display:inline-flex;
-    align-items:center;
-    gap:5px;
-    justify-content:center;
-    font-family:'Silkscreen',sans-serif;
-    font-size:13px;
-    color:#fff;
-    text-shadow:1px 1px 0 #000;
-  }
-  .cost .gem{width:14px;height:14px;flex-shrink:0}
+  tbody td{padding:7px 10px;border:2px solid #2b2b2b;color:#f0f0f0;vertical-align:middle}
+
+  .slot{width:32px;height:32px;background:var(--slot);border:2px solid #000;box-shadow:inset -2px -2px 0 var(--slot-dark),inset 2px 2px 0 var(--slot-light);position:relative;flex-shrink:0}
+  .slot img{width:100%;height:100%;object-fit:contain;padding:3px;image-rendering:pixelated}
+  .slot .n{position:absolute;bottom:-3px;right:-3px;font-family:'Silkscreen',sans-serif;font-size:9px;color:#fff;background:#000;padding:1px 3px;text-shadow:none}
+  .want-list{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .itemcell{display:flex;align-items:center;gap:8px}
+  .itemname{line-height:1.15}
+  .itemname .en{font-size:19px}
+  .itemname .de{display:block;font-size:14px;color:var(--ink-dim)}
+  .plus{color:var(--ink-dim);font-size:16px}
+  .tag{display:inline-block;font-family:'Silkscreen',sans-serif;font-size:8px;padding:3px 5px;margin-left:6px;background:var(--treasure);color:#3a2600;vertical-align:middle;border:2px solid #000}
+  .lvl{font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;text-shadow:1px 1px 0 #000;padding:3px 6px;border:2px solid #000;display:inline-block}
+  .lvl-1{background:#5c5c5c}.lvl-2{background:#6b4a2b}.lvl-3{background:#8b6b1f}.lvl-4{background:var(--emerald-dark)}.lvl-5{background:#2a5aa0}
+  .stock{font-family:'Silkscreen',sans-serif;font-size:11px;color:var(--ink-dim)}
+  .note{font-size:14px;color:var(--ink-dim);margin-top:3px}
+
+  /* ---- Enchant sub-panel inside Librarian ---- */
+  .ench-panel{border-top:4px solid #000;background:#2c2c2c;padding:12px}
+  .ench-head{font-family:'Silkscreen',sans-serif;font-size:11px;color:var(--emerald);margin-bottom:10px;letter-spacing:.5px}
+  .ench-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+  .chip{font-family:'VT323',monospace;font-size:16px;color:#fff;background:var(--stone);border:2px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:4px 10px;cursor:pointer;user-select:none}
+  .chip:hover{background:#9a9a9a}
+  .chip.active{background:var(--emerald);color:#04220f}
+  .ench-search{display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:2px solid #000;padding:5px 10px;margin-bottom:10px}
+  .ench-search input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:19px;color:#fff}
+  .cat-row td{background:var(--grass-side);font-family:'Silkscreen',sans-serif;font-size:11px;color:#fff;text-shadow:2px 2px 0 #000;padding:8px 10px;letter-spacing:1px;border:2px solid #000}
+  .cost{display:inline-flex;align-items:center;gap:5px;justify-content:center;font-family:'Silkscreen',sans-serif;font-size:12px;color:#fff;text-shadow:1px 1px 0 #000}
+  .cost .gem{width:13px;height:13px;flex-shrink:0}
   td.min .cost{color:#5cf08a}
   td.max .cost{color:#ff9d6b}
-
-  .cat-row td{
-    background:var(--grass-side);
-    font-family:'Silkscreen',sans-serif;
-    font-size:12px;
-    color:#fff;
-    text-shadow:2px 2px 0 #000;
-    padding:9px 12px;
-    letter-spacing:1px;
-    border:2px solid #000;
+  .info-btn{
+    display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
+    font-family:'Silkscreen',sans-serif;font-size:11px;color:#04220f;background:var(--treasure);
+    border:2px solid #000;cursor:pointer;flex-shrink:0;margin-left:6px;vertical-align:middle;user-select:none;
   }
+  .info-btn:hover{background:#eec06a}
+  .ench-name-row{display:flex;align-items:center}
+  .info-row td{background:#232323;border:2px solid #000;padding:9px 12px;font-size:18px;color:var(--ink-dim);display:none}
+  .info-row.show td{display:table-cell}
+  .info-row b{color:var(--emerald)}
+  .empty{text-align:center;padding:28px 16px;font-size:22px;color:var(--ink-dim)}
+  .ench-count{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim);margin-bottom:8px}
 
-  .empty{
-    text-align:center;
-    padding:34px 16px;
-    font-size:24px;
-    color:var(--ink-dim);
-  }
+  /* ---- Crafting modal ---- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(6,6,10,.75);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+  .modal-overlay.show{display:flex}
+  .modal{width:100%;max-width:380px;background:var(--dirt);border:4px solid #000;box-shadow:0 10px 0 var(--shadow);padding:20px;position:relative}
+  .modal-close{position:absolute;top:10px;right:10px;width:26px;height:26px;background:#000;border:2px solid #fff;color:#fff;font-family:'Silkscreen',sans-serif;font-size:12px;cursor:pointer}
+  .modal-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .modal-head img{width:32px;height:32px;image-rendering:pixelated}
+  .modal-head .en{font-family:'Silkscreen',sans-serif;font-size:13px;color:#fff}
+  .modal-head .de{font-size:17px;color:var(--ink-dim)}
+  .craft-grid{display:grid;grid-template-columns:repeat(3,44px);grid-template-rows:repeat(3,44px);gap:3px;background:#000;border:3px solid #000;padding:6px;margin:14px auto 10px;width:max-content}
+  .craft-slot{background:var(--slot);box-shadow:inset -2px -2px 0 var(--slot-dark),inset 2px 2px 0 var(--slot-light);display:flex;align-items:center;justify-content:center;position:relative}
+  .craft-slot img{width:32px;height:32px;image-rendering:pixelated}
+  .craft-slot .n{position:absolute;bottom:0;right:2px;font-family:'Silkscreen',sans-serif;font-size:9px;color:#fff;text-shadow:1px 1px 0 #000}
+  .craft-result{display:flex;align-items:center;justify-content:center;gap:8px;font-size:20px}
+  .craft-note{margin-top:12px;font-size:17px;color:var(--ink-dim);line-height:1.4;border-top:2px solid rgba(255,255,255,.15);padding-top:10px}
 
-  /* ---- footer note ---- */
-  footer{
-    margin-top:24px;
-    background:var(--panel-dark);
-    border:4px solid #000;
-    box-shadow:0 6px 0 var(--shadow);
-    padding:16px 18px;
-    font-size:19px;
-    line-height:1.5;
-    color:var(--ink-dim);
-  }
+  footer{margin-top:20px;background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px 16px;font-size:18px;line-height:1.5;color:var(--ink-dim)}
   footer b{color:var(--emerald)}
   footer .treasure-word{color:var(--treasure)}
-  .count{
-    font-family:'Silkscreen',sans-serif;
-    font-size:11px;
-    color:var(--ink-dim);
-    margin-bottom:10px;
-  }
 
   @media(max-width:560px){
-    .ench-de{display:inline;margin-left:6px}
-    thead th{font-size:9px;padding:8px 6px}
+    .itemname .de{display:inline;margin-left:6px}
+    thead th{font-size:9px;padding:6px}
     tbody td{padding:6px}
-    table{font-size:18px}
-    th.num,td.num{width:56px}
+    table{font-size:17px}
   }
 </style>
 </head>
@@ -257,7 +184,12 @@
     <div class="grass-strip"></div>
     <div class="header-inner">
       <h1>Luca <span class="amp">&amp;</span> Fionis<br>Minecraft Welt</h1>
-      <p class="subtitle">Verzauberungsbücher &middot; <span class="em">Smaragd</span>-Preisliste (Java)</p>
+      <p class="subtitle">Alle <span class="em">13 Dorfbewohner-Berufe</span> mit Handelsangeboten &amp; Werkstatt-Rezepten (Java)</p>
+      <div class="badges">
+        <div class="badge"><b>13</b> Berufe</div>
+        <div class="badge">Preise bei <b>64 Smaragd</b> gedeckelt</div>
+        <div class="badge">Mending <b>ohne Trade-Rebalance</b> aktiv</div>
+      </div>
     </div>
   </header>
 
@@ -267,88 +199,89 @@
         <rect x="2" y="2" width="10" height="10" fill="none" stroke="#c8c8c8" stroke-width="2"/>
         <rect x="11" y="11" width="6" height="3" fill="#c8c8c8"/>
       </svg>
-      <input id="search" type="text" placeholder="Verzauberung suchen... z.B. Mending, Efficiency, Schärfe">
+      <input id="search" type="text" placeholder="Beruf oder Item suchen... z.B. Mending, Smaragd, Bibliothekar">
     </div>
-    <div class="filters" id="filters">
-      <span class="chip active" data-cat="all">Alle</span>
-      <span class="chip" data-cat="Werkzeuge">Werkzeuge</span>
-      <span class="chip" data-cat="Schwert">Schwert</span>
-      <span class="chip" data-cat="Rüstung">Rüstung</span>
-      <span class="chip" data-cat="Fernkampf">Bogen &amp; Co.</span>
-      <span class="chip" data-cat="Angel">Angel</span>
-    </div>
+    <div class="tabhint">BERUF WÄHLEN — NUR EIN DORFBEWOHNER WIRD ANGEZEIGT</div>
+    <div class="tabs" id="tabs"></div>
   </div>
 
-  <div class="table-panel">
-    <div class="count" id="count"></div>
-    <table>
-      <thead>
-        <tr>
-          <th>Verzauberung</th>
-          <th class="num">Level</th>
-          <th class="num">Min</th>
-          <th class="num">Max</th>
-        </tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-  </div>
+  <div class="count" id="count"></div>
+  <div id="professions"></div>
 
   <footer>
-    Preise sind für <b>Bibliothekar-Dorfbewohner</b> (Java Edition), ohne Rabatte durch
-    Zombie-Heilung oder Held-des-Dorfes-Effekt. Der Preis ist immer bei <b>64 Smaragden gedeckelt</b>,
-    darum liegt Level V real bei 17&ndash;64. <span class="treasure-word">TREASURE</span>-Verzauberungen
-    (nur Mending &amp; Frost Walker) haben den doppelten Grundpreis. Der Minimalpreis ist Glückssache &ndash;
-    obere Werte kommen deutlich häufiger vor.
+    Preise gelten für <b>frisch angeworbene</b> Dorfbewohner ohne Reputations-Rabatt. Jedes Level schaltet
+    bis zu 2 neue Angebote frei. <span class="treasure-word">TREASURE</span>-Angebote (Schatz-Handel) sind
+    goldgerahmt markiert. Bei Verzauberten Büchern: Preis-Spanne siehe Bibliothekar-Tab &rarr;
+    <b>Verzauberte Bücher</b>. Klick auf den Werkstatt-Chip zeigt das Crafting-Rezept.
   </footer>
 
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">X</button>
+    <div class="modal-head">
+      <img id="modalIcon" src="" alt="">
+      <div>
+        <div class="en" id="modalEn"></div>
+        <div class="de" id="modalDe"></div>
+      </div>
+    </div>
+    <div class="craft-grid" id="craftGrid"></div>
+    <div class="craft-note" id="craftNote"></div>
+  </div>
 </div>
 
 <script>
 const GEM = `<svg class="gem" viewBox="0 0 16 16"><polygon points="8,1 15,6 8,15 1,6" fill="#17c34e" stroke="#0e7a30" stroke-width="1"/><polygon points="8,1 15,6 8,7" fill="#3ee06f"/><polygon points="1,6 8,7 8,15" fill="#0e9c3d"/></svg>`;
 
-const DATA = [
-  {cat:"Werkzeuge", en:"Unbreaking", de:"Haltbarkeit", lvl:"III", min:11, max:45},
-  {cat:"Werkzeuge", en:"Efficiency", de:"Effizienz", lvl:"V", min:17, max:64},
-  {cat:"Werkzeuge", en:"Fortune", de:"Glück", lvl:"III", min:11, max:45},
-  {cat:"Werkzeuge", en:"Silk Touch", de:"Behutsamkeit", lvl:"I", min:5, max:19},
-  {cat:"Werkzeuge", en:"Mending", de:"Reparatur", lvl:"I", min:10, max:38, treasure:true},
+function iconUrl(name){ return "https://minecraft.wiki/images/Invicon_" + encodeURIComponent(name.replace(/ /g,"_")) + ".png"; }
+function blockUrl(slug){ return "https://minecraft.wiki/images/BlockSprite_" + slug + ".png"; }
+function portraitUrl(prof){ return "https://minecraft.wiki/images/Plains_" + prof + ".png"; }
+function iconImg(name){ return `<img src="${iconUrl(name)}" alt="${name}" loading="lazy" onerror="this.style.display='none'">`; }
 
-  {cat:"Schwert", en:"Sharpness", de:"Schärfe", lvl:"V", min:17, max:64},
-  {cat:"Schwert", en:"Smite", de:"Bann", lvl:"V", min:17, max:64},
-  {cat:"Schwert", en:"Bane of Arthropods", de:"Nemesis der Gliederfüßer", lvl:"V", min:17, max:64},
-  {cat:"Schwert", en:"Looting", de:"Plünderung", lvl:"III", min:11, max:45},
-  {cat:"Schwert", en:"Sweeping Edge", de:"Schwungkraft", lvl:"III", min:11, max:45},
-  {cat:"Schwert", en:"Fire Aspect", de:"Verbrennung", lvl:"II", min:8, max:32},
-  {cat:"Schwert", en:"Knockback", de:"Rückstoß", lvl:"II", min:8, max:32},
+/* ===================== ENCHANTMENT DATA (fixed price table) ===================== */
+const ENCHANTS = [
+  {cat:"Werkzeuge", en:"Unbreaking", de:"Haltbarkeit", lvl:"III", min:11, max:45, desc:"Erhöht die Chance, dass ein Werkzeug, eine Waffe oder Rüstung bei Nutzung nicht abgenutzt wird."},
+  {cat:"Werkzeuge", en:"Efficiency", de:"Effizienz", lvl:"V", min:17, max:64, desc:"Erhöht die Abbaugeschwindigkeit von Werkzeugen deutlich."},
+  {cat:"Werkzeuge", en:"Fortune", de:"Glück", lvl:"III", min:11, max:45, desc:"Erhöht die Menge mancher Blockdrops, z.B. mehr Diamanten, Kohle oder Beeren."},
+  {cat:"Werkzeuge", en:"Silk Touch", de:"Behutsamkeit", lvl:"I", min:5, max:19, desc:"Blöcke droppen sich selbst statt ihrer üblichen Drops (z.B. Erzblock statt Rohstoff)."},
+  {cat:"Werkzeuge", en:"Mending", de:"Reparatur", lvl:"I", min:10, max:38, treasure:true, desc:"Nutzt aufgesammelte Erfahrungsorbs, um das Item automatisch zu reparieren, statt XP zu geben."},
 
-  {cat:"Rüstung", en:"Protection", de:"Schutz", lvl:"IV", min:14, max:58},
-  {cat:"Rüstung", en:"Projectile Protection", de:"Geschossschutz", lvl:"IV", min:14, max:58},
-  {cat:"Rüstung", en:"Blast Protection", de:"Explosionsschutz", lvl:"IV", min:14, max:58},
-  {cat:"Rüstung", en:"Fire Protection", de:"Feuerschutz", lvl:"IV", min:14, max:58},
-  {cat:"Rüstung", en:"Feather Falling", de:"Federfall", lvl:"IV", min:14, max:58},
-  {cat:"Rüstung", en:"Thorns", de:"Dornen", lvl:"III", min:11, max:45},
-  {cat:"Rüstung", en:"Respiration", de:"Atmung", lvl:"III", min:11, max:45},
-  {cat:"Rüstung", en:"Aqua Affinity", de:"Wassergängigkeit", lvl:"I", min:5, max:19},
-  {cat:"Rüstung", en:"Depth Strider", de:"Tiefenläufer", lvl:"III", min:11, max:45},
-  {cat:"Rüstung", en:"Frost Walker", de:"Frostläufer", lvl:"II", min:16, max:64, treasure:true},
+  {cat:"Schwert", en:"Sharpness", de:"Schärfe", lvl:"V", min:17, max:64, desc:"Erhöht den allgemeinen Nahkampfschaden mit dem Schwert."},
+  {cat:"Schwert", en:"Smite", de:"Bann", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Untote wie Zombies, Skelette und den Wither."},
+  {cat:"Schwert", en:"Bane of Arthropods", de:"Nemesis der Gliederfüßer", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Spinnen, Höhlenspinnen, Endermilben & Silberfischchen, verlangsamt sie zudem."},
+  {cat:"Schwert", en:"Looting", de:"Plünderung", lvl:"III", min:11, max:45, desc:"Erhöht Drop-Menge und Chance auf seltene Mob-Drops."},
+  {cat:"Schwert", en:"Sweeping Edge", de:"Schwungkraft", lvl:"III", min:11, max:45, desc:"Erhöht den Schaden des Rundumschlags mit dem Schwert."},
+  {cat:"Schwert", en:"Fire Aspect", de:"Verbrennung", lvl:"II", min:8, max:32, desc:"Setzt getroffene Gegner in Brand."},
+  {cat:"Schwert", en:"Knockback", de:"Rückstoß", lvl:"II", min:8, max:32, desc:"Stößt getroffene Gegner weiter zurück."},
 
-  {cat:"Fernkampf", en:"Power", de:"Stärke", lvl:"V", min:17, max:64},
-  {cat:"Fernkampf", en:"Punch", de:"Schlag", lvl:"II", min:8, max:32},
-  {cat:"Fernkampf", en:"Flame", de:"Flamme", lvl:"I", min:5, max:19},
-  {cat:"Fernkampf", en:"Infinity", de:"Unendlichkeit", lvl:"I", min:5, max:19},
-  {cat:"Fernkampf", en:"Piercing", de:"Durchschlag", lvl:"IV", min:14, max:58},
-  {cat:"Fernkampf", en:"Quick Charge", de:"Schnellladen", lvl:"III", min:11, max:45},
-  {cat:"Fernkampf", en:"Multishot", de:"Mehrfachschuss", lvl:"I", min:5, max:19},
-  {cat:"Fernkampf", en:"Impaling", de:"Harpune", lvl:"V", min:17, max:64},
-  {cat:"Fernkampf", en:"Loyalty", de:"Treue", lvl:"III", min:11, max:45},
-  {cat:"Fernkampf", en:"Riptide", de:"Sog", lvl:"III", min:11, max:45},
-  {cat:"Fernkampf", en:"Channeling", de:"Entladung", lvl:"I", min:5, max:19},
+  {cat:"Rüstung", en:"Protection", de:"Schutz", lvl:"IV", min:14, max:58, desc:"Reduziert die meisten Schadensarten leicht bis stark."},
+  {cat:"Rüstung", en:"Projectile Protection", de:"Geschossschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Schaden durch Projektile wie Pfeile oder Feuerbälle."},
+  {cat:"Rüstung", en:"Blast Protection", de:"Explosionsschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Explosionsschaden und den dadurch verursachten Rückstoß."},
+  {cat:"Rüstung", en:"Fire Protection", de:"Feuerschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Feuer- und Lavaschaden."},
+  {cat:"Rüstung", en:"Feather Falling", de:"Federfall", lvl:"IV", min:14, max:58, desc:"Reduziert Fallschaden deutlich."},
+  {cat:"Rüstung", en:"Thorns", de:"Dornen", lvl:"III", min:11, max:45, desc:"Reflektiert einen Teil des erlittenen Schadens auf den Angreifer, nutzt die Rüstung dabei schneller ab."},
+  {cat:"Rüstung", en:"Respiration", de:"Atmung", lvl:"III", min:11, max:45, desc:"Verlängert den Luftvorrat unter Wasser und verbessert die Sicht."},
+  {cat:"Rüstung", en:"Aqua Affinity", de:"Wassergängigkeit", lvl:"I", min:5, max:19, desc:"Normale Abbaugeschwindigkeit auch unter Wasser."},
+  {cat:"Rüstung", en:"Depth Strider", de:"Tiefenläufer", lvl:"III", min:11, max:45, desc:"Erhöht die Bewegungsgeschwindigkeit im Wasser."},
+  {cat:"Rüstung", en:"Frost Walker", de:"Frostläufer", lvl:"II", min:16, max:64, treasure:true, desc:"Verwandelt Wasser unter den Füßen in begehbares Eis."},
 
-  {cat:"Angel", en:"Luck of the Sea", de:"Glück des Meeres", lvl:"III", min:11, max:45},
-  {cat:"Angel", en:"Lure", de:"Köder", lvl:"III", min:11, max:45},
+  {cat:"Fernkampf", en:"Power", de:"Stärke", lvl:"V", min:17, max:64, desc:"Erhöht den Pfeilschaden des Bogens."},
+  {cat:"Fernkampf", en:"Punch", de:"Schlag", lvl:"II", min:8, max:32, desc:"Stößt mit Pfeilen getroffene Ziele weiter zurück."},
+  {cat:"Fernkampf", en:"Flame", de:"Flamme", lvl:"I", min:5, max:19, desc:"Pfeile setzen getroffene Ziele in Brand."},
+  {cat:"Fernkampf", en:"Infinity", de:"Unendlichkeit", lvl:"I", min:5, max:19, desc:"Verbraucht keine Pfeile mehr — ein Pfeil im Inventar reicht."},
+  {cat:"Fernkampf", en:"Piercing", de:"Durchschlag", lvl:"IV", min:14, max:58, desc:"Armbrust-Bolzen durchdringen mehrere Ziele hintereinander."},
+  {cat:"Fernkampf", en:"Quick Charge", de:"Schnellladen", lvl:"III", min:11, max:45, desc:"Verkürzt die Ladezeit der Armbrust."},
+  {cat:"Fernkampf", en:"Multishot", de:"Mehrfachschuss", lvl:"I", min:5, max:19, desc:"Verschießt 3 Pfeile gleichzeitig, verbraucht dabei nur einen."},
+  {cat:"Fernkampf", en:"Impaling", de:"Harpune", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Wasserbewohner mit dem Dreizack."},
+  {cat:"Fernkampf", en:"Loyalty", de:"Treue", lvl:"III", min:11, max:45, desc:"Der Dreizack fliegt nach dem Werfen zum Spieler zurück."},
+  {cat:"Fernkampf", en:"Riptide", de:"Sog", lvl:"III", min:11, max:45, desc:"Schleudert den Spieler beim Werfen im Wasser oder Regen mit fort."},
+  {cat:"Fernkampf", en:"Channeling", de:"Entladung", lvl:"I", min:5, max:19, desc:"Ruft bei Gewitter einen Blitzschlag auf das getroffene Ziel."},
+
+  {cat:"Angel", en:"Luck of the Sea", de:"Glück des Meeres", lvl:"III", min:11, max:45, desc:"Erhöht die Chance auf seltene Angelfunde und verringert Müll-Drops."},
+  {cat:"Angel", en:"Lure", de:"Köder", lvl:"III", min:11, max:45, desc:"Verkürzt die Wartezeit, bis beim Angeln etwas anbeißt."},
 ];
-
 const CAT_LABEL = {
   "Werkzeuge":"⛏ Werkzeuge & Allgemein",
   "Schwert":"⚔ Schwert",
@@ -357,61 +290,502 @@ const CAT_LABEL = {
   "Angel":"🎣 Angel",
 };
 
-const tbody = document.getElementById('tbody');
-const searchEl = document.getElementById('search');
-const countEl = document.getElementById('count');
-let activeCat = 'all';
+/* ===================== PROFESSION TRADE DATA ===================== */
+const PROFESSIONS = [
+{ id:"armorer", en:"Armorer", de:"Rüstungsschmied",
+  station:{en:"Blast Furnace", de:"Kohleofen", slug:"blast-furnace",
+    grid:[{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Furnace"},{i:"Iron Ingot"},{i:"Smooth Stone"},{i:"Smooth Stone"},{i:"Smooth Stone"}],
+    note:"5× Eisenbarren + 1× Ofen + 3× Glatter Stein → 1 Kohleofen."},
+  trades:[
+    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Iron Helmet"}, stock:12},
+    {lvl:1, want:[{n:9,i:"Emerald"}], give:{n:1,i:"Iron Chestplate"}, stock:12},
+    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Iron Leggings"}, stock:12},
+    {lvl:1, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Iron Boots"}, stock:12},
+    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
+    {lvl:2, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Chainmail Leggings"}, stock:12},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Chainmail Boots"}, stock:12},
+    {lvl:3, want:[{n:1,i:"Lava Bucket"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Chainmail Helmet"}, stock:12},
+    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Chainmail Chestplate"}, stock:12},
+    {lvl:3, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Shield"}, stock:12},
+    {lvl:4, want:[{n:"19–33",i:"Emerald"}], give:{n:1,i:"Diamond Leggings"}, stock:3, note:"14 Basis + Level 5–19"},
+    {lvl:4, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Boots"}, stock:3, note:"8 Basis + Level 5–19"},
+    {lvl:5, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Helmet"}, stock:3, note:"8 Basis + Level 5–19"},
+    {lvl:5, want:[{n:"21–35",i:"Emerald"}], give:{n:1,i:"Diamond Chestplate"}, stock:3, note:"16 Basis + Level 5–19"},
+  ]},
+{ id:"butcher", en:"Butcher", de:"Metzger",
+  station:{en:"Smoker", de:"Räucherofen", slug:"smoker",
+    grid:[null,{i:"Log"},null,{i:"Log"},{i:"Furnace"},{i:"Log"},null,{i:"Log"},null],
+    note:"4× beliebige Stämme + 1× Ofen (Kreuz-Form) → 1 Räucherofen."},
+  trades:[
+    {lvl:1, want:[{n:14,i:"Raw Chicken"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:4,i:"Raw Rabbit"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:7,i:"Raw Porkchop"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Rabbit Stew"}, stock:12},
+    {lvl:2, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:8,i:"Cooked Chicken"}, stock:16},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:5,i:"Cooked Porkchop"}, stock:16},
+    {lvl:3, want:[{n:10,i:"Raw Beef"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:7,i:"Raw Mutton"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:4, want:[{n:10,i:"Dried Kelp Block"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:5, want:[{n:10,i:"Sweet Berries"}], give:{n:1,i:"Emerald"}, stock:12},
+  ]},
+{ id:"cartographer", en:"Cartographer", de:"Kartograf",
+  station:{en:"Cartography Table", de:"Kartografietisch", slug:"cartography-table",
+    grid:[{i:"Paper"},{i:"Paper"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
+    note:"2× Papier + 4× Bretter → 1 Kartografietisch."},
+  trades:[
+    {lvl:1, want:[{n:24,i:"Paper"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Map"}, stock:12},
+    {lvl:2, want:[{n:11,i:"Glass Pane"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:8,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Explorer Map"}, stock:12, note:"Biomeabhängig"},
+    {lvl:3, want:[{n:1,i:"Compass"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:13,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Ocean Explorer Map"}, stock:12},
+    {lvl:3, want:[{n:12,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Trial Explorer Map"}, stock:12},
+    {lvl:4, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Item Frame"}, stock:12},
+    {lvl:4, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Banner"}, stock:12, note:"Farbe biomeabhängig"},
+    {lvl:5, want:[{n:8,i:"Emerald"}], give:{n:1,i:"Globe Banner Pattern"}, stock:12},
+    {lvl:5, want:[{n:14,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Woodland Explorer Map"}, stock:12},
+  ]},
+{ id:"cleric", en:"Cleric", de:"Kleriker",
+  station:{en:"Brewing Stand", de:"Braustand", slug:"brewing-stand",
+    grid:[null,{i:"Blaze Rod"},null,{i:"Cobblestone"},{i:"Cobblestone"},{i:"Cobblestone"},null,null,null],
+    note:"1× Blaze-Rute + 3× Bruchstein → 1 Braustand."},
+  trades:[
+    {lvl:1, want:[{n:32,i:"Rotten Flesh"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:2,i:"Redstone Dust"}, stock:12},
+    {lvl:2, want:[{n:3,i:"Gold Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Lapis Lazuli"}, stock:12},
+    {lvl:3, want:[{n:2,i:"Rabbit's Foot"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Glowstone"}, stock:12},
+    {lvl:4, want:[{n:4,i:"Turtle Scute"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:9,i:"Glass Bottle"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Ender Pearl"}, stock:12},
+    {lvl:5, want:[{n:22,i:"Nether Wart"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:5, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bottle o' Enchanting"}, stock:12},
+  ]},
+{ id:"farmer", en:"Farmer", de:"Bauer",
+  station:{en:"Composter", de:"Komposter", slug:"composter",
+    grid:[{i:"Wood Slab"},null,{i:"Wood Slab"},{i:"Wood Slab"},null,{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"}],
+    note:"7× Holzstufen (Kasten-Form, oben offen) → 1 Komposter."},
+  trades:[
+    {lvl:1, want:[{n:20,i:"Wheat"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:26,i:"Potato"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:22,i:"Carrot"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:15,i:"Beetroot"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:6,i:"Bread"}, stock:16},
+    {lvl:2, want:[{n:6,i:"Pumpkin"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Pumpkin Pie"}, stock:12},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Apple"}, stock:16},
+    {lvl:3, want:[{n:4,i:"Melon"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:18,i:"Cookie"}, stock:12},
+    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Suspicious Stew"}, stock:12},
+    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Cake"}, stock:12},
+    {lvl:5, want:[{n:3,i:"Emerald"}], give:{n:3,i:"Golden Carrot"}, stock:12},
+    {lvl:5, want:[{n:4,i:"Emerald"}], give:{n:3,i:"Glistering Melon Slice"}, stock:12},
+  ]},
+{ id:"fisherman", en:"Fisherman", de:"Fischer",
+  station:{en:"Barrel", de:"Fass", slug:"barrel",
+    grid:[{i:"Wood Planks"},{i:"Wood Slab"},{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},{i:"Wood Slab"},{i:"Wood Planks"}],
+    note:"6× Bretter + 2× Holzstufen → 1 Fass."},
+  trades:[
+    {lvl:1, want:[{n:20,i:"String"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:10,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bucket of Cod"}, stock:16},
+    {lvl:1, want:[{n:6,i:"Raw Cod"},{n:1,i:"Emerald"}], give:{n:6,i:"Cooked Cod"}, stock:16},
+    {lvl:2, want:[{n:15,i:"Raw Cod"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:2, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Campfire"}, stock:12},
+    {lvl:2, want:[{n:6,i:"Raw Salmon"},{n:1,i:"Emerald"}], give:{n:6,i:"Cooked Salmon"}, stock:16},
+    {lvl:3, want:[{n:13,i:"Raw Salmon"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Fishing Rod"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
+    {lvl:4, want:[{n:6,i:"Tropical Fish"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:5, want:[{n:4,i:"Pufferfish"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:5, want:[{n:1,i:"Boat"}], give:{n:1,i:"Emerald"}, stock:12, note:"Bootstyp je nach Biom"},
+  ]},
+{ id:"fletcher", en:"Fletcher", de:"Bogner",
+  station:{en:"Fletching Table", de:"Bognertisch", slug:"fletching-table",
+    grid:[{i:"Flint"},{i:"Flint"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
+    note:"2× Feuerstein + 4× Bretter → 1 Bognertisch."},
+  trades:[
+    {lvl:1, want:[{n:32,i:"Stick"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:16,i:"Arrow"}, stock:12},
+    {lvl:1, want:[{n:10,i:"Gravel"},{n:1,i:"Emerald"}], give:{n:10,i:"Flint"}, stock:12},
+    {lvl:2, want:[{n:26,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Bow"}, stock:12},
+    {lvl:3, want:[{n:14,i:"String"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Crossbow"}, stock:12},
+    {lvl:4, want:[{n:24,i:"Feather"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:4, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Bow"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
+    {lvl:5, want:[{n:8,i:"Tripwire Hook"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:5, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Crossbow"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
+    {lvl:5, want:[{n:2,i:"Emerald"},{n:5,i:"Arrow"}], give:{n:5,i:"Tipped Arrow"}, stock:12},
+  ]},
+{ id:"leatherworker", en:"Leatherworker", de:"Gerber",
+  station:{en:"Cauldron", de:"Kessel", slug:"cauldron",
+    grid:[{i:"Iron Ingot"},null,{i:"Iron Ingot"},{i:"Iron Ingot"},null,{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"}],
+    note:"7× Eisenbarren (Kasten-Form, oben offen) → 1 Kessel."},
+  trades:[
+    {lvl:1, want:[{n:6,i:"Leather"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Leather Pants"}, stock:12},
+    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Leather Tunic"}, stock:12},
+    {lvl:2, want:[{n:26,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Leather Cap"}, stock:12},
+    {lvl:2, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Leather Boots"}, stock:12},
+    {lvl:3, want:[{n:9,i:"Rabbit Hide"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Leather Tunic"}, stock:12},
+    {lvl:4, want:[{n:4,i:"Turtle Scute"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:6,i:"Emerald"}], give:{n:1,i:"Leather Horse Armor"}, stock:12},
+    {lvl:5, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Leather Cap"}, stock:12},
+    {lvl:5, want:[{n:6,i:"Emerald"}], give:{n:1,i:"Saddle"}, stock:12},
+  ]},
+{ id:"librarian", en:"Librarian", de:"Bibliothekar",
+  station:{en:"Lectern", de:"Lesepult", slug:"lectern",
+    grid:[{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"},null,{i:"Bookshelf"},null,null,{i:"Wood Slab"},null],
+    note:"1× Bücherregal + 4× Holzstufen → 1 Lesepult."},
+  hasEnchants:true,
+  trades:[
+    {lvl:1, want:[{n:24,i:"Paper"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:9,i:"Emerald"}], give:{n:1,i:"Bookshelf"}, stock:12},
+    {lvl:2, want:[{n:4,i:"Book"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Lantern"}, stock:12},
+    {lvl:3, want:[{n:5,i:"Ink Sac"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Glass"}, stock:12},
+    {lvl:4, want:[{n:1,i:"Book and Quill"},{n:1,i:"Book and Quill"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Compass"}, stock:12},
+    {lvl:4, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Clock"}, stock:12},
+    {lvl:5, want:[{n:64,i:"Paper"}], give:{n:1,i:"Name Tag"}, stock:12, note:"seit Update 26.1"},
+  ]},
+{ id:"mason", en:"Mason", de:"Steinmetz",
+  station:{en:"Stonecutter", de:"Steinsäge", slug:"stonecutter",
+    grid:[null,{i:"Iron Ingot"},null,{i:"Stone"},{i:"Stone"},{i:"Stone"},null,null,null],
+    note:"1× Eisenbarren + 3× Stein → 1 Steinsäge."},
+  trades:[
+    {lvl:1, want:[{n:10,i:"Clay Ball"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:10,i:"Brick"}, stock:16},
+    {lvl:2, want:[{n:20,i:"Stone"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Chiseled Stone Bricks"}, stock:16},
+    {lvl:3, want:[{n:16,i:"Granite"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:16,i:"Andesite"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:16,i:"Diorite"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Dripstone Block"}, stock:16},
+    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Polished Granite"}, stock:16},
+    {lvl:4, want:[{n:12,i:"Nether Quartz"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stained Terracotta"}, stock:12, note:"beliebige Farbe"},
+    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Glazed Terracotta"}, stock:12, note:"beliebige Farbe"},
+    {lvl:5, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Quartz Pillar"}, stock:12},
+    {lvl:5, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Block of Quartz"}, stock:12},
+  ]},
+{ id:"shepherd", en:"Shepherd", de:"Schäfer",
+  station:{en:"Loom", de:"Webstuhl", slug:"loom",
+    grid:[null,{i:"String"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,null,null,null],
+    note:"2× Faden + 2× Bretter → 1 Webstuhl."},
+  trades:[
+    {lvl:1, want:[{n:18,i:"White Wool"}], give:{n:1,i:"Emerald"}, stock:16, note:"Farbe zufällig"},
+    {lvl:1, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Shears"}, stock:12},
+    {lvl:2, want:[{n:12,i:"Dye"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Colored Wool"}, stock:16, note:"beliebige Farbe"},
+    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Colored Carpet"}, stock:16, note:"beliebige Farbe"},
+    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bed"}, stock:12, note:"beliebige Farbe"},
+    {lvl:4, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Banner"}, stock:12, note:"beliebige Farbe"},
+    {lvl:5, want:[{n:2,i:"Emerald"}], give:{n:3,i:"Painting"}, stock:12},
+  ]},
+{ id:"toolsmith", en:"Toolsmith", de:"Werkzeugschmied",
+  station:{en:"Smithing Table", de:"Schmiedetisch", slug:"smithing-table",
+    grid:[{i:"Iron Ingot"},{i:"Iron Ingot"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
+    note:"2× Eisenbarren + 4× Bretter → 1 Schmiedetisch."},
+  trades:[
+    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Axe"}, stock:12},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Shovel"}, stock:12},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Pickaxe"}, stock:12},
+    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Hoe"}, stock:12},
+    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
+    {lvl:3, want:[{n:30,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:3, want:[{n:"6–20",i:"Emerald"}], give:{n:1,i:"Iron Axe"}, stock:3, note:"1 Basis + Level 5–19, verzaubert"},
+    {lvl:3, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Iron Shovel"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
+    {lvl:3, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Iron Pickaxe"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
+    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Diamond Hoe"}, stock:3},
+    {lvl:4, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:"17–31",i:"Emerald"}], give:{n:1,i:"Diamond Axe"}, stock:3, note:"12 Basis + Level 5–19, verzaubert"},
+    {lvl:4, want:[{n:"10–24",i:"Emerald"}], give:{n:1,i:"Diamond Shovel"}, stock:3, note:"5 Basis + Level 5–19, verzaubert"},
+    {lvl:5, want:[{n:"18–32",i:"Emerald"}], give:{n:1,i:"Diamond Pickaxe"}, stock:3, note:"13 Basis + Level 5–19, verzaubert"},
+  ]},
+{ id:"weaponsmith", en:"Weaponsmith", de:"Waffenschmied",
+  station:{en:"Grindstone", de:"Schleifstein", slug:"grindstone",
+    grid:[{i:"Wood Planks"},{i:"Stone Slab"},{i:"Wood Planks"},{i:"Stick"},null,{i:"Stick"},null,null,null],
+    note:"2× Bretter + 1× Stein-Stufe + 2× Stöcke → 1 Schleifstein."},
+  trades:[
+    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
+    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Iron Axe"}, stock:12},
+    {lvl:1, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Iron Sword"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
+    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
+    {lvl:3, want:[{n:24,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
+    {lvl:4, want:[{n:"17–31",i:"Emerald"}], give:{n:1,i:"Diamond Axe"}, stock:3, note:"12 Basis + Level 5–19, verzaubert"},
+    {lvl:5, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Sword"}, stock:3, note:"8 Basis + Level 5–19, verzaubert"},
+  ]}
+];
 
-function costCell(v){ return `<span class="cost">${GEM}${v}</span>`; }
+const DE = {
+  "Coal":"Kohle","Emerald":"Smaragd","Iron Ingot":"Eisenbarren","Iron Helmet":"Eisenhelm","Iron Chestplate":"Eisenbrustplatte",
+  "Iron Leggings":"Eisenhose","Iron Boots":"Eisenstiefel","Bell":"Glocke","Chainmail Leggings":"Kettenhose","Chainmail Boots":"Kettenstiefel",
+  "Lava Bucket":"Lava-Eimer","Diamond":"Diamant","Chainmail Helmet":"Kettenhelm","Chainmail Chestplate":"Kettenbrustplatte","Shield":"Schild",
+  "Diamond Leggings":"Diamanthose","Diamond Boots":"Diamantstiefel","Diamond Helmet":"Diamanthelm","Diamond Chestplate":"Diamantbrustplatte",
+  "Raw Chicken":"Rohes Hühnchen","Raw Rabbit":"Rohes Kaninchen","Raw Porkchop":"Rohes Schweinefleisch","Rabbit Stew":"Kanincheneintopf",
+  "Cooked Chicken":"Gebratenes Hühnchen","Cooked Porkchop":"Gebratenes Schweinefleisch","Raw Beef":"Rohes Rindfleisch","Raw Mutton":"Rohes Hammelfleisch",
+  "Dried Kelp Block":"Getrockneter-Seetang-Block","Sweet Berries":"Süße Beeren",
+  "Paper":"Papier","Map":"Karte","Glass Pane":"Glasscheibe","Compass":"Kompass","Explorer Map":"Entdeckerkarte","Ocean Explorer Map":"Ozean-Entdeckerkarte",
+  "Trial Explorer Map":"Bewährungskammer-Karte","Item Frame":"Gegenstandsrahmen","Banner":"Banner","Globe Banner Pattern":"Globus-Bannermuster","Woodland Explorer Map":"Waldvilla-Karte",
+  "Rotten Flesh":"Verwestes Fleisch","Redstone Dust":"Redstone-Staub","Gold Ingot":"Goldbarren","Lapis Lazuli":"Lapislazuli","Rabbit's Foot":"Kaninchenpfote",
+  "Glowstone":"Leuchtstein","Turtle Scute":"Schildkrötenpanzerschuppe","Glass Bottle":"Glasflasche","Ender Pearl":"Enderperle","Nether Wart":"Netherwarze","Bottle o' Enchanting":"Erfahrungsfläschchen",
+  "Wheat":"Weizen","Potato":"Kartoffel","Carrot":"Karotte","Beetroot":"Rote Bete","Bread":"Brot","Pumpkin":"Kürbis","Pumpkin Pie":"Kürbiskuchen","Apple":"Apfel",
+  "Melon":"Melone","Cookie":"Keks","Suspicious Stew":"Verdächtiger Eintopf","Cake":"Kuchen","Golden Carrot":"Goldene Karotte","Glistering Melon Slice":"Glitzernde Melonenscheibe",
+  "String":"Faden","Bucket of Cod":"Eimer mit Kabeljau","Raw Cod":"Roher Kabeljau","Cooked Cod":"Gebratener Kabeljau","Campfire":"Lagerfeuer","Raw Salmon":"Roher Lachs",
+  "Cooked Salmon":"Gebratener Lachs","Fishing Rod":"Angel","Tropical Fish":"Tropenfisch","Pufferfish":"Kugelfisch","Boat":"Boot",
+  "Stick":"Stock","Arrow":"Pfeil","Gravel":"Kies","Flint":"Feuerstein","Bow":"Bogen","Crossbow":"Armbrust","Feather":"Feder","Tripwire Hook":"Stolperdrahthaken","Tipped Arrow":"Getränkter Pfeil",
+  "Leather":"Leder","Leather Pants":"Lederhose","Leather Tunic":"Lederjacke","Leather Cap":"Ledermütze","Leather Boots":"Lederstiefel","Rabbit Hide":"Kaninchenfell","Leather Horse Armor":"Lederpferderüstung","Saddle":"Sattel",
+  "Book":"Buch","Bookshelf":"Bücherregal","Enchanted Book":"Verzaubertes Buch","Lantern":"Laterne","Ink Sac":"Tintenbeutel","Glass":"Glas","Book and Quill":"Buch und Feder","Clock":"Uhr","Name Tag":"Namensschild",
+  "Clay Ball":"Tonklumpen","Brick":"Ziegel","Stone":"Stein","Chiseled Stone Bricks":"Gemeißelte Steinziegel","Granite":"Granit","Andesite":"Andesit","Diorite":"Diorit",
+  "Dripstone Block":"Tropfstein-Block","Polished Granite":"Polierter Granit","Nether Quartz":"Netherquarz","Stained Terracotta":"Gefärbte Terrakotta","Glazed Terracotta":"Glasierte Terrakotta",
+  "Quartz Pillar":"Quarzsäule","Block of Quartz":"Quarzblock",
+  "White Wool":"Weiße Wolle","Shears":"Schere","Dye":"Farbstoff","Colored Wool":"Gefärbte Wolle","Colored Carpet":"Gefärbter Teppich","Bed":"Bett","Painting":"Gemälde",
+  "Stone Axe":"Steinaxt","Stone Shovel":"Steinschaufel","Stone Pickaxe":"Steinspitzhacke","Stone Hoe":"Steinhacke","Iron Axe":"Eisenaxt","Iron Shovel":"Eisenschaufel","Iron Pickaxe":"Eisenspitzhacke",
+  "Diamond Hoe":"Diamanthacke","Diamond Axe":"Diamantaxt","Diamond Shovel":"Diamantschaufel","Diamond Pickaxe":"Diamantspitzhacke","Iron Sword":"Eisenschwert","Diamond Sword":"Diamantschwert",
+  "Log":"Stamm","Wood Planks":"Bretter","Wood Slab":"Holzstufe","Stone Slab":"Steinstufe","Furnace":"Ofen","Smooth Stone":"Glatter Stein","Cobblestone":"Bruchstein","Blaze Rod":"Blaze-Rute"
+};
+function deName(en){ return DE[en] || en; }
+const LVL_NAMES = {1:"Novize",2:"Lehrling",3:"Geselle",4:"Experte",5:"Meister"};
 
-function render(){
-  const q = searchEl.value.trim().toLowerCase();
-  const rows = DATA.filter(d=>{
-    const catOk = activeCat==='all' || d.cat===activeCat;
-    const text = (d.en+' '+d.de).toLowerCase();
-    const searchOk = !q || text.includes(q);
-    return catOk && searchOk;
+/* ===================== BUILD FILTER TABS ===================== */
+const tabsEl = document.getElementById('tabs');
+let activeProf = 'all';
+function buildTabs(){
+  let html = `<span class="tab active" data-id="all">🏘 Alle</span>`;
+  PROFESSIONS.forEach(p=>{
+    html += `<span class="tab${p.hasEnchants?' enchant-tab':''}" data-id="${p.id}"><img src="${portraitUrl(p.en.replace(/ /g,'_'))}" onerror="this.style.display='none'">${p.de}</span>`;
   });
-
-  tbody.innerHTML = '';
-  if(rows.length===0){
-    tbody.innerHTML = `<tr><td colspan="4" class="empty">Nichts gefunden – probier's mal anders. ⛏</td></tr>`;
-    countEl.textContent = '0 BÜCHER';
-    return;
-  }
-
-  let lastCat = null;
-  rows.forEach(d=>{
-    if(d.cat!==lastCat){
-      const cr = document.createElement('tr');
-      cr.className='cat-row';
-      cr.innerHTML = `<td colspan="4">${CAT_LABEL[d.cat]}</td>`;
-      tbody.appendChild(cr);
-      lastCat = d.cat;
-    }
-    const tr = document.createElement('tr');
-    tr.innerHTML =
-      `<td class="ench-name">${d.en}${d.treasure?'<span class="tag">TREASURE</span>':''}<span class="ench-de">${d.de}</span></td>`+
-      `<td class="num"><span class="lvl">${d.lvl}</span></td>`+
-      `<td class="num min">${costCell(d.min)}</td>`+
-      `<td class="num max">${costCell(d.max)}</td>`;
-    tbody.appendChild(tr);
-  });
-
-  countEl.textContent = rows.length + (rows.length===1?' BUCH':' BÜCHER');
+  tabsEl.innerHTML = html;
 }
-
-searchEl.addEventListener('input', render);
-document.getElementById('filters').addEventListener('click', e=>{
-  const chip = e.target.closest('.chip');
-  if(!chip) return;
-  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-  chip.classList.add('active');
-  activeCat = chip.dataset.cat;
+buildTabs();
+tabsEl.addEventListener('click', e=>{
+  const t = e.target.closest('.tab');
+  if(!t) return;
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  activeProf = t.dataset.id;
   render();
 });
 
+/* ===================== RENDER PROFESSIONS ===================== */
+const container = document.getElementById('professions');
+const countEl = document.getElementById('count');
+const searchEl = document.getElementById('search');
+
+function moneyCell(n,i){
+  return `<div class="itemcell"><div class="slot">${iconImg(i)}${(typeof n==='number'&&n>1)?`<span class="n">${n}</span>`:''}</div><div class="itemname"><span class="en">${typeof n==='string'?n+' ':''}${i}</span><span class="de">${deName(i)}</span></div></div>`;
+}
+
+function tradeMatches(p, t, q){
+  if(!q) return true;
+  const text = (p.en+' '+p.de+' '+t.want.map(w=>w.i+' '+deName(w.i)).join(' ')+' '+t.give.i+' '+deName(t.give.i)).toLowerCase();
+  return text.includes(q);
+}
+function enchantMatches(e, q){
+  if(!q) return true;
+  return (e.en+' '+e.de).toLowerCase().includes(q);
+}
+
+function buildProfession(p, q){
+  const visibleTrades = p.trades.filter(t=>tradeMatches(p,t,q));
+  const visibleEnchants = p.hasEnchants ? ENCHANTS.filter(e=>enchantMatches(e,q)) : [];
+  if(q && visibleTrades.length===0 && visibleEnchants.length===0) return null;
+
+  const wrap = document.createElement('div');
+  wrap.className = 'profession' + (q ? ' open' : '');
+
+  const head = document.createElement('div');
+  head.className = 'prof-head';
+  head.innerHTML = `
+    <div class="prof-portrait"><img src="${portraitUrl(p.en.replace(/ /g,'_'))}" alt="" onerror="this.style.display='none'"></div>
+    <div class="prof-titles">
+      <div class="en">${p.en}</div>
+      <div class="de">${p.de} <span class="prof-count">· ${p.trades.length} Angebote${p.hasEnchants?' + '+ENCHANTS.length+' Bücher':''}</span></div>
+    </div>
+    <div class="station-btn" data-station="${p.id}"><img src="${blockUrl(p.station.slug)}" alt="" onerror="this.style.display='none'">${p.station.de}</div>
+    <svg class="chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
+  `;
+  head.addEventListener('click', e=>{
+    if(e.target.closest('.station-btn')) return;
+    wrap.classList.toggle('open');
+  });
+  head.querySelector('.station-btn').addEventListener('click', ()=> openModal(p));
+
+  const body = document.createElement('div');
+  body.className = 'prof-body';
+
+  if(visibleTrades.length){
+    const table = document.createElement('table');
+    table.innerHTML = `<thead><tr><th style="width:74px">Level</th><th>Dorfbewohner will</th><th>Du erhältst</th><th class="num">Vorrat</th></tr></thead><tbody></tbody>`;
+    const tbody = table.querySelector('tbody');
+    visibleTrades.forEach(t=>{
+      const tr = document.createElement('tr');
+      const wantHtml = t.want.map(w=>moneyCell(w.n,w.i)).join('<span class="plus">+</span>');
+      tr.innerHTML = `
+        <td><span class="lvl lvl-${t.lvl}">${LVL_NAMES[t.lvl]}</span></td>
+        <td><div class="want-list">${wantHtml}</div></td>
+        <td>${moneyCell(t.give.n, t.give.i)}${t.treasure?'<span class="tag">SCHATZ</span>':''}${t.note?`<div class="note">${t.note}</div>`:''}</td>
+        <td class="num stock">${t.stock}×</td>`;
+      tbody.appendChild(tr);
+    });
+    body.appendChild(table);
+  }
+
+  if(p.hasEnchants){
+    body.appendChild(buildEnchantPanel(q));
+  }
+
+  wrap.appendChild(head);
+  wrap.appendChild(body);
+  return wrap;
+}
+
+/* ===================== ENCHANT SUB-PANEL ===================== */
+let enchantCat = 'all';
+let enchantQ = '';
+function buildEnchantPanel(searchQ){
+  const panel = document.createElement('div');
+  panel.className = 'ench-panel';
+  panel.innerHTML = `
+    <div class="ench-head">📖 VERZAUBERTE BÜCHER — FIXE SMARAGD-PREISLISTE</div>
+    <div class="ench-search"><span>🔎</span><input type="text" placeholder="Verzauberung suchen... z.B. Mending, Schärfe" id="enchSearch"></div>
+    <div class="ench-filters" id="enchFilters">
+      <span class="chip active" data-cat="all">Alle</span>
+      <span class="chip" data-cat="Werkzeuge">Werkzeuge</span>
+      <span class="chip" data-cat="Schwert">Schwert</span>
+      <span class="chip" data-cat="Rüstung">Rüstung</span>
+      <span class="chip" data-cat="Fernkampf">Bogen &amp; Co.</span>
+      <span class="chip" data-cat="Angel">Angel</span>
+    </div>
+    <div class="ench-count" id="enchCount"></div>
+    <table>
+      <thead><tr><th>Verzauberung</th><th class="num">Level</th><th class="num">Min</th><th class="num">Max</th></tr></thead>
+      <tbody id="enchBody"></tbody>
+    </table>
+  `;
+
+  const enchSearchEl = panel.querySelector('#enchSearch');
+  const enchBody = panel.querySelector('#enchBody');
+  const enchCountEl = panel.querySelector('#enchCount');
+  enchSearchEl.value = enchantQ;
+
+  function renderEnch(){
+    const q = enchSearchEl.value.trim().toLowerCase();
+    enchantQ = enchSearchEl.value;
+    const globalQ = (searchQ||'').toLowerCase();
+    const rows = ENCHANTS.filter(e=>{
+      const catOk = enchantCat==='all' || e.cat===enchantCat;
+      const text = (e.en+' '+e.de).toLowerCase();
+      const searchOk = !q || text.includes(q);
+      const globalOk = !globalQ || text.includes(globalQ);
+      return catOk && searchOk && globalOk;
+    });
+    enchBody.innerHTML = '';
+    if(rows.length===0){
+      enchBody.innerHTML = `<tr><td colspan="4" class="empty">Nichts gefunden. ⛏</td></tr>`;
+      enchCountEl.textContent = '0 BÜCHER';
+      return;
+    }
+    let lastCat = null;
+    rows.forEach((d, idx)=>{
+      if(d.cat!==lastCat){
+        const cr = document.createElement('tr');
+        cr.className='cat-row';
+        cr.innerHTML = `<td colspan="4">${CAT_LABEL[d.cat]}</td>`;
+        enchBody.appendChild(cr);
+        lastCat = d.cat;
+      }
+      const tr = document.createElement('tr');
+      const rowId = 'einfo_'+d.en.replace(/[^a-zA-Z]/g,'')+'_'+idx;
+      tr.innerHTML =
+        `<td><div class="ench-name-row"><div class="itemname"><span class="en">${d.en}${d.treasure?'<span class="tag">TREASURE</span>':''}</span><span class="de">${d.de}</span></div><span class="info-btn" data-target="${rowId}">i</span></div></td>`+
+        `<td class="num"><span class="lvl lvl-${['I','II','III','IV','V'].indexOf(d.lvl)+1}">${d.lvl}</span></td>`+
+        `<td class="num min"><span class="cost">${GEM}${d.min}</span></td>`+
+        `<td class="num max"><span class="cost">${GEM}${d.max}</span></td>`;
+      enchBody.appendChild(tr);
+      const infoTr = document.createElement('tr');
+      infoTr.className = 'info-row';
+      infoTr.id = rowId;
+      infoTr.innerHTML = `<td colspan="4"><b>${d.de}:</b> ${d.desc}</td>`;
+      enchBody.appendChild(infoTr);
+    });
+    enchCountEl.textContent = rows.length + (rows.length===1?' BUCH':' BÜCHER');
+  }
+
+  enchSearchEl.addEventListener('input', renderEnch);
+  panel.querySelector('#enchFilters').addEventListener('click', e=>{
+    const chip = e.target.closest('.chip');
+    if(!chip) return;
+    panel.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    enchantCat = chip.dataset.cat;
+    renderEnch();
+  });
+  enchBody.addEventListener('click', e=>{
+    const btn = e.target.closest('.info-btn');
+    if(!btn) return;
+    document.getElementById(btn.dataset.target).classList.toggle('show');
+  });
+
+  renderEnch();
+  return panel;
+}
+
+function render(){
+  const q = searchEl.value.trim().toLowerCase();
+  container.innerHTML = '';
+  let profs = activeProf==='all' ? PROFESSIONS : PROFESSIONS.filter(p=>p.id===activeProf);
+  let shown = 0;
+  let totalTrades = 0;
+  profs.forEach(p=>{
+    const el = buildProfession(p, q);
+    if(el){ container.appendChild(el); shown++; totalTrades += p.trades.length; }
+  });
+  if(shown===0){
+    container.innerHTML = `<div class="profession"><div class="empty">Nichts gefunden – probier's mal anders. ⛏</div></div>`;
+    countEl.textContent = '0 TREFFER';
+  } else {
+    countEl.textContent = shown + (shown===1?' BERUF':' BERUFE') + ' ANGEZEIGT' + (activeProf==='all' && !q ? ' · Tab anklicken für einzelnen Beruf' : '');
+  }
+}
+searchEl.addEventListener('input', render);
 render();
+
+/* ===================== CRAFTING MODAL ===================== */
+const overlay = document.getElementById('modalOverlay');
+const craftGrid = document.getElementById('craftGrid');
+function openModal(p){
+  document.getElementById('modalIcon').src = blockUrl(p.station.slug);
+  document.getElementById('modalIcon').onerror = function(){ this.style.display='none'; };
+  document.getElementById('modalEn').textContent = p.station.en;
+  document.getElementById('modalDe').textContent = p.station.de + ' — Werkstatt für ' + p.de;
+  craftGrid.innerHTML = '';
+  p.station.grid.forEach(cell=>{
+    const slot = document.createElement('div');
+    slot.className = 'craft-slot';
+    if(cell){ slot.innerHTML = `${iconImg(cell.i)}${cell.n && cell.n>1 ? `<span class="n">${cell.n}</span>`:''}`; }
+    craftGrid.appendChild(slot);
+  });
+  document.getElementById('craftNote').innerHTML = `<div class="craft-result">→ <div class="slot">${iconImg(p.station.en)}</div> <b>${p.station.en}</b></div><div style="margin-top:10px">${p.station.note}</div>`;
+  overlay.classList.add('show');
+}
+document.getElementById('modalClose').addEventListener('click', ()=> overlay.classList.remove('show'));
+overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.classList.remove('show'); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.remove('show'); });
 </script>
 </body>
 </html>
