@@ -55,7 +55,7 @@
   .badge b{color:var(--treasure)}
 
   /* ---- Controls ---- */
-  .controls{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px;margin-bottom:16px}
+  .controls{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px;margin-bottom:16px;position:sticky;top:10px;z-index:20}
   .search-box{display:flex;align-items:center;gap:10px;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:8px 12px;margin-bottom:12px}
   .search-box svg{flex-shrink:0}
   .search-box input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:22px;color:#fff}
@@ -77,6 +77,53 @@
   .tab.enchant-tab.active{background:var(--emerald);border-top-color:#5cf08a;border-left-color:#5cf08a;color:#04220f}
 
   .count{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--ink-dim);margin:14px 2px 8px}
+
+  /* ---- Toolbar row (expand/collapse/calculator) ---- */
+  .toolbar-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tool-btn{
+    font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;
+    background:var(--panel-mid);border:3px solid #000;border-top-color:#7a7a7a;border-left-color:#7a7a7a;
+    padding:8px 12px;cursor:pointer;transition:background .12s ease, transform .05s ease;
+  }
+  .tool-btn:hover{background:#6a6a6a}
+  .tool-btn:active{transform:translateY(1px)}
+  .tool-btn.on{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
+  .budget-box{
+    display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:3px solid #000;
+    border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:5px 10px;margin-left:auto;
+  }
+  .budget-icon{font-size:18px}
+  .budget-box input{width:150px;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:20px;color:#fff}
+  .budget-box input::placeholder{color:var(--ink-dim)}
+  .budget-summary{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--emerald);margin:-6px 2px 12px;display:none}
+  .budget-summary.show{display:block}
+
+  mark{background:var(--treasure);color:#2a1c00;padding:0 2px;border-radius:2px}
+
+  .afford-badge{font-family:'Silkscreen',sans-serif;font-size:8px;padding:2px 5px;border:2px solid #000;margin-left:4px;display:inline-block;vertical-align:middle}
+  .afford-yes{background:var(--emerald);color:#04220f}
+  .afford-no{background:#5c5c5c;color:#ddd}
+  tr.afford-no-row{opacity:.55}
+  tr.afford-yes-row{box-shadow:inset 3px 0 0 var(--emerald)}
+
+  /* ---- Resource calculator ---- */
+  .calc-panel{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:16px;margin-bottom:16px;display:none}
+  .calc-panel.show{display:block}
+  .calc-head{font-family:'Silkscreen',sans-serif;font-size:12px;color:var(--emerald);margin-bottom:14px;letter-spacing:.4px}
+  .calc-sub{font-family:'VT323',monospace;font-size:16px;color:var(--ink-dim);letter-spacing:0;text-transform:none}
+  .calc-chain{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center}
+  .calc-step{display:flex;flex-direction:column;align-items:center;gap:6px}
+  .calc-step .slot{width:44px;height:44px}
+  .calc-step input{
+    width:78px;text-align:center;font-family:'VT323',monospace;font-size:22px;color:#fff;
+    background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;
+    padding:5px 4px;outline:none;
+  }
+  .calc-step input:focus{border-color:var(--emerald)}
+  .calc-label{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim)}
+  .calc-arrow{font-size:22px;color:var(--ink-dim)}
+  .calc-note{margin-top:14px;font-size:15px;color:var(--ink-dim);text-align:center;line-height:1.4}
+  @media(max-width:560px){ .calc-arrow{width:100%;text-align:center;transform:rotate(90deg)} }
 
   /* ---- Profession panel (accordion) ---- */
   .profession{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);margin-bottom:12px}
@@ -116,6 +163,11 @@
   .itemname .en{font-size:19px}
   .itemname .de{display:block;font-size:14px;color:var(--ink-dim)}
   .plus{color:var(--ink-dim);font-size:16px}
+  .price-tag{font-family:'Silkscreen',sans-serif;font-size:9px;margin-top:4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .price-tag .gem{width:10px;height:10px;flex-shrink:0;margin-right:3px;vertical-align:-1px}
+  .price-fixed{color:var(--treasure)}
+  .price-range .price-min{color:#5cf08a;display:inline-flex;align-items:center}
+  .price-range .price-max{color:#ff9d6b;display:inline-flex;align-items:center}
   .tag{display:inline-block;font-family:'Silkscreen',sans-serif;font-size:8px;padding:3px 5px;margin-left:6px;background:var(--treasure);color:#3a2600;vertical-align:middle;border:2px solid #000}
   .lvl{font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;text-shadow:1px 1px 0 #000;padding:3px 6px;border:2px solid #000;display:inline-block}
   .lvl-1{background:#5c5c5c}.lvl-2{background:#6b4a2b}.lvl-3{background:#8b6b1f}.lvl-4{background:var(--emerald-dark)}.lvl-5{background:#2a5aa0}
@@ -203,6 +255,33 @@
     </div>
     <div class="tabhint">BERUF WÄHLEN — NUR EIN DORFBEWOHNER WIRD ANGEZEIGT</div>
     <div class="tabs" id="tabs"></div>
+    <div class="toolbar-row">
+      <button class="tool-btn" id="expandAllBtn" type="button">⬇ Alle aufklappen</button>
+      <button class="tool-btn" id="collapseAllBtn" type="button">⬆ Alle zuklappen</button>
+      <button class="tool-btn" id="calcToggleBtn" type="button">🌲 Holz-Rechner</button>
+      <button class="tool-btn" id="sortPriceBtn" type="button">💎 Günstigste zuerst</button>
+      <button class="tool-btn" id="soundToggleBtn" type="button">🔊 Klick-Sound</button>
+      <div class="budget-box">
+        <span class="budget-icon">💰</span>
+        <input type="number" min="0" id="budgetInput" placeholder="Meine Smaragde...">
+      </div>
+    </div>
+  </div>
+
+  <div class="budget-summary" id="budgetSummary"></div>
+
+  <div class="calc-panel" id="calcPanel">
+    <div class="calc-head">🌲 SMARAGD ⇄ HOLZ-RECHNER <span class="calc-sub">(Bogner-Handel: 32 Stöcke = 1 Smaragd)</span></div>
+    <div class="calc-chain">
+      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Log.png" alt="Stamm" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcLogs" placeholder="0"><span class="calc-label">Stämme</span></div>
+      <span class="calc-arrow">→</span>
+      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Planks.png" alt="Bretter" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcPlanks" placeholder="0"><span class="calc-label">Bretter</span></div>
+      <span class="calc-arrow">→</span>
+      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Stick.png" alt="Stock" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcSticks" placeholder="0"><span class="calc-label">Stöcke</span></div>
+      <span class="calc-arrow">→</span>
+      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Emerald.png" alt="Smaragd" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcEmeralds" placeholder="0"><span class="calc-label">Smaragde</span></div>
+    </div>
+    <div class="calc-note">Tipp: Trag eine beliebige Zahl in <b>irgendein</b> Feld ein — der Rest wird automatisch umgerechnet (1 Stamm = 4 Bretter = 8 Stöcke = 0,25 Smaragd beim Bogner).</div>
   </div>
 
   <div class="count" id="count"></div>
@@ -235,10 +314,43 @@
 <script>
 const GEM = `<svg class="gem" viewBox="0 0 16 16"><polygon points="8,1 15,6 8,15 1,6" fill="#17c34e" stroke="#0e7a30" stroke-width="1"/><polygon points="8,1 15,6 8,7" fill="#3ee06f"/><polygon points="1,6 8,7 8,15" fill="#0e9c3d"/></svg>`;
 
-function iconUrl(name){ return "https://minecraft.wiki/images/Invicon_" + encodeURIComponent(name.replace(/ /g,"_")) + ".png"; }
+/* Some Minecraft items only exist as colour/wood-type variants on the wiki (there is no
+   plain "Wood Planks" or "Banner" sprite) — map those generic labels to a real concrete
+   variant so the icon actually resolves. Display names (EN/DE) are untouched. */
+const ICON_OVERRIDE = {
+  "Log":"Oak Log", "Wood Planks":"Oak Planks", "Wood Slab":"Oak Slab", "Boat":"Oak Boat",
+  "Banner":"White Banner", "Colored Wool":"White Wool", "Colored Carpet":"White Carpet",
+  "Glazed Terracotta":"White Glazed Terracotta", "Stained Terracotta":"White Terracotta",
+  "Dye":"White Dye", "Explorer Map":"Woodland Explorer Map"
+};
+/* A handful of items render as animated sprites on the wiki (.gif instead of .png). */
+const GIF_ICONS = new Set(["Compass","Clock","Bottle o' Enchanting","Recovery Compass"]);
+
+function iconBase(name){ return ICON_OVERRIDE[name] || name; }
+function iconUrl(name, ext){
+  ext = ext || (GIF_ICONS.has(name) ? "gif" : "png");
+  return "https://minecraft.wiki/images/Invicon_" + encodeURIComponent(iconBase(name).replace(/ /g,"_")) + "." + ext;
+}
 function blockUrl(slug){ return "https://minecraft.wiki/images/BlockSprite_" + slug + ".png"; }
 function portraitUrl(prof){ return "https://minecraft.wiki/images/Plains_" + prof + ".png"; }
-function iconImg(name){ return `<img src="${iconUrl(name)}" alt="${name}" loading="lazy" onerror="this.style.display='none'">`; }
+
+/* Self-healing <img>: if the primary extension 404s, retry with the other extension
+   (covers items we haven't explicitly flagged as animated); only hide as a last resort. */
+function handleIconError(img){
+  const step = img.dataset.step || "0";
+  const name = decodeURIComponent(img.dataset.name);
+  if(step === "0"){
+    const triedExt = GIF_ICONS.has(name) ? "gif" : "png";
+    const altExt = triedExt === "png" ? "gif" : "png";
+    img.dataset.step = "1";
+    img.src = iconUrl(name, altExt);
+  } else {
+    img.style.display = 'none';
+  }
+}
+function iconImg(name){
+  return `<img src="${iconUrl(name)}" data-name="${encodeURIComponent(name)}" alt="${name}" loading="lazy" onerror="handleIconError(this)">`;
+}
 
 /* ===================== ENCHANTMENT DATA (fixed price table) ===================== */
 const ENCHANTS = [
@@ -352,7 +464,7 @@ const PROFESSIONS = [
   ]},
 { id:"cleric", en:"Cleric", de:"Kleriker",
   station:{en:"Brewing Stand", de:"Braustand", slug:"brewing-stand",
-    grid:[null,{i:"Blaze Rod"},null,{i:"Cobblestone"},{i:"Cobblestone"},{i:"Cobblestone"},null,null,null],
+    grid:[null,{i:"Blaze Rod"},null,null,null,null,{i:"Cobblestone"},{i:"Cobblestone"},{i:"Cobblestone"}],
     note:"1× Blaze-Rute + 3× Bruchstein → 1 Braustand."},
   trades:[
     {lvl:1, want:[{n:32,i:"Rotten Flesh"}], give:{n:1,i:"Emerald"}, stock:16},
@@ -480,7 +592,7 @@ const PROFESSIONS = [
   ]},
 { id:"shepherd", en:"Shepherd", de:"Schäfer",
   station:{en:"Loom", de:"Webstuhl", slug:"loom",
-    grid:[null,{i:"String"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,null,null,null],
+    grid:[{i:"String"},{i:"String"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,null,null,null],
     note:"2× Faden + 2× Bretter → 1 Webstuhl."},
   trades:[
     {lvl:1, want:[{n:18,i:"White Wool"}], give:{n:1,i:"Emerald"}, stock:16, note:"Farbe zufällig"},
@@ -579,6 +691,7 @@ tabsEl.addEventListener('click', e=>{
   t.classList.add('active');
   activeProf = t.dataset.id;
   render();
+  playClick();
 });
 
 /* ===================== RENDER PROFESSIONS ===================== */
@@ -586,8 +699,38 @@ const container = document.getElementById('professions');
 const countEl = document.getElementById('count');
 const searchEl = document.getElementById('search');
 
-function moneyCell(n,i){
-  return `<div class="itemcell"><div class="slot">${iconImg(i)}${(typeof n==='number'&&n>1)?`<span class="n">${n}</span>`:''}</div><div class="itemname"><span class="en">${typeof n==='string'?n+' ':''}${i}</span><span class="de">${deName(i)}</span></div></div>`;
+/* Shows, for prices paid in Emeralds, whether it's a fixed price or a Min–Max range
+   (the range only occurs on enchanted-gear trades, where a random level bonus of
+   +5 to +19 Emeralds is added on top of the base price). Also shows a live afford-badge
+   when the person has entered how many Emeralds they currently own. */
+function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function highlight(text, q){
+  if(!q) return text;
+  try { return text.replace(new RegExp('('+escapeRegex(q)+')','ig'), '<mark>$1</mark>'); }
+  catch(e){ return text; }
+}
+function priceMinValue(n){
+  if(typeof n === 'number') return n;
+  const parts = String(n).split(/[–-]/).map(s=>parseFloat(s.trim())).filter(x=>!isNaN(x));
+  return parts.length ? Math.min(...parts) : NaN;
+}
+function affordBadge(cost, budget){
+  if(budget == null || isNaN(budget) || budget <= 0 || isNaN(cost)) return '';
+  if(budget >= cost) return `<span class="afford-badge afford-yes">✅ leistbar</span>`;
+  return `<span class="afford-badge afford-no">🔒 fehlen ${Math.ceil(cost-budget)}</span>`;
+}
+function priceLabel(n, i, budget){
+  if(i !== 'Emerald') return '';
+  if(typeof n === 'string'){
+    const parts = n.split(/[–-]/).map(s=>s.trim()).filter(Boolean);
+    if(parts.length === 2){
+      return `<div class="price-tag price-range"><span class="price-min">${GEM}Min ${parts[0]}</span><span class="price-max">${GEM}Max ${parts[1]}</span>${affordBadge(parseFloat(parts[0]), budget)}</div>`;
+    }
+  }
+  return `<div class="price-tag price-fixed">${GEM}Festpreis: ${n} ${affordBadge(parseFloat(n), budget)}</div>`;
+}
+function moneyCell(n,i,showPrice,budget,q){
+  return `<div class="itemcell"><div class="slot">${iconImg(i)}${(typeof n==='number'&&n>1)?`<span class="n">${n}</span>`:''}</div><div class="itemname"><span class="en">${typeof n==='string'?n+' ':''}${highlight(i,q)}</span><span class="de">${highlight(deName(i),q)}</span>${showPrice?priceLabel(n,i,budget):''}</div></div>`;
 }
 
 function tradeMatches(p, t, q){
@@ -599,11 +742,18 @@ function enchantMatches(e, q){
   if(!q) return true;
   return (e.en+' '+e.de).toLowerCase().includes(q);
 }
+function tradeEmeraldCost(t){
+  const w = t.want.find(w=>w.i==='Emerald');
+  return w ? priceMinValue(w.n) : Infinity;
+}
 
 function buildProfession(p, q){
-  const visibleTrades = p.trades.filter(t=>tradeMatches(p,t,q));
+  let visibleTrades = p.trades.filter(t=>tradeMatches(p,t,q));
   const visibleEnchants = p.hasEnchants ? ENCHANTS.filter(e=>enchantMatches(e,q)) : [];
   if(q && visibleTrades.length===0 && visibleEnchants.length===0) return null;
+  if(sortByPrice){
+    visibleTrades = [...visibleTrades].sort((a,b)=>tradeEmeraldCost(a)-tradeEmeraldCost(b));
+  }
 
   const wrap = document.createElement('div');
   wrap.className = 'profession' + (q ? ' open' : '');
@@ -613,8 +763,8 @@ function buildProfession(p, q){
   head.innerHTML = `
     <div class="prof-portrait"><img src="${portraitUrl(p.en.replace(/ /g,'_'))}" alt="" onerror="this.style.display='none'"></div>
     <div class="prof-titles">
-      <div class="en">${p.en}</div>
-      <div class="de">${p.de} <span class="prof-count">· ${p.trades.length} Angebote${p.hasEnchants?' + '+ENCHANTS.length+' Bücher':''}</span></div>
+      <div class="en">${highlight(p.en,q)}</div>
+      <div class="de">${highlight(p.de,q)} <span class="prof-count">· ${p.trades.length} Angebote${p.hasEnchants?' + '+ENCHANTS.length+' Bücher':''}</span></div>
     </div>
     <div class="station-btn" data-station="${p.id}"><img src="${blockUrl(p.station.slug)}" alt="" onerror="this.style.display='none'">${p.station.de}</div>
     <svg class="chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
@@ -622,8 +772,9 @@ function buildProfession(p, q){
   head.addEventListener('click', e=>{
     if(e.target.closest('.station-btn')) return;
     wrap.classList.toggle('open');
+    playClick();
   });
-  head.querySelector('.station-btn').addEventListener('click', ()=> openModal(p));
+  head.querySelector('.station-btn').addEventListener('click', ()=>{ openModal(p); playClick(); });
 
   const body = document.createElement('div');
   body.className = 'prof-body';
@@ -634,11 +785,17 @@ function buildProfession(p, q){
     const tbody = table.querySelector('tbody');
     visibleTrades.forEach(t=>{
       const tr = document.createElement('tr');
-      const wantHtml = t.want.map(w=>moneyCell(w.n,w.i)).join('<span class="plus">+</span>');
+      const wantHtml = t.want.map(w=>moneyCell(w.n,w.i,true,myBudget,q)).join('<span class="plus">+</span>');
+      const cost = tradeEmeraldCost(t);
+      if(myBudget != null && !isNaN(myBudget) && myBudget>0 && isFinite(cost)){
+        totalPriced++;
+        if(myBudget >= cost){ tr.classList.add('afford-yes-row'); affordableCount++; }
+        else tr.classList.add('afford-no-row');
+      }
       tr.innerHTML = `
         <td><span class="lvl lvl-${t.lvl}">${LVL_NAMES[t.lvl]}</span></td>
         <td><div class="want-list">${wantHtml}</div></td>
-        <td>${moneyCell(t.give.n, t.give.i)}${t.treasure?'<span class="tag">SCHATZ</span>':''}${t.note?`<div class="note">${t.note}</div>`:''}</td>
+        <td>${moneyCell(t.give.n, t.give.i, false, null, q)}${t.treasure?'<span class="tag">SCHATZ</span>':''}${t.note?`<div class="note">${t.note}</div>`:''}</td>
         <td class="num stock">${t.stock}×</td>`;
       tbody.appendChild(tr);
     });
@@ -745,9 +902,16 @@ function buildEnchantPanel(searchQ){
   return panel;
 }
 
+let myBudget = null;
+let sortByPrice = false;
+let totalPriced = 0;
+let affordableCount = 0;
+
 function render(){
   const q = searchEl.value.trim().toLowerCase();
   container.innerHTML = '';
+  totalPriced = 0;
+  affordableCount = 0;
   let profs = activeProf==='all' ? PROFESSIONS : PROFESSIONS.filter(p=>p.id===activeProf);
   let shown = 0;
   let totalTrades = 0;
@@ -761,9 +925,143 @@ function render(){
   } else {
     countEl.textContent = shown + (shown===1?' BERUF':' BERUFE') + ' ANGEZEIGT' + (activeProf==='all' && !q ? ' · Tab anklicken für einzelnen Beruf' : '');
   }
+  const budgetSummaryEl = document.getElementById('budgetSummary');
+  if(myBudget != null && !isNaN(myBudget) && myBudget > 0 && totalPriced > 0){
+    budgetSummaryEl.classList.add('show');
+    budgetSummaryEl.textContent = `💰 Mit ${myBudget} Smaragd${myBudget===1?'':'en'} sind ${affordableCount} von ${totalPriced} angezeigten Angeboten leistbar.`;
+  } else {
+    budgetSummaryEl.classList.remove('show');
+  }
 }
 searchEl.addEventListener('input', render);
 render();
+
+/* ===================== TOOLBAR: EXPAND / COLLAPSE ALL ===================== */
+document.getElementById('expandAllBtn').addEventListener('click', ()=>{
+  document.querySelectorAll('.profession').forEach(p=>p.classList.add('open'));
+  playClick();
+});
+document.getElementById('collapseAllBtn').addEventListener('click', ()=>{
+  document.querySelectorAll('.profession').forEach(p=>p.classList.remove('open'));
+  playClick();
+});
+
+/* ===================== TOOLBAR: SORT BY PRICE ===================== */
+const sortPriceBtn = document.getElementById('sortPriceBtn');
+sortPriceBtn.addEventListener('click', ()=>{
+  sortByPrice = !sortByPrice;
+  sortPriceBtn.classList.toggle('on', sortByPrice);
+  playClick();
+  render();
+});
+
+/* ===================== TOOLBAR: BUDGET ("Was kann ich mir leisten?") ===================== */
+document.getElementById('budgetInput').addEventListener('input', e=>{
+  const v = parseFloat(e.target.value);
+  myBudget = e.target.value === '' ? null : v;
+  render();
+});
+
+/* ===================== TOOLBAR: CLICK-SOUND (subtle UI feedback, no external asset) ===================== */
+let soundOn = false;
+let audioCtx = null;
+const soundToggleBtn = document.getElementById('soundToggleBtn');
+soundToggleBtn.addEventListener('click', ()=>{
+  soundOn = !soundOn;
+  soundToggleBtn.classList.toggle('on', soundOn);
+  soundToggleBtn.textContent = soundOn ? '🔊 Klick-Sound: An' : '🔊 Klick-Sound';
+  if(soundOn) playClick();
+});
+function playClick(){
+  if(!soundOn) return;
+  try{
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(700, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(340, audioCtx.currentTime + 0.06);
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + 0.08);
+  }catch(e){ /* audio unavailable — fail silently */ }
+}
+
+/* ===================== KEYBOARD SHORTCUTS ===================== */
+document.addEventListener('keydown', e=>{
+  if(e.key === '/' && document.activeElement !== searchEl){
+    e.preventDefault();
+    searchEl.focus();
+  } else if(e.key === 'Escape' && document.activeElement === searchEl){
+    searchEl.value = '';
+    render();
+    searchEl.blur();
+  }
+});
+
+/* ===================== HOLZ-RECHNER (Log ⇄ Planks ⇄ Sticks ⇄ Emerald) ===================== */
+(function(){
+  const calcPanel = document.getElementById('calcPanel');
+  const calcToggleBtn = document.getElementById('calcToggleBtn');
+  calcToggleBtn.addEventListener('click', ()=>{
+    calcPanel.classList.toggle('show');
+    calcToggleBtn.classList.toggle('on');
+  });
+
+  const logsEl = document.getElementById('calcLogs');
+  const planksEl = document.getElementById('calcPlanks');
+  const sticksEl = document.getElementById('calcSticks');
+  const emeraldsEl = document.getElementById('calcEmeralds');
+  // Fixed Java-Edition ratios: 1 Log -> 4 Planks -> 8 Sticks; Fletcher buys 32 Sticks per Emerald.
+  let updating = false;
+  function fromLogs(logs){
+    logs = Math.max(0, logs||0);
+    const planks = logs*4;
+    const sticks = planks*2;
+    const emeralds = sticks/32;
+    setAll(logs, planks, sticks, emeralds);
+  }
+  function fromPlanks(planks){
+    planks = Math.max(0, planks||0);
+    const logs = planks/4;
+    const sticks = planks*2;
+    const emeralds = sticks/32;
+    setAll(logs, planks, sticks, emeralds);
+  }
+  function fromSticks(sticks){
+    sticks = Math.max(0, sticks||0);
+    const planks = sticks/2;
+    const logs = planks/4;
+    const emeralds = sticks/32;
+    setAll(logs, planks, sticks, emeralds);
+  }
+  function fromEmeralds(emeralds){
+    emeralds = Math.max(0, emeralds||0);
+    const sticks = emeralds*32;
+    const planks = sticks/2;
+    const logs = planks/4;
+    setAll(logs, planks, sticks, emeralds);
+  }
+  function fmt(n){
+    if(!isFinite(n)) return '';
+    const r = Math.round(n*100)/100;
+    return r === 0 ? '' : String(r);
+  }
+  function setAll(logs, planks, sticks, emeralds){
+    updating = true;
+    logsEl.value = fmt(logs);
+    planksEl.value = fmt(planks);
+    sticksEl.value = fmt(sticks);
+    emeraldsEl.value = fmt(emeralds);
+    updating = false;
+  }
+  logsEl.addEventListener('input', ()=>{ if(!updating) fromLogs(parseFloat(logsEl.value)); });
+  planksEl.addEventListener('input', ()=>{ if(!updating) fromPlanks(parseFloat(planksEl.value)); });
+  sticksEl.addEventListener('input', ()=>{ if(!updating) fromSticks(parseFloat(sticksEl.value)); });
+  emeraldsEl.addEventListener('input', ()=>{ if(!updating) fromEmeralds(parseFloat(emeraldsEl.value)); });
+})();
 
 /* ===================== CRAFTING MODAL ===================== */
 const overlay = document.getElementById('modalOverlay');
