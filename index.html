@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luca & Fionis Minecraft Welt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --grass-top:#7bb14b;
+    --grass-side:#8b6b3e;
+    --dirt:#6b4a2b;
+    --stone:#8a8a8a;
+    --stone-dark:#5c5c5c;
+    --panel:#c6c6c6;
+    --panel-dark:#373737;
+    --panel-mid:#565656;
+    --slot:#8b8b8b;
+    --slot-dark:#373737;
+    --emerald:#17c34e;
+    --emerald-dark:#0e7a30;
+    --ink:#e8e8e8;
+    --ink-dim:#a8a8a8;
+    --treasure:#d9a441;
+    --shadow:rgba(0,0,0,.45);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+
+  body{
+    font-family:'VT323',monospace;
+    background:
+      linear-gradient(rgba(20,20,30,.55),rgba(20,20,30,.75)),
+      repeating-linear-gradient(45deg,#3a3a4a 0 24px,#343442 24px 48px);
+    color:var(--ink);
+    min-height:100vh;
+    image-rendering:pixelated;
+    padding:24px 16px 60px;
+  }
+
+  .wrap{max-width:980px;margin:0 auto}
+
+  /* ---- Header: grass-block banner ---- */
+  header{
+    position:relative;
+    background:var(--dirt);
+    border:4px solid #000;
+    box-shadow:0 8px 0 var(--shadow);
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .grass-strip{
+    height:26px;
+    background:
+      repeating-linear-gradient(90deg,#6ea343 0 8px,#7bb14b 8px 16px);
+    border-bottom:4px solid #3f6b2a;
+  }
+  .header-inner{
+    padding:26px 22px 28px;
+    background:
+      repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 8px,rgba(255,255,255,.02) 8px 16px),
+      var(--dirt);
+    text-align:center;
+  }
+  h1{
+    font-family:'Silkscreen',sans-serif;
+    font-size:clamp(20px,4.5vw,34px);
+    letter-spacing:1px;
+    color:#fff;
+    text-shadow:3px 3px 0 #000, 0 0 2px #000;
+    line-height:1.4;
+  }
+  h1 .amp{color:var(--emerald);text-shadow:3px 3px 0 var(--emerald-dark)}
+  .subtitle{
+    margin-top:12px;
+    font-size:22px;
+    color:var(--ink);
+    text-shadow:2px 2px 0 #000;
+  }
+  .subtitle .em{color:var(--emerald)}
+
+  /* ---- Control bar ---- */
+  .controls{
+    background:var(--panel-dark);
+    border:4px solid #000;
+    box-shadow:0 6px 0 var(--shadow);
+    padding:16px;
+    margin-bottom:22px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+  }
+  .search-box{
+    flex:1 1 260px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:var(--panel-mid);
+    border:3px solid #000;
+    border-top-color:#1c1c1c;
+    border-left-color:#1c1c1c;
+    padding:8px 12px;
+  }
+  .search-box svg{flex-shrink:0}
+  .search-box input{
+    flex:1;
+    background:transparent;
+    border:none;
+    outline:none;
+    font-family:'VT323',monospace;
+    font-size:22px;
+    color:#fff;
+  }
+  .search-box input::placeholder{color:var(--ink-dim)}
+
+  .filters{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{
+    font-family:'VT323',monospace;
+    font-size:19px;
+    color:#fff;
+    background:var(--stone);
+    border:3px solid #000;
+    border-top-color:#c8c8c8;
+    border-left-color:#c8c8c8;
+    padding:6px 14px;
+    cursor:pointer;
+    text-shadow:1px 1px 0 rgba(0,0,0,.4);
+    user-select:none;
+  }
+  .chip:hover{background:#9a9a9a}
+  .chip.active{
+    background:var(--emerald);
+    border-top-color:#5cf08a;
+    border-left-color:#5cf08a;
+    color:#04220f;
+    text-shadow:none;
+  }
+  .chip:active{transform:translateY(2px)}
+
+  /* ---- Table ---- */
+  .table-panel{
+    background:var(--panel-dark);
+    border:4px solid #000;
+    box-shadow:0 6px 0 var(--shadow);
+    padding:12px;
+  }
+  table{width:100%;border-collapse:collapse;font-size:21px}
+  thead th{
+    font-family:'Silkscreen',sans-serif;
+    font-size:12px;
+    letter-spacing:.5px;
+    text-align:left;
+    color:var(--ink);
+    padding:10px 12px;
+    background:var(--panel-mid);
+    border:2px solid #000;
+    text-shadow:1px 1px 0 #000;
+  }
+  th.num,td.num{text-align:center;width:78px}
+  tbody tr{background:#484848}
+  tbody tr:nth-child(even){background:#404040}
+  tbody tr:hover{background:#5a5a4a}
+  tbody td{
+    padding:8px 12px;
+    border:2px solid #2b2b2b;
+    color:#f0f0f0;
+    vertical-align:middle;
+  }
+  .ench-name{font-size:22px;line-height:1.15}
+  .ench-de{display:block;font-size:16px;color:var(--ink-dim)}
+  .tag{
+    display:inline-block;
+    font-family:'Silkscreen',sans-serif;
+    font-size:9px;
+    padding:3px 6px;
+    margin-left:6px;
+    background:var(--treasure);
+    color:#3a2600;
+    vertical-align:middle;
+    border:2px solid #000;
+  }
+  .lvl{
+    font-family:'Silkscreen',sans-serif;
+    font-size:11px;
+    color:#fff;
+    text-shadow:1px 1px 0 #000;
+  }
+  /* emerald cost pill */
+  .cost{
+    display:inline-flex;
+    align-items:center;
+    gap:5px;
+    justify-content:center;
+    font-family:'Silkscreen',sans-serif;
+    font-size:13px;
+    color:#fff;
+    text-shadow:1px 1px 0 #000;
+  }
+  .cost .gem{width:14px;height:14px;flex-shrink:0}
+  td.min .cost{color:#5cf08a}
+  td.max .cost{color:#ff9d6b}
+
+  .cat-row td{
+    background:var(--grass-side);
+    font-family:'Silkscreen',sans-serif;
+    font-size:12px;
+    color:#fff;
+    text-shadow:2px 2px 0 #000;
+    padding:9px 12px;
+    letter-spacing:1px;
+    border:2px solid #000;
+  }
+
+  .empty{
+    text-align:center;
+    padding:34px 16px;
+    font-size:24px;
+    color:var(--ink-dim);
+  }
+
+  /* ---- footer note ---- */
+  footer{
+    margin-top:24px;
+    background:var(--panel-dark);
+    border:4px solid #000;
+    box-shadow:0 6px 0 var(--shadow);
+    padding:16px 18px;
+    font-size:19px;
+    line-height:1.5;
+    color:var(--ink-dim);
+  }
+  footer b{color:var(--emerald)}
+  footer .treasure-word{color:var(--treasure)}
+  .count{
+    font-family:'Silkscreen',sans-serif;
+    font-size:11px;
+    color:var(--ink-dim);
+    margin-bottom:10px;
+  }
+
+  @media(max-width:560px){
+    .ench-de{display:inline;margin-left:6px}
+    thead th{font-size:9px;padding:8px 6px}
+    tbody td{padding:6px}
+    table{font-size:18px}
+    th.num,td.num{width:56px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="grass-strip"></div>
+    <div class="header-inner">
+      <h1>Luca <span class="amp">&amp;</span> Fionis<br>Minecraft Welt</h1>
+      <p class="subtitle">Verzauberungsbücher &middot; <span class="em">Smaragd</span>-Preisliste (Java)</p>
+    </div>
+  </header>
+
+  <div class="controls">
+    <div class="search-box">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="2" y="2" width="10" height="10" fill="none" stroke="#c8c8c8" stroke-width="2"/>
+        <rect x="11" y="11" width="6" height="3" fill="#c8c8c8"/>
+      </svg>
+      <input id="search" type="text" placeholder="Verzauberung suchen... z.B. Mending, Efficiency, Schärfe">
+    </div>
+    <div class="filters" id="filters">
+      <span class="chip active" data-cat="all">Alle</span>
+      <span class="chip" data-cat="Werkzeuge">Werkzeuge</span>
+      <span class="chip" data-cat="Schwert">Schwert</span>
+      <span class="chip" data-cat="Rüstung">Rüstung</span>
+      <span class="chip" data-cat="Fernkampf">Bogen &amp; Co.</span>
+      <span class="chip" data-cat="Angel">Angel</span>
+    </div>
+  </div>
+
+  <div class="table-panel">
+    <div class="count" id="count"></div>
+    <table>
+      <thead>
+        <tr>
+          <th>Verzauberung</th>
+          <th class="num">Level</th>
+          <th class="num">Min</th>
+          <th class="num">Max</th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+
+  <footer>
+    Preise sind für <b>Bibliothekar-Dorfbewohner</b> (Java Edition), ohne Rabatte durch
+    Zombie-Heilung oder Held-des-Dorfes-Effekt. Der Preis ist immer bei <b>64 Smaragden gedeckelt</b>,
+    darum liegt Level V real bei 17&ndash;64. <span class="treasure-word">TREASURE</span>-Verzauberungen
+    (nur Mending &amp; Frost Walker) haben den doppelten Grundpreis. Der Minimalpreis ist Glückssache &ndash;
+    obere Werte kommen deutlich häufiger vor.
+  </footer>
+
+</div>
+
+<script>
+const GEM = `<svg class="gem" viewBox="0 0 16 16"><polygon points="8,1 15,6 8,15 1,6" fill="#17c34e" stroke="#0e7a30" stroke-width="1"/><polygon points="8,1 15,6 8,7" fill="#3ee06f"/><polygon points="1,6 8,7 8,15" fill="#0e9c3d"/></svg>`;
+
+const DATA = [
+  {cat:"Werkzeuge", en:"Unbreaking", de:"Haltbarkeit", lvl:"III", min:11, max:45},
+  {cat:"Werkzeuge", en:"Efficiency", de:"Effizienz", lvl:"V", min:17, max:64},
+  {cat:"Werkzeuge", en:"Fortune", de:"Glück", lvl:"III", min:11, max:45},
+  {cat:"Werkzeuge", en:"Silk Touch", de:"Behutsamkeit", lvl:"I", min:5, max:19},
+  {cat:"Werkzeuge", en:"Mending", de:"Reparatur", lvl:"I", min:10, max:38, treasure:true},
+
+  {cat:"Schwert", en:"Sharpness", de:"Schärfe", lvl:"V", min:17, max:64},
+  {cat:"Schwert", en:"Smite", de:"Bann", lvl:"V", min:17, max:64},
+  {cat:"Schwert", en:"Bane of Arthropods", de:"Nemesis der Gliederfüßer", lvl:"V", min:17, max:64},
+  {cat:"Schwert", en:"Looting", de:"Plünderung", lvl:"III", min:11, max:45},
+  {cat:"Schwert", en:"Sweeping Edge", de:"Schwungkraft", lvl:"III", min:11, max:45},
+  {cat:"Schwert", en:"Fire Aspect", de:"Verbrennung", lvl:"II", min:8, max:32},
+  {cat:"Schwert", en:"Knockback", de:"Rückstoß", lvl:"II", min:8, max:32},
+
+  {cat:"Rüstung", en:"Protection", de:"Schutz", lvl:"IV", min:14, max:58},
+  {cat:"Rüstung", en:"Projectile Protection", de:"Geschossschutz", lvl:"IV", min:14, max:58},
+  {cat:"Rüstung", en:"Blast Protection", de:"Explosionsschutz", lvl:"IV", min:14, max:58},
+  {cat:"Rüstung", en:"Fire Protection", de:"Feuerschutz", lvl:"IV", min:14, max:58},
+  {cat:"Rüstung", en:"Feather Falling", de:"Federfall", lvl:"IV", min:14, max:58},
+  {cat:"Rüstung", en:"Thorns", de:"Dornen", lvl:"III", min:11, max:45},
+  {cat:"Rüstung", en:"Respiration", de:"Atmung", lvl:"III", min:11, max:45},
+  {cat:"Rüstung", en:"Aqua Affinity", de:"Wassergängigkeit", lvl:"I", min:5, max:19},
+  {cat:"Rüstung", en:"Depth Strider", de:"Tiefenläufer", lvl:"III", min:11, max:45},
+  {cat:"Rüstung", en:"Frost Walker", de:"Frostläufer", lvl:"II", min:16, max:64, treasure:true},
+
+  {cat:"Fernkampf", en:"Power", de:"Stärke", lvl:"V", min:17, max:64},
+  {cat:"Fernkampf", en:"Punch", de:"Schlag", lvl:"II", min:8, max:32},
+  {cat:"Fernkampf", en:"Flame", de:"Flamme", lvl:"I", min:5, max:19},
+  {cat:"Fernkampf", en:"Infinity", de:"Unendlichkeit", lvl:"I", min:5, max:19},
+  {cat:"Fernkampf", en:"Piercing", de:"Durchschlag", lvl:"IV", min:14, max:58},
+  {cat:"Fernkampf", en:"Quick Charge", de:"Schnellladen", lvl:"III", min:11, max:45},
+  {cat:"Fernkampf", en:"Multishot", de:"Mehrfachschuss", lvl:"I", min:5, max:19},
+  {cat:"Fernkampf", en:"Impaling", de:"Harpune", lvl:"V", min:17, max:64},
+  {cat:"Fernkampf", en:"Loyalty", de:"Treue", lvl:"III", min:11, max:45},
+  {cat:"Fernkampf", en:"Riptide", de:"Sog", lvl:"III", min:11, max:45},
+  {cat:"Fernkampf", en:"Channeling", de:"Entladung", lvl:"I", min:5, max:19},
+
+  {cat:"Angel", en:"Luck of the Sea", de:"Glück des Meeres", lvl:"III", min:11, max:45},
+  {cat:"Angel", en:"Lure", de:"Köder", lvl:"III", min:11, max:45},
+];
+
+const CAT_LABEL = {
+  "Werkzeuge":"⛏ Werkzeuge & Allgemein",
+  "Schwert":"⚔ Schwert",
+  "Rüstung":"🛡 Rüstung",
+  "Fernkampf":"🏹 Bogen / Armbrust / Dreizack",
+  "Angel":"🎣 Angel",
+};
+
+const tbody = document.getElementById('tbody');
+const searchEl = document.getElementById('search');
+const countEl = document.getElementById('count');
+let activeCat = 'all';
+
+function costCell(v){ return `<span class="cost">${GEM}${v}</span>`; }
+
+function render(){
+  const q = searchEl.value.trim().toLowerCase();
+  const rows = DATA.filter(d=>{
+    const catOk = activeCat==='all' || d.cat===activeCat;
+    const text = (d.en+' '+d.de).toLowerCase();
+    const searchOk = !q || text.includes(q);
+    return catOk && searchOk;
+  });
+
+  tbody.innerHTML = '';
+  if(rows.length===0){
+    tbody.innerHTML = `<tr><td colspan="4" class="empty">Nichts gefunden – probier's mal anders. ⛏</td></tr>`;
+    countEl.textContent = '0 BÜCHER';
+    return;
+  }
+
+  let lastCat = null;
+  rows.forEach(d=>{
+    if(d.cat!==lastCat){
+      const cr = document.createElement('tr');
+      cr.className='cat-row';
+      cr.innerHTML = `<td colspan="4">${CAT_LABEL[d.cat]}</td>`;
+      tbody.appendChild(cr);
+      lastCat = d.cat;
+    }
+    const tr = document.createElement('tr');
+    tr.innerHTML =
+      `<td class="ench-name">${d.en}${d.treasure?'<span class="tag">TREASURE</span>':''}<span class="ench-de">${d.de}</span></td>`+
+      `<td class="num"><span class="lvl">${d.lvl}</span></td>`+
+      `<td class="num min">${costCell(d.min)}</td>`+
+      `<td class="num max">${costCell(d.max)}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  countEl.textContent = rows.length + (rows.length===1?' BUCH':' BÜCHER');
+}
+
+searchEl.addEventListener('input', render);
+document.getElementById('filters').addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  activeCat = chip.dataset.cat;
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
