@@ -394,6 +394,8 @@
   <div class="calc-panel" id="calcPanel">
     <div class="calc-head">🌲 SMARAGD ⇄ HOLZ-RECHNER <span class="calc-sub">(Bogner-Handel: 32 Stöcke = 1 Smaragd)</span></div>
     <div class="calc-chain">
+      <div class="calc-step"><div class="slot" style="display:flex;align-items:center;justify-content:center;font-size:22px">📦</div><input type="number" min="0" id="calcStacks" placeholder="0"><span class="calc-label">Stapel</span></div>
+      <span class="calc-arrow">→</span>
       <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Log.png" alt="Stamm" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcLogs" placeholder="0"><span class="calc-label">Stämme</span></div>
       <span class="calc-arrow">→</span>
       <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Planks.png" alt="Bretter" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcPlanks" placeholder="0"><span class="calc-label">Bretter</span></div>
@@ -402,7 +404,7 @@
       <span class="calc-arrow">→</span>
       <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Emerald.png" alt="Smaragd" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcEmeralds" placeholder="0"><span class="calc-label">Smaragde</span></div>
     </div>
-    <div class="calc-note">Tipp: Trag eine beliebige Zahl in <b>irgendein</b> Feld ein — der Rest wird automatisch umgerechnet (1 Stamm = 4 Bretter = 8 Stöcke = 0,25 Smaragd beim Bogner).</div>
+    <div class="calc-note">Tipp: Trag eine beliebige Zahl in <b>irgendein</b> Feld ein — der Rest wird automatisch umgerechnet (1 Stapel = 64 Stämme = 256 Bretter = 512 Stöcke = 16 Smaragde beim Bogner).</div>
   </div>
 
   <!-- ============ AMBOSS-PLANER ============ -->
@@ -1157,7 +1159,7 @@ document.addEventListener('keydown', e=>{
   }
 });
 
-/* ===================== HOLZ-RECHNER (Log ⇄ Planks ⇄ Sticks ⇄ Emerald) ===================== */
+/* ===================== HOLZ-RECHNER (Stapel ⇄ Log ⇄ Planks ⇄ Sticks ⇄ Emerald) ===================== */
 (function(){
   const calcPanel = document.getElementById('calcPanel');
   const calcToggleBtn = document.getElementById('calcToggleBtn');
@@ -1166,53 +1168,57 @@ document.addEventListener('keydown', e=>{
     calcToggleBtn.classList.toggle('on');
   });
 
+  const stacksEl = document.getElementById('calcStacks');
   const logsEl = document.getElementById('calcLogs');
   const planksEl = document.getElementById('calcPlanks');
   const sticksEl = document.getElementById('calcSticks');
   const emeraldsEl = document.getElementById('calcEmeralds');
-  // Fixed Java-Edition ratios: 1 Log -> 4 Planks -> 8 Sticks; Fletcher buys 32 Sticks per Emerald.
+  // Fixed Java-Edition ratios: 1 Stapel -> 64 Stämme -> 256 Bretter -> 512 Stöcke; Bogner kauft 32 Stöcke pro Smaragd.
   let updating = false;
-  function fromLogs(logs){
-    logs = Math.max(0, logs||0);
+  function fromLogsCore(logs, stacks){
     const planks = logs*4;
     const sticks = planks*2;
     const emeralds = sticks/32;
-    setAll(logs, planks, sticks, emeralds);
+    setAll(stacks, logs, planks, sticks, emeralds);
+  }
+  function fromStacks(stacks){
+    stacks = Math.max(0, stacks||0);
+    fromLogsCore(stacks*64, stacks);
+  }
+  function fromLogs(logs){
+    logs = Math.max(0, logs||0);
+    fromLogsCore(logs, logs/64);
   }
   function fromPlanks(planks){
     planks = Math.max(0, planks||0);
     const logs = planks/4;
-    const sticks = planks*2;
-    const emeralds = sticks/32;
-    setAll(logs, planks, sticks, emeralds);
+    fromLogsCore(logs, logs/64);
   }
   function fromSticks(sticks){
     sticks = Math.max(0, sticks||0);
-    const planks = sticks/2;
-    const logs = planks/4;
-    const emeralds = sticks/32;
-    setAll(logs, planks, sticks, emeralds);
+    const logs = (sticks/2)/4;
+    fromLogsCore(logs, logs/64);
   }
   function fromEmeralds(emeralds){
     emeralds = Math.max(0, emeralds||0);
-    const sticks = emeralds*32;
-    const planks = sticks/2;
-    const logs = planks/4;
-    setAll(logs, planks, sticks, emeralds);
+    const logs = ((emeralds*32)/2)/4;
+    fromLogsCore(logs, logs/64);
   }
   function fmt(n){
     if(!isFinite(n)) return '';
     const r = Math.round(n*100)/100;
     return r === 0 ? '' : String(r);
   }
-  function setAll(logs, planks, sticks, emeralds){
+  function setAll(stacks, logs, planks, sticks, emeralds){
     updating = true;
+    stacksEl.value = fmt(stacks);
     logsEl.value = fmt(logs);
     planksEl.value = fmt(planks);
     sticksEl.value = fmt(sticks);
     emeraldsEl.value = fmt(emeralds);
     updating = false;
   }
+  stacksEl.addEventListener('input', ()=>{ if(!updating) fromStacks(parseFloat(stacksEl.value)); });
   logsEl.addEventListener('input', ()=>{ if(!updating) fromLogs(parseFloat(logsEl.value)); });
   planksEl.addEventListener('input', ()=>{ if(!updating) fromPlanks(parseFloat(planksEl.value)); });
   sticksEl.addEventListener('input', ()=>{ if(!updating) fromSticks(parseFloat(sticksEl.value)); });
