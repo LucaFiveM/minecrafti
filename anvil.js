@@ -1,5 +1,6 @@
 /* ===================== AMBOSS-PLANER ===================== */
 import { GIF_ICONS, iconUrl, iconImg, mcIcon, handleIconError } from './app.js';
+import { PRESETS } from './features.js';
 GIF_ICONS.add("Enchanted Book");
 const ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
 const bookIcon = () => `<img src="${iconUrl('Enchanted Book')}" data-name="${encodeURIComponent('Enchanted Book')}" alt="Buch" loading="lazy" onerror="handleIconError(this)">`;
@@ -355,4 +356,37 @@ window.openAnvilPlannerByEn = function(en){
   const e = E.find(x=>x.en.toLowerCase()===String(en||'').toLowerCase());
   openAnvil(e ? e.k : null);
 };
+
+/* ---------- Quick-Presets ---------- */
+const presetRow = document.getElementById('presetRow');
+function renderPresets(){
+  const matching = Object.entries(PRESETS).filter(([k])=> k === curItem.k);
+  const showAll = matching.length === 0;
+  const toShow = showAll ? Object.entries(PRESETS).slice(0, 8) : matching;
+  presetRow.innerHTML = toShow.map(([k,p])=>{
+    const it = ITEMS.find(i=>i.k===k);
+    if(!it) return '';
+    return `<span class="preset-chip" data-preset="${k}">${mcIcon(it.icon,14)}${p.label}</span>`;
+  }).join('');
+}
+presetRow.addEventListener('click', e=>{
+  const chip = e.target.closest('.preset-chip');
+  if(!chip) return;
+  const key = chip.dataset.preset;
+  const preset = PRESETS[key];
+  if(!preset) return;
+  const it = ITEMS.find(i=>i.k===key);
+  if(!it) return;
+  curItem = it; itemSel.value = it.k; setItemIcon();
+  picked.clear();
+  Object.entries(preset.ench).forEach(([ek,lvl])=>{
+    if(EMAP[ek] && itemAccepts(it, EMAP[ek])) picked.set(ek, lvl);
+  });
+  renderList(); renderPresets();
+  calculate();
+  panel.scrollIntoView({behavior:'smooth', block:'start'});
+});
+itemSel.addEventListener('change', renderPresets);
+
 setItemIcon(); renderList();
+renderPresets();

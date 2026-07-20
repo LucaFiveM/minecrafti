@@ -1,6 +1,7 @@
 /* ===================== SUPABASE (checklist persistence) ===================== */
 import { GEM, ENCHANTS, CAT_LABEL, POOL_SIZE, maxLevelPercent, iconImg, mcIcon, iconUrl, blockUrl, portraitUrl, handleIconError, patchDataIcons } from './app.js';
 import { PROFESSIONS, DE, deName, LVL_NAMES } from './professions.js';
+import { mountExtras, applyHash, PRESETS } from './features.js';
 
 const SUPA_URL = 'https://bdeizijhvgkycaizaddx.supabase.co';
 const SUPA_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJkZWl6aWpodmdreWNhaXphZGR4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ1Njg1NzcsImV4cCI6MjEwMDE0NDU3N30.mHvo72We4NPesdCJgTtnRHi4ltm3VTsq57empTU6Cx0';
@@ -375,4 +376,7 @@ document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList
 
 /* Patch data-icon placeholders now, then load checklist. */
 patchDataIcons(document);
+mountExtras();
 loadChecklist();
+applyHash();
+window.addEventListener('hashchange', applyHash);
