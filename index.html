@@ -7,42 +7,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
   :root{
-    --grass-top:#7bb14b;
-    --grass-side:#8b6b3e;
-    --dirt:#6b4a2b;
-    --stone:#8a8a8a;
-    --stone-dark:#5c5c5c;
-    --panel:#c6c6c6;
-    --panel-dark:#373737;
-    --panel-mid:#565656;
-    --row-a:#484848;
-    --row-b:#404040;
-    --slot:#8b8b8b;
-    --slot-dark:#4a4a4a;
-    --slot-light:#c4c4c4;
-    --emerald:#17c34e;
-    --emerald-dark:#0e7a30;
-    --treasure:#d9a441;
-    --ink:#e8e8e8;
-    --ink-dim:#a8a8a8;
-    --shadow:rgba(0,0,0,.45);
+    --grass-top:#7bb14b; --grass-side:#8b6b3e; --dirt:#6b4a2b; --stone:#8a8a8a; --stone-dark:#5c5c5c;
+    --panel:#c6c6c6; --panel-dark:#373737; --panel-mid:#565656; --row-a:#484848; --row-b:#404040;
+    --slot:#8b8b8b; --slot-dark:#4a4a4a; --slot-light:#c4c4c4; --emerald:#17c34e; --emerald-dark:#0e7a30;
+    --treasure:#d9a441; --ink:#e8e8e8; --ink-dim:#a8a8a8; --shadow:rgba(0,0,0,.45);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{
     font-family:'VT323',monospace;
-    background:
-      linear-gradient(rgba(20,20,30,.55),rgba(20,20,30,.75)),
-      repeating-linear-gradient(45deg,#3a3a4a 0 24px,#343442 24px 48px);
-    color:var(--ink);
-    min-height:100vh;
-    image-rendering:pixelated;
-    padding:24px 16px 60px;
+    background:linear-gradient(rgba(20,20,30,.55),rgba(20,20,30,.75)),repeating-linear-gradient(45deg,#3a3a4a 0 24px,#343442 24px 48px);
+    color:var(--ink);min-height:100vh;image-rendering:pixelated;padding:24px 16px 60px;
   }
   .wrap{max-width:980px;margin:0 auto}
-
-  /* ---- Header ---- */
   header{position:relative;background:var(--dirt);border:4px solid #000;box-shadow:0 8px 0 var(--shadow);margin-bottom:22px;overflow:hidden}
   .grass-strip{height:26px;background:repeating-linear-gradient(90deg,#6ea343 0 8px,#7bb14b 8px 16px);border-bottom:4px solid #3f6b2a}
   .header-inner{padding:24px 22px 26px;background:repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 8px,rgba(255,255,255,.02) 8px 16px),var(--dirt);text-align:center}
@@ -51,81 +30,58 @@
   .subtitle{margin-top:10px;font-size:21px;color:var(--ink);text-shadow:2px 2px 0 #000;max-width:640px;margin-left:auto;margin-right:auto}
   .subtitle .em{color:var(--emerald)}
   .badges{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
-  .badge{font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;background:rgba(0,0,0,.35);border:2px solid #000;padding:5px 9px}
+  .badge{font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;background:rgba(0,0,0,.35);border:2px solid #000;padding:5px 9px;display:flex;align-items:center;gap:5px}
   .badge b{color:var(--treasure)}
-
-  /* ---- Controls ---- */
+  .badge img{width:14px;height:14px;image-rendering:pixelated}
   .controls{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px;margin-bottom:16px;position:sticky;top:10px;z-index:20}
   .search-box{display:flex;align-items:center;gap:10px;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:8px 12px;margin-bottom:12px}
   .search-box svg{flex-shrink:0}
   .search-box input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:22px;color:#fff}
   .search-box input::placeholder{color:var(--ink-dim)}
-
   .tabhint{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim);margin-bottom:8px;letter-spacing:.5px}
   .tabs{display:flex;flex-wrap:wrap;gap:6px}
-  .tab{
-    display:flex;align-items:center;gap:6px;
-    font-family:'VT323',monospace;font-size:17px;color:#fff;
-    background:var(--stone);border:3px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;
-    padding:5px 10px 5px 6px;cursor:pointer;user-select:none;text-shadow:1px 1px 0 rgba(0,0,0,.4);
-  }
+  .tab{display:flex;align-items:center;gap:6px;font-family:'VT323',monospace;font-size:17px;color:#fff;background:var(--stone);border:3px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:5px 10px 5px 6px;cursor:pointer;user-select:none;text-shadow:1px 1px 0 rgba(0,0,0,.4)}
   .tab img{width:20px;height:20px;image-rendering:pixelated;background:rgba(0,0,0,.25);flex-shrink:0}
   .tab:hover{background:#9a9a9a}
   .tab.active{background:var(--emerald);border-top-color:#5cf08a;border-left-color:#5cf08a;color:#04220f;text-shadow:none}
   .tab.enchant-tab{background:#4a6fb0;border-top-color:#7fa3e8;border-left-color:#7fa3e8}
   .tab.enchant-tab:hover{background:#5a7fc0}
   .tab.enchant-tab.active{background:var(--emerald);border-top-color:#5cf08a;border-left-color:#5cf08a;color:#04220f}
-
   .count{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--ink-dim);margin:14px 2px 8px}
-
-  /* ---- Toolbar row (expand/collapse/calculator) ---- */
-  .toolbar-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .tool-btn{
-    font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;
-    background:var(--panel-mid);border:3px solid #000;border-top-color:#7a7a7a;border-left-color:#7a7a7a;
-    padding:8px 12px;cursor:pointer;transition:background .12s ease, transform .05s ease;
-  }
+  .toolbar-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+  .tool-btn{display:flex;align-items:center;gap:6px;font-family:'Silkscreen',sans-serif;font-size:10px;color:#fff;background:var(--panel-mid);border:3px solid #000;border-top-color:#7a7a7a;border-left-color:#7a7a7a;padding:8px 12px;cursor:pointer;transition:background .12s ease,transform .05s ease}
+  .tool-btn img{width:14px;height:14px;image-rendering:pixelated}
   .tool-btn:hover{background:#6a6a6a}
   .tool-btn:active{transform:translateY(1px)}
   .tool-btn.on{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
-  .budget-box{
-    display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:3px solid #000;
-    border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:5px 10px;margin-left:auto;
-  }
-  .budget-icon{font-size:18px}
+  .budget-box{display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:5px 10px;margin-left:auto}
+  .budget-box img{width:16px;height:16px;image-rendering:pixelated}
   .budget-box input{width:150px;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:20px;color:#fff}
   .budget-box input::placeholder{color:var(--ink-dim)}
   .budget-summary{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--emerald);margin:-6px 2px 12px;display:none}
-  .budget-summary.show{display:block}
-
+  .budget-summary.show{display:flex;align-items:center;gap:6px}
+  .budget-summary img{width:14px;height:14px;image-rendering:pixelated}
   mark{background:var(--treasure);color:#2a1c00;padding:0 2px;border-radius:2px}
-
-  .afford-badge{font-family:'Silkscreen',sans-serif;font-size:8px;padding:2px 5px;border:2px solid #000;margin-left:4px;display:inline-block;vertical-align:middle}
+  .afford-badge{font-family:'Silkscreen',sans-serif;font-size:8px;padding:2px 5px;border:2px solid #000;margin-left:4px;display:inline-flex;align-items:center;gap:3px;vertical-align:middle}
+  .afford-badge img{width:10px;height:10px;image-rendering:pixelated}
   .afford-yes{background:var(--emerald);color:#04220f}
   .afford-no{background:#5c5c5c;color:#ddd}
   tr.afford-no-row{opacity:.55}
   tr.afford-yes-row{box-shadow:inset 3px 0 0 var(--emerald)}
-
-  /* ---- Resource calculator ---- */
   .calc-panel{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:16px;margin-bottom:16px;display:none}
   .calc-panel.show{display:block}
-  .calc-head{font-family:'Silkscreen',sans-serif;font-size:12px;color:var(--emerald);margin-bottom:14px;letter-spacing:.4px}
+  .calc-head{font-family:'Silkscreen',sans-serif;font-size:12px;color:var(--emerald);margin-bottom:14px;letter-spacing:.4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .calc-head img{width:16px;height:16px;image-rendering:pixelated}
   .calc-sub{font-family:'VT323',monospace;font-size:16px;color:var(--ink-dim);letter-spacing:0;text-transform:none}
   .calc-chain{display:flex;align-items:center;flex-wrap:wrap;gap:10px;justify-content:center}
   .calc-step{display:flex;flex-direction:column;align-items:center;gap:6px}
   .calc-step .slot{width:44px;height:44px}
-  .calc-step input{
-    width:78px;text-align:center;font-family:'VT323',monospace;font-size:22px;color:#fff;
-    background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;
-    padding:5px 4px;outline:none;
-  }
+  .calc-step input{width:78px;text-align:center;font-family:'VT323',monospace;font-size:22px;color:#fff;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:5px 4px;outline:none}
   .calc-step input:focus{border-color:var(--emerald)}
   .calc-label{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim)}
   .calc-arrow{font-size:22px;color:var(--ink-dim)}
   .calc-note{margin-top:14px;font-size:15px;color:var(--ink-dim);text-align:center;line-height:1.4}
   @media(max-width:560px){ .calc-arrow{width:100%;text-align:center;transform:rotate(90deg)} }
-
-  /* ---- Profession panel (accordion) ---- */
   .profession{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);margin-bottom:12px}
   .prof-head{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;user-select:none;background:var(--panel-mid)}
   .prof-portrait{width:38px;height:38px;background:#222;border:3px solid #000;flex-shrink:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
@@ -134,18 +90,13 @@
   .prof-titles .en{font-family:'Silkscreen',sans-serif;font-size:13px;color:#fff;text-shadow:1px 1px 0 #000}
   .prof-titles .de{font-size:19px;color:var(--ink-dim);margin-top:2px}
   .prof-count{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--treasure)}
-  .station-btn{
-    display:flex;align-items:center;gap:6px;font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--treasure);
-    background:rgba(0,0,0,.3);border:2px solid var(--treasure);padding:5px 8px;cursor:pointer;flex-shrink:0;
-  }
+  .station-btn{display:flex;align-items:center;gap:6px;font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--treasure);background:rgba(0,0,0,.3);border:2px solid var(--treasure);padding:5px 8px;cursor:pointer;flex-shrink:0}
   .station-btn img{width:16px;height:16px;image-rendering:pixelated}
   .station-btn:hover{background:rgba(217,164,65,.2)}
   .chevron{width:16px;height:16px;flex-shrink:0;transition:transform .15s ease;opacity:.8}
   .profession.open .chevron{transform:rotate(180deg)}
-
   .prof-body{max-height:0;overflow:hidden;transition:max-height .2s ease}
   .profession.open .prof-body{max-height:none}
-
   table{width:100%;border-collapse:collapse;font-size:20px}
   thead th{font-family:'Silkscreen',sans-serif;font-size:10px;letter-spacing:.4px;text-align:left;color:var(--ink);padding:8px 10px;background:#2f2f2f;border:2px solid #000;text-shadow:1px 1px 0 #000}
   th.num,td.num{text-align:center;width:70px}
@@ -153,7 +104,6 @@
   tbody tr:nth-child(even){background:var(--row-b)}
   tbody tr:hover{background:#5a5a4a}
   tbody td{padding:7px 10px;border:2px solid #2b2b2b;color:#f0f0f0;vertical-align:middle}
-
   .slot{width:32px;height:32px;background:var(--slot);border:2px solid #000;box-shadow:inset -2px -2px 0 var(--slot-dark),inset 2px 2px 0 var(--slot-light);position:relative;flex-shrink:0}
   .slot img{width:100%;height:100%;object-fit:contain;padding:3px;image-rendering:pixelated}
   .slot .n{position:absolute;bottom:-3px;right:-3px;font-family:'Silkscreen',sans-serif;font-size:9px;color:#fff;background:#000;padding:1px 3px;text-shadow:none}
@@ -173,26 +123,23 @@
   .lvl-1{background:#5c5c5c}.lvl-2{background:#6b4a2b}.lvl-3{background:#8b6b1f}.lvl-4{background:var(--emerald-dark)}.lvl-5{background:#2a5aa0}
   .stock{font-family:'Silkscreen',sans-serif;font-size:11px;color:var(--ink-dim)}
   .note{font-size:14px;color:var(--ink-dim);margin-top:3px}
-
-  /* ---- Enchant sub-panel inside Librarian ---- */
   .ench-panel{border-top:4px solid #000;background:#2c2c2c;padding:12px}
-  .ench-head{font-family:'Silkscreen',sans-serif;font-size:11px;color:var(--emerald);margin-bottom:10px;letter-spacing:.5px}
+  .ench-head{font-family:'Silkscreen',sans-serif;font-size:11px;color:var(--emerald);margin-bottom:10px;letter-spacing:.5px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ench-head img{width:16px;height:16px;image-rendering:pixelated}
   .ench-filters{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
-  .chip{font-family:'VT323',monospace;font-size:16px;color:#fff;background:var(--stone);border:2px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:4px 10px;cursor:pointer;user-select:none}
+  .chip{display:flex;align-items:center;gap:5px;font-family:'VT323',monospace;font-size:16px;color:#fff;background:var(--stone);border:2px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:4px 10px;cursor:pointer;user-select:none}
+  .chip img{width:14px;height:14px;image-rendering:pixelated}
   .chip:hover{background:#9a9a9a}
   .chip.active{background:var(--emerald);color:#04220f}
   .ench-search{display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:2px solid #000;padding:5px 10px;margin-bottom:10px}
+  .ench-search img{width:16px;height:16px;image-rendering:pixelated}
   .ench-search input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:19px;color:#fff}
   .cat-row td{background:var(--grass-side);font-family:'Silkscreen',sans-serif;font-size:11px;color:#fff;text-shadow:2px 2px 0 #000;padding:8px 10px;letter-spacing:1px;border:2px solid #000}
   .cost{display:inline-flex;align-items:center;gap:5px;justify-content:center;font-family:'Silkscreen',sans-serif;font-size:12px;color:#fff;text-shadow:1px 1px 0 #000}
   .cost .gem{width:13px;height:13px;flex-shrink:0}
   td.min .cost{color:#5cf08a}
   td.max .cost{color:#ff9d6b}
-  .info-btn{
-    display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;
-    font-family:'Silkscreen',sans-serif;font-size:11px;color:#04220f;background:var(--treasure);
-    border:2px solid #000;cursor:pointer;flex-shrink:0;margin-left:6px;vertical-align:middle;user-select:none;
-  }
+  .info-btn{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;font-family:'Silkscreen',sans-serif;font-size:11px;color:#04220f;background:var(--treasure);border:2px solid #000;cursor:pointer;flex-shrink:0;margin-left:6px;vertical-align:middle;user-select:none}
   .info-btn:hover{background:#eec06a}
   .ench-name-row{display:flex;align-items:center}
   .info-row td{background:#232323;border:2px solid #000;padding:9px 12px;font-size:18px;color:var(--ink-dim);display:none}
@@ -200,8 +147,15 @@
   .info-row b{color:var(--emerald)}
   .empty{text-align:center;padding:28px 16px;font-size:22px;color:var(--ink-dim)}
   .ench-count{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim);margin-bottom:8px}
-
-  /* ---- Crafting modal ---- */
+  /* checklist column */
+  .chk{display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer;user-select:none}
+  .chk-box{width:22px;height:22px;flex-shrink:0;border:2px solid #000;background:var(--slot);box-shadow:inset -2px -2px 0 var(--slot-dark),inset 2px 2px 0 var(--slot-light);display:flex;align-items:center;justify-content:center}
+  .chk.on .chk-box{background:var(--emerald)}
+  .chk-mark{font-family:'Silkscreen',sans-serif;font-size:13px;color:#04220f;display:none}
+  .chk.on .chk-mark{display:block}
+  .chk-note{width:90px;font-family:'VT323',monospace;font-size:15px;color:#fff;background:var(--panel-mid);border:2px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:3px 6px;outline:none}
+  .chk-note::placeholder{color:var(--ink-dim)}
+  .chk-loading{font-family:'Silkscreen',sans-serif;font-size:9px;color:var(--ink-dim)}
   .modal-overlay{position:fixed;inset:0;background:rgba(6,6,10,.75);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
   .modal-overlay.show{display:flex}
   .modal{width:100%;max-width:380px;background:var(--dirt);border:4px solid #000;box-shadow:0 10px 0 var(--shadow);padding:20px;position:relative}
@@ -216,38 +170,31 @@
   .craft-slot .n{position:absolute;bottom:0;right:2px;font-family:'Silkscreen',sans-serif;font-size:9px;color:#fff;text-shadow:1px 1px 0 #000}
   .craft-result{display:flex;align-items:center;justify-content:center;gap:8px;font-size:20px}
   .craft-note{margin-top:12px;font-size:17px;color:var(--ink-dim);line-height:1.4;border-top:2px solid rgba(255,255,255,.15);padding-top:10px}
-
   footer{margin-top:20px;background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:14px 16px;font-size:18px;line-height:1.5;color:var(--ink-dim)}
   footer b{color:var(--emerald)}
   footer .treasure-word{color:var(--treasure)}
-
-  /* ---- Hero toolbar button (Amboss-Planer) ---- */
+  footer img{width:14px;height:14px;image-rendering:pixelated;vertical-align:middle}
   .tool-btn-hero{background:#4a6fb0;border-top-color:#7fa3e8;border-left-color:#7fa3e8}
   .tool-btn-hero:hover{background:#5a7fc0}
   .tool-btn-hero.on{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
-
-  /* ============ AMBOSS-PLANER (Anvil order optimiser) ============ */
   .anvil-panel{background:var(--panel-dark);border:4px solid #000;box-shadow:0 6px 0 var(--shadow);padding:16px;margin-bottom:16px;display:none}
   .anvil-panel.show{display:block}
   .anvil-head{font-family:'Silkscreen',sans-serif;font-size:13px;color:#7fa3e8;margin-bottom:6px;letter-spacing:.4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .anvil-head img{width:16px;height:16px;image-rendering:pixelated}
   .anvil-intro{font-size:17px;color:var(--ink-dim);line-height:1.45;margin-bottom:14px;max-width:760px}
   .anvil-intro b{color:var(--emerald)}
   .anvil-grid{display:grid;grid-template-columns:1fr;gap:16px}
   @media(min-width:780px){ .anvil-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)} }
-
   .anvil-card{background:#2c2c2c;border:3px solid #000;padding:14px}
   .anvil-card-title{font-family:'Silkscreen',sans-serif;font-size:10px;color:var(--treasure);letter-spacing:.5px;margin-bottom:10px}
   .anvil-step-num{display:inline-block;font-family:'Silkscreen',sans-serif;font-size:10px;background:#7fa3e8;color:#03122b;padding:2px 6px;margin-right:6px}
-
-  /* item picker */
   .anvil-item-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
   .anvil-item-row .slot{width:46px;height:46px}
   .anvil-select{flex:1;font-family:'VT323',monospace;font-size:20px;color:#fff;background:var(--panel-mid);border:3px solid #000;border-top-color:#1c1c1c;border-left-color:#1c1c1c;padding:7px 10px;outline:none;cursor:pointer}
   .anvil-select:focus{border-color:var(--emerald)}
   .anvil-select option{background:#2c2c2c}
-
-  /* enchant checklist */
   .ench-pick-search{display:flex;align-items:center;gap:8px;background:var(--panel-mid);border:2px solid #000;padding:5px 10px;margin-bottom:10px}
+  .ench-pick-search img{width:16px;height:16px;image-rendering:pixelated}
   .ench-pick-search input{flex:1;background:transparent;border:none;outline:none;font-family:'VT323',monospace;font-size:18px;color:#fff}
   .ench-pick-list{max-height:340px;overflow-y:auto;border:2px solid #000;background:#232323}
   .ench-pick-list::-webkit-scrollbar{width:12px}
@@ -266,19 +213,16 @@
   .ench-pick-empty{padding:20px;text-align:center;color:var(--ink-dim);font-size:18px}
   .ench-pick.incompat{opacity:.4}
   .incompat-note{font-family:'Silkscreen',sans-serif;font-size:8px;color:#ff9d6b;display:block;margin-top:2px}
-
-  /* options row */
   .anvil-opts{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
   .opt-chip{font-family:'VT323',monospace;font-size:16px;color:#fff;background:var(--stone);border:2px solid #000;border-top-color:#c8c8c8;border-left-color:#c8c8c8;padding:5px 10px;cursor:pointer;user-select:none}
   .opt-chip.active{background:var(--emerald);color:#04220f;border-top-color:#5cf08a;border-left-color:#5cf08a}
   .opt-chip:hover{filter:brightness(1.08)}
   .anvil-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
-  .anvil-btn{font-family:'Silkscreen',sans-serif;font-size:11px;color:#03122b;background:#7fa3e8;border:3px solid #000;border-top-color:#b3ccf5;border-left-color:#b3ccf5;padding:10px 16px;cursor:pointer;transition:transform .05s ease}
+  .anvil-btn{display:flex;align-items:center;gap:6px;font-family:'Silkscreen',sans-serif;font-size:11px;color:#03122b;background:#7fa3e8;border:3px solid #000;border-top-color:#b3ccf5;border-left-color:#b3ccf5;padding:10px 16px;cursor:pointer;transition:transform .05s ease}
+  .anvil-btn img{width:14px;height:14px;image-rendering:pixelated}
   .anvil-btn:hover{background:#94b4ef}
   .anvil-btn:active{transform:translateY(1px)}
   .anvil-btn.ghost{background:var(--panel-mid);color:#fff;border-top-color:#7a7a7a;border-left-color:#7a7a7a}
-
-  /* results */
   .anvil-summary{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:14px}
   .sumbox{flex:1;min-width:120px;background:#232323;border:3px solid #000;padding:10px 12px;text-align:center}
   .sumbox .k{font-family:'Silkscreen',sans-serif;font-size:8px;color:var(--ink-dim);letter-spacing:.5px}
@@ -286,12 +230,12 @@
   .sumbox .v.good{color:var(--emerald)}
   .sumbox .v.warn{color:#ff9d6b}
   .sumbox .v.info{color:#7fa3e8}
-
   .anvil-steps{display:flex;flex-direction:column;gap:10px}
-  .astep{background:#232323;border:2px solid #000;padding:10px 12px;position:relative}
+  .astep{background:#232323;border:2px solid #000;padding:10px 12px;position:relative;border-left-width:6px}
   .astep.too-exp{border-color:#c0392b;box-shadow:inset 3px 0 0 #c0392b}
   .astep-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
-  .astep-cost{margin-left:auto;font-family:'Silkscreen',sans-serif;font-size:12px;color:#fff;background:#3a3a3a;border:2px solid #000;padding:3px 8px}
+  .astep-cost{margin-left:auto;font-family:'Silkscreen',sans-serif;font-size:12px;color:#fff;background:#3a3a3a;border:2px solid #000;padding:3px 8px;display:flex;align-items:center;gap:4px}
+  .astep-cost img{width:12px;height:12px;image-rendering:pixelated}
   .astep-cost.good{background:var(--emerald-dark);color:#eafff0}
   .astep-cost.warn{background:#b06a2c;color:#fff}
   .astep-cost.too-exp{background:#c0392b;color:#fff}
@@ -308,38 +252,22 @@
   .anvil-warn-banner b{color:#ff7a63}
   .anvil-tip{margin-top:14px;font-size:15px;color:var(--ink-dim);line-height:1.45;border-top:2px solid rgba(255,255,255,.12);padding-top:10px}
   .anvil-tip b{color:var(--emerald)}
-
-  /* ---- Hover-Erklärungen (Tooltips) ---- */
   .tip{cursor:help;border-bottom:1px dotted currentColor}
   [data-tip]{position:relative}
-  .tip .q{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:5px;
-    font-family:'Silkscreen',sans-serif;font-size:9px;color:#03122b;background:#7fa3e8;border:1px solid #000;vertical-align:middle}
-  [data-tip]:hover::after,[data-tip]:focus::after{
-    content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);
-    width:max-content;max-width:250px;background:#0f0f16;color:#e8e8e8;border:2px solid #7fa3e8;
-    font-family:'VT323',monospace;font-size:15px;line-height:1.35;letter-spacing:0;text-transform:none;text-align:left;
-    padding:8px 10px;z-index:60;box-shadow:0 6px 0 rgba(0,0,0,.5);white-space:normal;pointer-events:none}
-  [data-tip]:hover::before,[data-tip]:focus::before{
-    content:'';position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);
-    border:6px solid transparent;border-top-color:#7fa3e8;z-index:60;pointer-events:none}
+  .tip .q{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:5px;font-family:'Silkscreen',sans-serif;font-size:9px;color:#03122b;background:#7fa3e8;border:1px solid #000;vertical-align:middle}
+  [data-tip]:hover::after,[data-tip]:focus::after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 8px);transform:translateX(-50%);width:max-content;max-width:250px;background:#0f0f16;color:#e8e8e8;border:2px solid #7fa3e8;font-family:'VT323',monospace;font-size:15px;line-height:1.35;letter-spacing:0;text-transform:none;text-align:left;padding:8px 10px;z-index:60;box-shadow:0 6px 0 rgba(0,0,0,.5);white-space:normal;pointer-events:none}
+  [data-tip]:hover::before,[data-tip]:focus::before{content:'';position:absolute;left:50%;bottom:calc(100% + 2px);transform:translateX(-50%);border:6px solid transparent;border-top-color:#7fa3e8;z-index:60;pointer-events:none}
   .opt-chip.tip{border-bottom:2px solid #000}
   .sumbox.tip{cursor:help}
   .anvil-token[data-tip]{cursor:help}
   .anvil-token[data-tip]::after{max-width:230px}
-
-  /* ---- Farbige Schritt-Verkettung ---- */
-  .astep{border-left-width:6px}
-  .step-badge{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:24px;padding:0 6px;
-    font-family:'Silkscreen',sans-serif;font-size:13px;color:#0a0a0a;border:2px solid #000;font-weight:700}
+  .step-badge{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:24px;padding:0 6px;font-family:'Silkscreen',sans-serif;font-size:13px;color:#0a0a0a;border:2px solid #000;font-weight:700}
   .anvil-token.ref{padding-left:6px}
-  .anvil-token.ref .refnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
-    font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
+  .anvil-token.ref .refnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
   .anvil-token.result-out{font-weight:700}
-  .anvil-token.result-out .outnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
-    font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
+  .anvil-token.result-out .outnum{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;font-family:'Silkscreen',sans-serif;font-size:12px;color:#0a0a0a;border:2px solid #000;flex-shrink:0}
   .anvil-token.final-out{border-color:var(--emerald) !important;background:#0f2a19}
   .astep-legend{font-size:14px;color:var(--ink-dim);margin:2px 0 10px;line-height:1.4}
-
   @media(max-width:560px){
     .itemname .de{display:inline;margin-left:6px}
     thead th{font-size:9px;padding:6px}
@@ -351,7 +279,6 @@
 </head>
 <body>
 <div class="wrap">
-
   <header>
     <div class="grass-strip"></div>
     <div class="header-inner">
@@ -359,31 +286,29 @@
       <p class="subtitle">Alle <span class="em">13 Dorfbewohner-Berufe</span> mit Handelsangeboten &amp; Werkstatt-Rezepten (Java)</p>
       <div class="badges">
         <div class="badge"><b>13</b> Berufe</div>
-        <div class="badge">Preise bei <b>64 Smaragd</b> gedeckelt</div>
+        <div class="badge">Preise bei <b>64</b> Smaragd gedeckelt</div>
         <div class="badge">Mending <b>ohne Trade-Rebalance</b> aktiv</div>
-        <div class="badge">Neu: <b>🔨 Amboss-Planer</b></div>
+        <div class="badge">Neu: <b>Amboss-Planer</b></div>
+        <div class="badge">Checkliste wird gespeichert</div>
       </div>
     </div>
   </header>
 
   <div class="controls">
     <div class="search-box">
-      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-        <rect x="2" y="2" width="10" height="10" fill="none" stroke="#c8c8c8" stroke-width="2"/>
-        <rect x="11" y="11" width="6" height="3" fill="#c8c8c8"/>
-      </svg>
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="10" height="10" fill="none" stroke="#c8c8c8" stroke-width="2"/><rect x="11" y="11" width="6" height="3" fill="#c8c8c8"/></svg>
       <input id="search" type="text" placeholder="Beruf oder Item suchen... z.B. Mending, Smaragd, Bibliothekar">
     </div>
     <div class="tabhint">BERUF WÄHLEN — NUR EIN DORFBEWOHNER WIRD ANGEZEIGT</div>
     <div class="tabs" id="tabs"></div>
     <div class="toolbar-row">
-      <button class="tool-btn" id="expandAllBtn" type="button">⬇ Alle aufklappen</button>
-      <button class="tool-btn" id="collapseAllBtn" type="button">⬆ Alle zuklappen</button>
-      <button class="tool-btn" id="calcToggleBtn" type="button">🌲 Holz-Rechner</button>
-      <button class="tool-btn" id="sortPriceBtn" type="button">💎 Günstigste zuerst</button>
-      <button class="tool-btn tool-btn-hero" id="anvilToggleBtn" type="button">🔨 Amboss-Planer</button>
+      <button class="tool-btn" id="expandAllBtn" type="button"><img src="" data-icon="Chest" alt="">Alle aufklappen</button>
+      <button class="tool-btn" id="collapseAllBtn" type="button"><img src="" data-icon="Chest" alt="">Alle zuklappen</button>
+      <button class="tool-btn" id="calcToggleBtn" type="button"><img src="" data-icon="Oak Log" alt="">Holz-Rechner</button>
+      <button class="tool-btn" id="sortPriceBtn" type="button"><img src="" data-icon="Diamond" alt="">Günstigste zuerst</button>
+      <button class="tool-btn tool-btn-hero" id="anvilToggleBtn" type="button"><img src="" data-icon="Anvil" alt="">Amboss-Planer</button>
       <div class="budget-box">
-        <span class="budget-icon">💰</span>
+        <img src="" data-icon="Emerald" alt="">
         <input type="number" min="0" id="budgetInput" placeholder="Meine Smaragde...">
       </div>
     </div>
@@ -392,75 +317,57 @@
   <div class="budget-summary" id="budgetSummary"></div>
 
   <div class="calc-panel" id="calcPanel">
-    <div class="calc-head">🌲 SMARAGD ⇄ HOLZ-RECHNER <span class="calc-sub">(Bogner-Handel: 32 Stöcke = 1 Smaragd)</span></div>
+    <div class="calc-head"><img src="" data-icon="Oak Log" alt="">SMARAGD &harr; HOLZ-RECHNER <span class="calc-sub">(Bogner-Handel: 32 Stöcke = 1 Smaragd)</span></div>
     <div class="calc-chain">
-      <div class="calc-step"><div class="slot" style="display:flex;align-items:center;justify-content:center;font-size:22px">📦</div><input type="number" min="0" id="calcStacks" placeholder="0"><span class="calc-label">Stapel</span></div>
-      <span class="calc-arrow">→</span>
-      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Log.png" alt="Stamm" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcLogs" placeholder="0"><span class="calc-label">Stämme</span></div>
-      <span class="calc-arrow">→</span>
-      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Oak_Planks.png" alt="Bretter" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcPlanks" placeholder="0"><span class="calc-label">Bretter</span></div>
-      <span class="calc-arrow">→</span>
-      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Stick.png" alt="Stock" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcSticks" placeholder="0"><span class="calc-label">Stöcke</span></div>
-      <span class="calc-arrow">→</span>
-      <div class="calc-step"><div class="slot"><img src="https://minecraft.wiki/images/Invicon_Emerald.png" alt="Smaragd" loading="lazy" onerror="this.style.display='none'"></div><input type="number" min="0" id="calcEmeralds" placeholder="0"><span class="calc-label">Smaragde</span></div>
+      <div class="calc-step"><div class="slot" style="display:flex;align-items:center;justify-content:center"><img src="" data-icon="Chest" alt="" style="width:28px;height:28px;padding:2px"></div><input type="number" min="0" id="calcStacks" placeholder="0"><span class="calc-label">Stapel</span></div>
+      <span class="calc-arrow">&rarr;</span>
+      <div class="calc-step"><div class="slot"><img src="" data-icon="Oak Log" alt=""></div><input type="number" min="0" id="calcLogs" placeholder="0"><span class="calc-label">Stämme</span></div>
+      <span class="calc-arrow">&rarr;</span>
+      <div class="calc-step"><div class="slot"><img src="" data-icon="Oak Planks" alt=""></div><input type="number" min="0" id="calcPlanks" placeholder="0"><span class="calc-label">Bretter</span></div>
+      <span class="calc-arrow">&rarr;</span>
+      <div class="calc-step"><div class="slot"><img src="" data-icon="Stick" alt=""></div><input type="number" min="0" id="calcSticks" placeholder="0"><span class="calc-label">Stöcke</span></div>
+      <span class="calc-arrow">&rarr;</span>
+      <div class="calc-step"><div class="slot"><img src="" data-icon="Emerald" alt=""></div><input type="number" min="0" id="calcEmeralds" placeholder="0"><span class="calc-label">Smaragde</span></div>
     </div>
     <div class="calc-note">Tipp: Trag eine beliebige Zahl in <b>irgendein</b> Feld ein — der Rest wird automatisch umgerechnet (1 Stapel = 64 Stämme = 256 Bretter = 512 Stöcke = 16 Smaragde beim Bogner).</div>
   </div>
 
-  <!-- ============ AMBOSS-PLANER ============ -->
   <div class="anvil-panel" id="anvilPanel">
-    <div class="anvil-head">🔨 AMBOSS-PLANER <span style="font-family:'VT323',monospace;font-size:16px;color:var(--ink-dim)">— beste Reihenfolge zum Verzaubern</span></div>
+    <div class="anvil-head"><img src="" data-icon="Anvil" alt="">AMBOSS-PLANER <span style="font-family:'VT323',monospace;font-size:16px;color:var(--ink-dim)">— beste Reihenfolge zum Verzaubern</span></div>
     <p class="anvil-intro">
       Beim Zusammenlegen von Ausrüstung und Büchern im Amboss steigt jedes Mal die <b>Reparaturstrafe</b>.
       Wird sie zu hoch, sagt der Amboss <b>„Zu teuer!"</b>. Wähl dein Item, hak die gewünschten Verzauberungen an —
       und der Planer sagt dir die <b>günstigste Reihenfolge</b> Schritt für Schritt. Es wird davon ausgegangen,
       dass Item und Bücher <b>frisch</b> sind (noch nie am Amboss bearbeitet).
     </p>
-
     <div class="anvil-grid">
-      <!-- LEFT: inputs -->
       <div>
         <div class="anvil-card">
           <div class="anvil-card-title"><span class="anvil-step-num">1</span>ITEM WÄHLEN</div>
           <div class="anvil-item-row">
-            <div class="slot"><img id="anvilItemIcon" src="" alt="" onerror="this.style.display='none'"></div>
+            <div class="slot"><img id="anvilItemIcon" src="" alt=""></div>
             <select class="anvil-select" id="anvilItemSelect"></select>
           </div>
-
           <div class="anvil-card-title" style="margin-top:6px"><span class="anvil-step-num">2</span>VERZAUBERUNGEN ANHAKEN</div>
-          <div class="ench-pick-search">
-            <span>🔎</span>
-            <input type="text" id="anvilEnchSearch" placeholder="Verzauberung filtern... z.B. Schärfe">
-          </div>
+          <div class="ench-pick-search"><img src="" data-icon="Book" alt=""><input type="text" id="anvilEnchSearch" placeholder="Verzauberung filtern... z.B. Schärfe"></div>
           <div class="ench-pick-list" id="anvilEnchList"></div>
-
           <div class="anvil-opts">
-            <span class="opt-chip tip active" tabindex="0" data-opt="xp" id="optXp" data-tip="Findet die Reihenfolge mit den WENIGSTEN Erfahrungsleveln insgesamt. Das ist fast immer, was du willst — der billigste Weg zum fertigen Item.">💠 Wenigste Level <span class="q">?</span></span>
-            <span class="opt-chip tip" tabindex="0" data-opt="pwp" id="optPwp" data-tip="Hält die Reparaturstrafe des FERTIGEN Items so niedrig wie möglich (kann etwas mehr Level kosten). Sinnvoll, wenn du das Item SPÄTER nochmal am Amboss reparieren oder erweitern willst.">🛡 Wenigste Reparaturstrafe <span class="q">?</span></span>
-            <span class="opt-chip tip" tabindex="0" data-opt="incompat" id="optIncompat" data-tip="Erlaubt Kombis, die normal nicht zusammengehen (z.B. Schärfe + Bann, oder Behutsamkeit + Glück). Nur für Spezialfälle/alte Versionen — im normalen Minecraft 26.2 nicht baubar.">⚠ Unverträgliche erlauben <span class="q">?</span></span>
+            <span class="opt-chip tip active" tabindex="0" data-opt="xp" id="optXp" data-tip="Findet die Reihenfolge mit den WENIGSTEN Erfahrungsleveln insgesamt. Das ist fast immer, was du willst — der billigste Weg zum fertigen Item.">Wenigste Level <span class="q">?</span></span>
+            <span class="opt-chip tip" tabindex="0" data-opt="pwp" id="optPwp" data-tip="Hält die Reparaturstrafe des FERTIGEN Items so niedrig wie möglich (kann etwas mehr Level kosten). Sinnvoll, wenn du das Item SPÄTER nochmal am Amboss reparieren oder erweitern willst.">Wenigste Reparaturstrafe <span class="q">?</span></span>
+            <span class="opt-chip tip" tabindex="0" data-opt="incompat" id="optIncompat" data-tip="Erlaubt Kombis, die normal nicht zusammengehen (z.B. Schärfe + Bann, oder Behutsamkeit + Glück). Nur für Spezialfälle/alte Versionen — im normalen Minecraft 26.2 nicht baubar.">Unverträgliche erlauben <span class="q">?</span></span>
           </div>
           <div class="anvil-actions">
-            <button class="anvil-btn" id="anvilCalcBtn" type="button">🔨 Reihenfolge berechnen</button>
-            <button class="anvil-btn ghost" id="anvilClearBtn" type="button">✖ Zurücksetzen</button>
+            <button class="anvil-btn" id="anvilCalcBtn" type="button"><img src="" data-icon="Anvil" alt="">Reihenfolge berechnen</button>
+            <button class="anvil-btn ghost" id="anvilClearBtn" type="button">Zurücksetzen</button>
           </div>
         </div>
       </div>
-
-      <!-- RIGHT: results -->
       <div>
         <div class="anvil-card">
           <div class="anvil-card-title"><span class="anvil-step-num">3</span>DEIN BAUPLAN</div>
-          <div id="anvilResult">
-            <div class="anvil-placeholder">
-              Wähl links ein Item und ein paar Verzauberungen,<br>dann auf <b>„Reihenfolge berechnen"</b> tippen. 🔨
-            </div>
-          </div>
+          <div id="anvilResult"><div class="anvil-placeholder">Wähl links ein Item und ein paar Verzauberungen,<br>dann auf <b>„Reihenfolge berechnen"</b> tippen.</div></div>
         </div>
-        <div class="anvil-tip">
-          <b>Wie liest man den Plan?</b> Jede Zeile ist <b>ein</b> Amboss-Vorgang: links kommt ins linke Feld
-          (das behältst du), rechts ins rechte Feld (wird „geopfert"). Arbeite die Schritte <b>von oben nach unten</b> ab —
-          dann bleibt die Reparaturstrafe minimal.
-        </div>
+        <div class="anvil-tip"><b>Wie liest man den Plan?</b> Jede Zeile ist <b>ein</b> Amboss-Vorgang: links kommt ins linke Feld (das behältst du), rechts ins rechte Feld (wird „geopfert"). Arbeite die Schritte <b>von oben nach unten</b> ab — dann bleibt die Reparaturstrafe minimal.</div>
       </div>
     </div>
   </div>
@@ -469,1241 +376,23 @@
   <div id="professions"></div>
 
   <footer>
-    Preise gelten für <b>frisch angeworbene</b> Dorfbewohner ohne Reputations-Rabatt. Jedes Level schaltet
-    bis zu 2 neue Angebote frei. <span class="treasure-word">TREASURE</span>-Angebote (Schatz-Handel) sind
-    goldgerahmt markiert. Bei Verzauberten Büchern: Preis-Spanne siehe Bibliothekar-Tab &rarr;
-    <b>Verzauberte Bücher</b>. Klick auf den Werkstatt-Chip zeigt das Crafting-Rezept.<br>
-    <span style="display:inline-block;margin-top:8px">Neu: Der <b>🔨 Amboss-Planer</b> (Knopf oben) rechnet dir die <b>günstigste Reihenfolge</b>
-    zum Verzaubern aus — damit der Amboss nie „Zu teuer!" sagt.</span>
+    Preise gelten für <b>frisch angeworbene</b> Dorfbewohner ohne Reputations-Rabatt. Jedes Level schaltet bis zu 2 neue Angebote frei. <span class="treasure-word">TREASURE</span>-Angebote (Schatz-Handel) sind goldgerahmt markiert. Bei Verzauberten Büchern: Preis-Spanne siehe Bibliothekar-Tab &rarr; <b>Verzauberte Bücher</b>. Klick auf den Werkstatt-Chip zeigt das Crafting-Rezept.<br>
+    <span style="display:inline-block;margin-top:8px">Neu: Der <b>Amboss-Planer</b> (Knopf oben) rechnet dir die <b>günstigste Reihenfolge</b> zum Verzaubern aus — damit der Amboss nie „Zu teuer!" sagt. Die <b>Checkliste</b> rechts beim Bibliothekar wird in einer Datenbank gespeichert — alle sehen denselben Stand.</span>
   </footer>
-
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal">
     <button class="modal-close" id="modalClose">X</button>
-    <div class="modal-head">
-      <img id="modalIcon" src="" alt="">
-      <div>
-        <div class="en" id="modalEn"></div>
-        <div class="de" id="modalDe"></div>
-      </div>
-    </div>
+    <div class="modal-head"><img id="modalIcon" src="" alt=""><div><div class="en" id="modalEn"></div><div class="de" id="modalDe"></div></div></div>
     <div class="craft-grid" id="craftGrid"></div>
     <div class="craft-note" id="craftNote"></div>
   </div>
 </div>
 
-<script>
-const GEM = `<svg class="gem" viewBox="0 0 16 16"><polygon points="8,1 15,6 8,15 1,6" fill="#17c34e" stroke="#0e7a30" stroke-width="1"/><polygon points="8,1 15,6 8,7" fill="#3ee06f"/><polygon points="1,6 8,7 8,15" fill="#0e9c3d"/></svg>`;
-
-/* Some Minecraft items only exist as colour/wood-type variants on the wiki (there is no
-   plain "Wood Planks" or "Banner" sprite) — map those generic labels to a real concrete
-   variant so the icon actually resolves. Display names (EN/DE) are untouched. */
-const ICON_OVERRIDE = {
-  "Log":"Oak Log", "Wood Planks":"Oak Planks", "Wood Slab":"Oak Slab", "Boat":"Oak Boat",
-  "Banner":"White Banner", "Colored Wool":"White Wool", "Colored Carpet":"White Carpet",
-  "Glazed Terracotta":"White Glazed Terracotta", "Stained Terracotta":"White Terracotta",
-  "Dye":"White Dye", "Explorer Map":"Woodland Explorer Map"
-};
-/* A handful of items render as animated sprites on the wiki (.gif instead of .png). */
-const GIF_ICONS = new Set(["Compass","Clock","Bottle o' Enchanting","Recovery Compass"]);
-
-function iconBase(name){ return ICON_OVERRIDE[name] || name; }
-function iconUrl(name, ext){
-  ext = ext || (GIF_ICONS.has(name) ? "gif" : "png");
-  return "https://minecraft.wiki/images/Invicon_" + encodeURIComponent(iconBase(name).replace(/ /g,"_")) + "." + ext;
-}
-function blockUrl(slug){ return "https://minecraft.wiki/images/BlockSprite_" + slug + ".png"; }
-function portraitUrl(prof){ return "https://minecraft.wiki/images/Plains_" + prof + ".png"; }
-
-/* Self-healing <img>: if the primary extension 404s, retry with the other extension
-   (covers items we haven't explicitly flagged as animated); only hide as a last resort. */
-function handleIconError(img){
-  const step = img.dataset.step || "0";
-  const name = decodeURIComponent(img.dataset.name);
-  if(step === "0"){
-    const triedExt = GIF_ICONS.has(name) ? "gif" : "png";
-    const altExt = triedExt === "png" ? "gif" : "png";
-    img.dataset.step = "1";
-    img.src = iconUrl(name, altExt);
-  } else {
-    img.style.display = 'none';
-  }
-}
-function iconImg(name){
-  return `<img src="${iconUrl(name)}" data-name="${encodeURIComponent(name)}" alt="${name}" loading="lazy" onerror="handleIconError(this)">`;
-}
-
-/* ===================== ENCHANTMENT DATA (fixed price table) ===================== */
-const ENCHANTS = [
-  {cat:"Werkzeuge", en:"Unbreaking", de:"Haltbarkeit", lvl:"III", min:11, max:45, desc:"Erhöht die Chance, dass ein Werkzeug, eine Waffe oder Rüstung bei Nutzung nicht abgenutzt wird."},
-  {cat:"Werkzeuge", en:"Efficiency", de:"Effizienz", lvl:"V", min:17, max:64, desc:"Erhöht die Abbaugeschwindigkeit von Werkzeugen deutlich."},
-  {cat:"Werkzeuge", en:"Fortune", de:"Glück", lvl:"III", min:11, max:45, desc:"Erhöht die Menge mancher Blockdrops, z.B. mehr Diamanten, Kohle oder Beeren."},
-  {cat:"Werkzeuge", en:"Silk Touch", de:"Behutsamkeit", lvl:"I", min:5, max:19, desc:"Blöcke droppen sich selbst statt ihrer üblichen Drops (z.B. Erzblock statt Rohstoff)."},
-  {cat:"Werkzeuge", en:"Mending", de:"Reparatur", lvl:"I", min:10, max:38, treasure:true, desc:"Nutzt aufgesammelte Erfahrungsorbs, um das Item automatisch zu reparieren, statt XP zu geben."},
-
-  {cat:"Schwert", en:"Sharpness", de:"Schärfe", lvl:"V", min:17, max:64, desc:"Erhöht den allgemeinen Nahkampfschaden mit dem Schwert."},
-  {cat:"Schwert", en:"Smite", de:"Bann", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Untote wie Zombies, Skelette und den Wither."},
-  {cat:"Schwert", en:"Bane of Arthropods", de:"Nemesis der Gliederfüßer", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Spinnen, Höhlenspinnen, Endermilben & Silberfischchen, verlangsamt sie zudem."},
-  {cat:"Schwert", en:"Looting", de:"Plünderung", lvl:"III", min:11, max:45, desc:"Erhöht Drop-Menge und Chance auf seltene Mob-Drops."},
-  {cat:"Schwert", en:"Sweeping Edge", de:"Schwungkraft", lvl:"III", min:11, max:45, desc:"Erhöht den Schaden des Rundumschlags mit dem Schwert."},
-  {cat:"Schwert", en:"Fire Aspect", de:"Verbrennung", lvl:"II", min:8, max:32, desc:"Setzt getroffene Gegner in Brand."},
-  {cat:"Schwert", en:"Knockback", de:"Rückstoß", lvl:"II", min:8, max:32, desc:"Stößt getroffene Gegner weiter zurück."},
-
-  {cat:"Rüstung", en:"Protection", de:"Schutz", lvl:"IV", min:14, max:58, desc:"Reduziert die meisten Schadensarten leicht bis stark."},
-  {cat:"Rüstung", en:"Projectile Protection", de:"Geschossschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Schaden durch Projektile wie Pfeile oder Feuerbälle."},
-  {cat:"Rüstung", en:"Blast Protection", de:"Explosionsschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Explosionsschaden und den dadurch verursachten Rückstoß."},
-  {cat:"Rüstung", en:"Fire Protection", de:"Feuerschutz", lvl:"IV", min:14, max:58, desc:"Reduziert Feuer- und Lavaschaden."},
-  {cat:"Rüstung", en:"Feather Falling", de:"Federfall", lvl:"IV", min:14, max:58, desc:"Reduziert Fallschaden deutlich."},
-  {cat:"Rüstung", en:"Thorns", de:"Dornen", lvl:"III", min:11, max:45, desc:"Reflektiert einen Teil des erlittenen Schadens auf den Angreifer, nutzt die Rüstung dabei schneller ab."},
-  {cat:"Rüstung", en:"Respiration", de:"Atmung", lvl:"III", min:11, max:45, desc:"Verlängert den Luftvorrat unter Wasser und verbessert die Sicht."},
-  {cat:"Rüstung", en:"Aqua Affinity", de:"Wassergängigkeit", lvl:"I", min:5, max:19, desc:"Normale Abbaugeschwindigkeit auch unter Wasser."},
-  {cat:"Rüstung", en:"Depth Strider", de:"Tiefenläufer", lvl:"III", min:11, max:45, desc:"Erhöht die Bewegungsgeschwindigkeit im Wasser."},
-  {cat:"Rüstung", en:"Frost Walker", de:"Frostläufer", lvl:"II", min:16, max:64, treasure:true, desc:"Verwandelt Wasser unter den Füßen in begehbares Eis."},
-
-  {cat:"Fernkampf", en:"Power", de:"Stärke", lvl:"V", min:17, max:64, desc:"Erhöht den Pfeilschaden des Bogens."},
-  {cat:"Fernkampf", en:"Punch", de:"Schlag", lvl:"II", min:8, max:32, desc:"Stößt mit Pfeilen getroffene Ziele weiter zurück."},
-  {cat:"Fernkampf", en:"Flame", de:"Flamme", lvl:"I", min:5, max:19, desc:"Pfeile setzen getroffene Ziele in Brand."},
-  {cat:"Fernkampf", en:"Infinity", de:"Unendlichkeit", lvl:"I", min:5, max:19, desc:"Verbraucht keine Pfeile mehr — ein Pfeil im Inventar reicht."},
-  {cat:"Fernkampf", en:"Piercing", de:"Durchschlag", lvl:"IV", min:14, max:58, desc:"Armbrust-Bolzen durchdringen mehrere Ziele hintereinander."},
-  {cat:"Fernkampf", en:"Quick Charge", de:"Schnellladen", lvl:"III", min:11, max:45, desc:"Verkürzt die Ladezeit der Armbrust."},
-  {cat:"Fernkampf", en:"Multishot", de:"Mehrfachschuss", lvl:"I", min:5, max:19, desc:"Verschießt 3 Pfeile gleichzeitig, verbraucht dabei nur einen."},
-  {cat:"Fernkampf", en:"Impaling", de:"Harpune", lvl:"V", min:17, max:64, desc:"Zusätzlicher Schaden gegen Wasserbewohner mit dem Dreizack."},
-  {cat:"Fernkampf", en:"Loyalty", de:"Treue", lvl:"III", min:11, max:45, desc:"Der Dreizack fliegt nach dem Werfen zum Spieler zurück."},
-  {cat:"Fernkampf", en:"Riptide", de:"Sog", lvl:"III", min:11, max:45, desc:"Schleudert den Spieler beim Werfen im Wasser oder Regen mit fort."},
-  {cat:"Fernkampf", en:"Channeling", de:"Entladung", lvl:"I", min:5, max:19, desc:"Ruft bei Gewitter einen Blitzschlag auf das getroffene Ziel."},
-
-  {cat:"Angel", en:"Luck of the Sea", de:"Glück des Meeres", lvl:"III", min:11, max:45, desc:"Erhöht die Chance auf seltene Angelfunde und verringert Müll-Drops."},
-  {cat:"Angel", en:"Lure", de:"Köder", lvl:"III", min:11, max:45, desc:"Verkürzt die Wartezeit, bis beim Angeln etwas anbeißt."},
-];
-const CAT_LABEL = {
-  "Werkzeuge":"⛏ Werkzeuge & Allgemein",
-  "Schwert":"⚔ Schwert",
-  "Rüstung":"🛡 Rüstung",
-  "Fernkampf":"🏹 Bogen / Armbrust / Dreizack",
-  "Angel":"🎣 Angel",
-};
-
-/* ===================== PROFESSION TRADE DATA ===================== */
-const PROFESSIONS = [
-{ id:"armorer", en:"Armorer", de:"Rüstungsschmied",
-  station:{en:"Blast Furnace", de:"Kohleofen", slug:"blast-furnace",
-    grid:[{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Furnace"},{i:"Iron Ingot"},{i:"Smooth Stone"},{i:"Smooth Stone"},{i:"Smooth Stone"}],
-    note:"5× Eisenbarren + 1× Ofen + 3× Glatter Stein → 1 Kohleofen."},
-  trades:[
-    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Iron Helmet"}, stock:12},
-    {lvl:1, want:[{n:9,i:"Emerald"}], give:{n:1,i:"Iron Chestplate"}, stock:12},
-    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Iron Leggings"}, stock:12},
-    {lvl:1, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Iron Boots"}, stock:12},
-    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
-    {lvl:2, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Chainmail Leggings"}, stock:12},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Chainmail Boots"}, stock:12},
-    {lvl:3, want:[{n:1,i:"Lava Bucket"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Chainmail Helmet"}, stock:12},
-    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Chainmail Chestplate"}, stock:12},
-    {lvl:3, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Shield"}, stock:12},
-    {lvl:4, want:[{n:"19–33",i:"Emerald"}], give:{n:1,i:"Diamond Leggings"}, stock:3, note:"14 Basis + Level 5–19"},
-    {lvl:4, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Boots"}, stock:3, note:"8 Basis + Level 5–19"},
-    {lvl:5, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Helmet"}, stock:3, note:"8 Basis + Level 5–19"},
-    {lvl:5, want:[{n:"21–35",i:"Emerald"}], give:{n:1,i:"Diamond Chestplate"}, stock:3, note:"16 Basis + Level 5–19"},
-  ]},
-{ id:"butcher", en:"Butcher", de:"Metzger",
-  station:{en:"Smoker", de:"Räucherofen", slug:"smoker",
-    grid:[null,{i:"Log"},null,{i:"Log"},{i:"Furnace"},{i:"Log"},null,{i:"Log"},null],
-    note:"4× beliebige Stämme + 1× Ofen (Kreuz-Form) → 1 Räucherofen."},
-  trades:[
-    {lvl:1, want:[{n:14,i:"Raw Chicken"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:4,i:"Raw Rabbit"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:7,i:"Raw Porkchop"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Rabbit Stew"}, stock:12},
-    {lvl:2, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:8,i:"Cooked Chicken"}, stock:16},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:5,i:"Cooked Porkchop"}, stock:16},
-    {lvl:3, want:[{n:10,i:"Raw Beef"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:7,i:"Raw Mutton"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:4, want:[{n:10,i:"Dried Kelp Block"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:5, want:[{n:10,i:"Sweet Berries"}], give:{n:1,i:"Emerald"}, stock:12},
-  ]},
-{ id:"cartographer", en:"Cartographer", de:"Kartograf",
-  station:{en:"Cartography Table", de:"Kartografietisch", slug:"cartography-table",
-    grid:[{i:"Paper"},{i:"Paper"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
-    note:"2× Papier + 4× Bretter → 1 Kartografietisch."},
-  trades:[
-    {lvl:1, want:[{n:24,i:"Paper"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Map"}, stock:12},
-    {lvl:2, want:[{n:11,i:"Glass Pane"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:8,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Explorer Map"}, stock:12, note:"Biomeabhängig"},
-    {lvl:3, want:[{n:1,i:"Compass"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:13,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Ocean Explorer Map"}, stock:12},
-    {lvl:3, want:[{n:12,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Trial Explorer Map"}, stock:12},
-    {lvl:4, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Item Frame"}, stock:12},
-    {lvl:4, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Banner"}, stock:12, note:"Farbe biomeabhängig"},
-    {lvl:5, want:[{n:8,i:"Emerald"}], give:{n:1,i:"Globe Banner Pattern"}, stock:12},
-    {lvl:5, want:[{n:14,i:"Emerald"},{n:1,i:"Compass"}], give:{n:1,i:"Woodland Explorer Map"}, stock:12},
-  ]},
-{ id:"cleric", en:"Cleric", de:"Kleriker",
-  station:{en:"Brewing Stand", de:"Braustand", slug:"brewing-stand",
-    grid:[null,{i:"Blaze Rod"},null,null,null,null,{i:"Cobblestone"},{i:"Cobblestone"},{i:"Cobblestone"}],
-    note:"1× Blaze-Rute + 3× Bruchstein → 1 Braustand."},
-  trades:[
-    {lvl:1, want:[{n:32,i:"Rotten Flesh"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:2,i:"Redstone Dust"}, stock:12},
-    {lvl:2, want:[{n:3,i:"Gold Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Lapis Lazuli"}, stock:12},
-    {lvl:3, want:[{n:2,i:"Rabbit's Foot"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Glowstone"}, stock:12},
-    {lvl:4, want:[{n:4,i:"Turtle Scute"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:9,i:"Glass Bottle"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Ender Pearl"}, stock:12},
-    {lvl:5, want:[{n:22,i:"Nether Wart"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:5, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bottle o' Enchanting"}, stock:12},
-  ]},
-{ id:"farmer", en:"Farmer", de:"Bauer",
-  station:{en:"Composter", de:"Komposter", slug:"composter",
-    grid:[{i:"Wood Slab"},null,{i:"Wood Slab"},{i:"Wood Slab"},null,{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"}],
-    note:"7× Holzstufen (Kasten-Form, oben offen) → 1 Komposter."},
-  trades:[
-    {lvl:1, want:[{n:20,i:"Wheat"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:26,i:"Potato"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:22,i:"Carrot"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:15,i:"Beetroot"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:6,i:"Bread"}, stock:16},
-    {lvl:2, want:[{n:6,i:"Pumpkin"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Pumpkin Pie"}, stock:12},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Apple"}, stock:16},
-    {lvl:3, want:[{n:4,i:"Melon"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:18,i:"Cookie"}, stock:12},
-    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Suspicious Stew"}, stock:12},
-    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Cake"}, stock:12},
-    {lvl:5, want:[{n:3,i:"Emerald"}], give:{n:3,i:"Golden Carrot"}, stock:12},
-    {lvl:5, want:[{n:4,i:"Emerald"}], give:{n:3,i:"Glistering Melon Slice"}, stock:12},
-  ]},
-{ id:"fisherman", en:"Fisherman", de:"Fischer",
-  station:{en:"Barrel", de:"Fass", slug:"barrel",
-    grid:[{i:"Wood Planks"},{i:"Wood Slab"},{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},{i:"Wood Slab"},{i:"Wood Planks"}],
-    note:"6× Bretter + 2× Holzstufen → 1 Fass."},
-  trades:[
-    {lvl:1, want:[{n:20,i:"String"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:10,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bucket of Cod"}, stock:16},
-    {lvl:1, want:[{n:6,i:"Raw Cod"},{n:1,i:"Emerald"}], give:{n:6,i:"Cooked Cod"}, stock:16},
-    {lvl:2, want:[{n:15,i:"Raw Cod"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:2, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Campfire"}, stock:12},
-    {lvl:2, want:[{n:6,i:"Raw Salmon"},{n:1,i:"Emerald"}], give:{n:6,i:"Cooked Salmon"}, stock:16},
-    {lvl:3, want:[{n:13,i:"Raw Salmon"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Fishing Rod"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
-    {lvl:4, want:[{n:6,i:"Tropical Fish"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:5, want:[{n:4,i:"Pufferfish"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:5, want:[{n:1,i:"Boat"}], give:{n:1,i:"Emerald"}, stock:12, note:"Bootstyp je nach Biom"},
-  ]},
-{ id:"fletcher", en:"Fletcher", de:"Bogner",
-  station:{en:"Fletching Table", de:"Bognertisch", slug:"fletching-table",
-    grid:[{i:"Flint"},{i:"Flint"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
-    note:"2× Feuerstein + 4× Bretter → 1 Bognertisch."},
-  trades:[
-    {lvl:1, want:[{n:32,i:"Stick"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:16,i:"Arrow"}, stock:12},
-    {lvl:1, want:[{n:10,i:"Gravel"},{n:1,i:"Emerald"}], give:{n:10,i:"Flint"}, stock:12},
-    {lvl:2, want:[{n:26,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Bow"}, stock:12},
-    {lvl:3, want:[{n:14,i:"String"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Crossbow"}, stock:12},
-    {lvl:4, want:[{n:24,i:"Feather"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:4, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Bow"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
-    {lvl:5, want:[{n:8,i:"Tripwire Hook"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:5, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Crossbow"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
-    {lvl:5, want:[{n:2,i:"Emerald"},{n:5,i:"Arrow"}], give:{n:5,i:"Tipped Arrow"}, stock:12},
-  ]},
-{ id:"leatherworker", en:"Leatherworker", de:"Gerber",
-  station:{en:"Cauldron", de:"Kessel", slug:"cauldron",
-    grid:[{i:"Iron Ingot"},null,{i:"Iron Ingot"},{i:"Iron Ingot"},null,{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"},{i:"Iron Ingot"}],
-    note:"7× Eisenbarren (Kasten-Form, oben offen) → 1 Kessel."},
-  trades:[
-    {lvl:1, want:[{n:6,i:"Leather"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Leather Pants"}, stock:12},
-    {lvl:1, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Leather Tunic"}, stock:12},
-    {lvl:2, want:[{n:26,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Leather Cap"}, stock:12},
-    {lvl:2, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Leather Boots"}, stock:12},
-    {lvl:3, want:[{n:9,i:"Rabbit Hide"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:7,i:"Emerald"}], give:{n:1,i:"Leather Tunic"}, stock:12},
-    {lvl:4, want:[{n:4,i:"Turtle Scute"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:6,i:"Emerald"}], give:{n:1,i:"Leather Horse Armor"}, stock:12},
-    {lvl:5, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Leather Cap"}, stock:12},
-    {lvl:5, want:[{n:6,i:"Emerald"}], give:{n:1,i:"Saddle"}, stock:12},
-  ]},
-{ id:"librarian", en:"Librarian", de:"Bibliothekar",
-  station:{en:"Lectern", de:"Lesepult", slug:"lectern",
-    grid:[{i:"Wood Slab"},{i:"Wood Slab"},{i:"Wood Slab"},null,{i:"Bookshelf"},null,null,{i:"Wood Slab"},null],
-    note:"1× Bücherregal + 4× Holzstufen → 1 Lesepult."},
-  hasEnchants:true,
-  trades:[
-    {lvl:1, want:[{n:24,i:"Paper"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:9,i:"Emerald"}], give:{n:1,i:"Bookshelf"}, stock:12},
-    {lvl:2, want:[{n:4,i:"Book"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Lantern"}, stock:12},
-    {lvl:3, want:[{n:5,i:"Ink Sac"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Glass"}, stock:12},
-    {lvl:4, want:[{n:1,i:"Book and Quill"},{n:1,i:"Book and Quill"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Compass"}, stock:12},
-    {lvl:4, want:[{n:5,i:"Emerald"}], give:{n:1,i:"Clock"}, stock:12},
-    {lvl:5, want:[{n:64,i:"Paper"}], give:{n:1,i:"Name Tag"}, stock:12, note:"seit Update 26.1"},
-  ]},
-{ id:"mason", en:"Mason", de:"Steinmetz",
-  station:{en:"Stonecutter", de:"Steinsäge", slug:"stonecutter",
-    grid:[null,{i:"Iron Ingot"},null,{i:"Stone"},{i:"Stone"},{i:"Stone"},null,null,null],
-    note:"1× Eisenbarren + 3× Stein → 1 Steinsäge."},
-  trades:[
-    {lvl:1, want:[{n:10,i:"Clay Ball"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:10,i:"Brick"}, stock:16},
-    {lvl:2, want:[{n:20,i:"Stone"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Chiseled Stone Bricks"}, stock:16},
-    {lvl:3, want:[{n:16,i:"Granite"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:16,i:"Andesite"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:16,i:"Diorite"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Dripstone Block"}, stock:16},
-    {lvl:3, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Polished Granite"}, stock:16},
-    {lvl:4, want:[{n:12,i:"Nether Quartz"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stained Terracotta"}, stock:12, note:"beliebige Farbe"},
-    {lvl:4, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Glazed Terracotta"}, stock:12, note:"beliebige Farbe"},
-    {lvl:5, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Quartz Pillar"}, stock:12},
-    {lvl:5, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Block of Quartz"}, stock:12},
-  ]},
-{ id:"shepherd", en:"Shepherd", de:"Schäfer",
-  station:{en:"Loom", de:"Webstuhl", slug:"loom",
-    grid:[{i:"String"},{i:"String"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,null,null,null],
-    note:"2× Faden + 2× Bretter → 1 Webstuhl."},
-  trades:[
-    {lvl:1, want:[{n:18,i:"White Wool"}], give:{n:1,i:"Emerald"}, stock:16, note:"Farbe zufällig"},
-    {lvl:1, want:[{n:2,i:"Emerald"}], give:{n:1,i:"Shears"}, stock:12},
-    {lvl:2, want:[{n:12,i:"Dye"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Colored Wool"}, stock:16, note:"beliebige Farbe"},
-    {lvl:2, want:[{n:1,i:"Emerald"}], give:{n:4,i:"Colored Carpet"}, stock:16, note:"beliebige Farbe"},
-    {lvl:3, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Bed"}, stock:12, note:"beliebige Farbe"},
-    {lvl:4, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Banner"}, stock:12, note:"beliebige Farbe"},
-    {lvl:5, want:[{n:2,i:"Emerald"}], give:{n:3,i:"Painting"}, stock:12},
-  ]},
-{ id:"toolsmith", en:"Toolsmith", de:"Werkzeugschmied",
-  station:{en:"Smithing Table", de:"Schmiedetisch", slug:"smithing-table",
-    grid:[{i:"Iron Ingot"},{i:"Iron Ingot"},null,{i:"Wood Planks"},{i:"Wood Planks"},null,{i:"Wood Planks"},{i:"Wood Planks"},null],
-    note:"2× Eisenbarren + 4× Bretter → 1 Schmiedetisch."},
-  trades:[
-    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Axe"}, stock:12},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Shovel"}, stock:12},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Pickaxe"}, stock:12},
-    {lvl:1, want:[{n:1,i:"Emerald"}], give:{n:1,i:"Stone Hoe"}, stock:12},
-    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
-    {lvl:3, want:[{n:30,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:3, want:[{n:"6–20",i:"Emerald"}], give:{n:1,i:"Iron Axe"}, stock:3, note:"1 Basis + Level 5–19, verzaubert"},
-    {lvl:3, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Iron Shovel"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
-    {lvl:3, want:[{n:"8–22",i:"Emerald"}], give:{n:1,i:"Iron Pickaxe"}, stock:3, note:"3 Basis + Level 5–19, verzaubert"},
-    {lvl:3, want:[{n:4,i:"Emerald"}], give:{n:1,i:"Diamond Hoe"}, stock:3},
-    {lvl:4, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:"17–31",i:"Emerald"}], give:{n:1,i:"Diamond Axe"}, stock:3, note:"12 Basis + Level 5–19, verzaubert"},
-    {lvl:4, want:[{n:"10–24",i:"Emerald"}], give:{n:1,i:"Diamond Shovel"}, stock:3, note:"5 Basis + Level 5–19, verzaubert"},
-    {lvl:5, want:[{n:"18–32",i:"Emerald"}], give:{n:1,i:"Diamond Pickaxe"}, stock:3, note:"13 Basis + Level 5–19, verzaubert"},
-  ]},
-{ id:"weaponsmith", en:"Weaponsmith", de:"Waffenschmied",
-  station:{en:"Grindstone", de:"Schleifstein", slug:"grindstone",
-    grid:[{i:"Wood Planks"},{i:"Stone Slab"},{i:"Wood Planks"},{i:"Stick"},null,{i:"Stick"},null,null,null],
-    note:"2× Bretter + 1× Stein-Stufe + 2× Stöcke → 1 Schleifstein."},
-  trades:[
-    {lvl:1, want:[{n:15,i:"Coal"}], give:{n:1,i:"Emerald"}, stock:16},
-    {lvl:1, want:[{n:3,i:"Emerald"}], give:{n:1,i:"Iron Axe"}, stock:12},
-    {lvl:1, want:[{n:"7–21",i:"Emerald"}], give:{n:1,i:"Iron Sword"}, stock:3, note:"2 Basis + Level 5–19, verzaubert"},
-    {lvl:2, want:[{n:4,i:"Iron Ingot"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:2, want:[{n:36,i:"Emerald"}], give:{n:1,i:"Bell"}, stock:12},
-    {lvl:3, want:[{n:24,i:"Flint"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:1,i:"Diamond"}], give:{n:1,i:"Emerald"}, stock:12},
-    {lvl:4, want:[{n:"17–31",i:"Emerald"}], give:{n:1,i:"Diamond Axe"}, stock:3, note:"12 Basis + Level 5–19, verzaubert"},
-    {lvl:5, want:[{n:"13–27",i:"Emerald"}], give:{n:1,i:"Diamond Sword"}, stock:3, note:"8 Basis + Level 5–19, verzaubert"},
-  ]}
-];
-
-const DE = {
-  "Coal":"Kohle","Emerald":"Smaragd","Iron Ingot":"Eisenbarren","Iron Helmet":"Eisenhelm","Iron Chestplate":"Eisenbrustplatte",
-  "Iron Leggings":"Eisenhose","Iron Boots":"Eisenstiefel","Bell":"Glocke","Chainmail Leggings":"Kettenhose","Chainmail Boots":"Kettenstiefel",
-  "Lava Bucket":"Lava-Eimer","Diamond":"Diamant","Chainmail Helmet":"Kettenhelm","Chainmail Chestplate":"Kettenbrustplatte","Shield":"Schild",
-  "Diamond Leggings":"Diamanthose","Diamond Boots":"Diamantstiefel","Diamond Helmet":"Diamanthelm","Diamond Chestplate":"Diamantbrustplatte",
-  "Raw Chicken":"Rohes Hühnchen","Raw Rabbit":"Rohes Kaninchen","Raw Porkchop":"Rohes Schweinefleisch","Rabbit Stew":"Kanincheneintopf",
-  "Cooked Chicken":"Gebratenes Hühnchen","Cooked Porkchop":"Gebratenes Schweinefleisch","Raw Beef":"Rohes Rindfleisch","Raw Mutton":"Rohes Hammelfleisch",
-  "Dried Kelp Block":"Getrockneter-Seetang-Block","Sweet Berries":"Süße Beeren",
-  "Paper":"Papier","Map":"Karte","Glass Pane":"Glasscheibe","Compass":"Kompass","Explorer Map":"Entdeckerkarte","Ocean Explorer Map":"Ozean-Entdeckerkarte",
-  "Trial Explorer Map":"Bewährungskammer-Karte","Item Frame":"Gegenstandsrahmen","Banner":"Banner","Globe Banner Pattern":"Globus-Bannermuster","Woodland Explorer Map":"Waldvilla-Karte",
-  "Rotten Flesh":"Verwestes Fleisch","Redstone Dust":"Redstone-Staub","Gold Ingot":"Goldbarren","Lapis Lazuli":"Lapislazuli","Rabbit's Foot":"Kaninchenpfote",
-  "Glowstone":"Leuchtstein","Turtle Scute":"Schildkrötenpanzerschuppe","Glass Bottle":"Glasflasche","Ender Pearl":"Enderperle","Nether Wart":"Netherwarze","Bottle o' Enchanting":"Erfahrungsfläschchen",
-  "Wheat":"Weizen","Potato":"Kartoffel","Carrot":"Karotte","Beetroot":"Rote Bete","Bread":"Brot","Pumpkin":"Kürbis","Pumpkin Pie":"Kürbiskuchen","Apple":"Apfel",
-  "Melon":"Melone","Cookie":"Keks","Suspicious Stew":"Verdächtiger Eintopf","Cake":"Kuchen","Golden Carrot":"Goldene Karotte","Glistering Melon Slice":"Glitzernde Melonenscheibe",
-  "String":"Faden","Bucket of Cod":"Eimer mit Kabeljau","Raw Cod":"Roher Kabeljau","Cooked Cod":"Gebratener Kabeljau","Campfire":"Lagerfeuer","Raw Salmon":"Roher Lachs",
-  "Cooked Salmon":"Gebratener Lachs","Fishing Rod":"Angel","Tropical Fish":"Tropenfisch","Pufferfish":"Kugelfisch","Boat":"Boot",
-  "Stick":"Stock","Arrow":"Pfeil","Gravel":"Kies","Flint":"Feuerstein","Bow":"Bogen","Crossbow":"Armbrust","Feather":"Feder","Tripwire Hook":"Stolperdrahthaken","Tipped Arrow":"Getränkter Pfeil",
-  "Leather":"Leder","Leather Pants":"Lederhose","Leather Tunic":"Lederjacke","Leather Cap":"Ledermütze","Leather Boots":"Lederstiefel","Rabbit Hide":"Kaninchenfell","Leather Horse Armor":"Lederpferderüstung","Saddle":"Sattel",
-  "Book":"Buch","Bookshelf":"Bücherregal","Enchanted Book":"Verzaubertes Buch","Lantern":"Laterne","Ink Sac":"Tintenbeutel","Glass":"Glas","Book and Quill":"Buch und Feder","Clock":"Uhr","Name Tag":"Namensschild",
-  "Clay Ball":"Tonklumpen","Brick":"Ziegel","Stone":"Stein","Chiseled Stone Bricks":"Gemeißelte Steinziegel","Granite":"Granit","Andesite":"Andesit","Diorite":"Diorit",
-  "Dripstone Block":"Tropfstein-Block","Polished Granite":"Polierter Granit","Nether Quartz":"Netherquarz","Stained Terracotta":"Gefärbte Terrakotta","Glazed Terracotta":"Glasierte Terrakotta",
-  "Quartz Pillar":"Quarzsäule","Block of Quartz":"Quarzblock",
-  "White Wool":"Weiße Wolle","Shears":"Schere","Dye":"Farbstoff","Colored Wool":"Gefärbte Wolle","Colored Carpet":"Gefärbter Teppich","Bed":"Bett","Painting":"Gemälde",
-  "Stone Axe":"Steinaxt","Stone Shovel":"Steinschaufel","Stone Pickaxe":"Steinspitzhacke","Stone Hoe":"Steinhacke","Iron Axe":"Eisenaxt","Iron Shovel":"Eisenschaufel","Iron Pickaxe":"Eisenspitzhacke",
-  "Diamond Hoe":"Diamanthacke","Diamond Axe":"Diamantaxt","Diamond Shovel":"Diamantschaufel","Diamond Pickaxe":"Diamantspitzhacke","Iron Sword":"Eisenschwert","Diamond Sword":"Diamantschwert",
-  "Log":"Stamm","Wood Planks":"Bretter","Wood Slab":"Holzstufe","Stone Slab":"Steinstufe","Furnace":"Ofen","Smooth Stone":"Glatter Stein","Cobblestone":"Bruchstein","Blaze Rod":"Blaze-Rute"
-};
-function deName(en){ return DE[en] || en; }
-const LVL_NAMES = {1:"Novize",2:"Lehrling",3:"Geselle",4:"Experte",5:"Meister"};
-
-/* ===================== BUILD FILTER TABS ===================== */
-const tabsEl = document.getElementById('tabs');
-let activeProf = 'all';
-function buildTabs(){
-  let html = `<span class="tab active" data-id="all">🏘 Alle</span>`;
-  PROFESSIONS.forEach(p=>{
-    html += `<span class="tab${p.hasEnchants?' enchant-tab':''}" data-id="${p.id}"><img src="${portraitUrl(p.en.replace(/ /g,'_'))}" onerror="this.style.display='none'">${p.de}</span>`;
-  });
-  tabsEl.innerHTML = html;
-}
-buildTabs();
-tabsEl.addEventListener('click', e=>{
-  const t = e.target.closest('.tab');
-  if(!t) return;
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  activeProf = t.dataset.id;
-  render();
-
-});
-
-/* ===================== RENDER PROFESSIONS ===================== */
-const container = document.getElementById('professions');
-const countEl = document.getElementById('count');
-const searchEl = document.getElementById('search');
-
-/* Shows, for prices paid in Emeralds, whether it's a fixed price or a Min–Max range
-   (the range only occurs on enchanted-gear trades, where a random level bonus of
-   +5 to +19 Emeralds is added on top of the base price). Also shows a live afford-badge
-   when the person has entered how many Emeralds they currently own. */
-function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
-function highlight(text, q){
-  if(!q) return text;
-  try { return text.replace(new RegExp('('+escapeRegex(q)+')','ig'), '<mark>$1</mark>'); }
-  catch(e){ return text; }
-}
-function priceMinValue(n){
-  if(typeof n === 'number') return n;
-  const parts = String(n).split(/[–-]/).map(s=>parseFloat(s.trim())).filter(x=>!isNaN(x));
-  return parts.length ? Math.min(...parts) : NaN;
-}
-function affordBadge(cost, budget){
-  if(budget == null || isNaN(budget) || budget <= 0 || isNaN(cost)) return '';
-  if(budget >= cost) return `<span class="afford-badge afford-yes">✅ leistbar</span>`;
-  return `<span class="afford-badge afford-no">🔒 fehlen ${Math.ceil(cost-budget)}</span>`;
-}
-function priceLabel(n, i, budget){
-  if(i !== 'Emerald') return '';
-  if(typeof n === 'string'){
-    const parts = n.split(/[–-]/).map(s=>s.trim()).filter(Boolean);
-    if(parts.length === 2){
-      return `<div class="price-tag price-range"><span class="price-min">${GEM}Min ${parts[0]}</span><span class="price-max">${GEM}Max ${parts[1]}</span>${affordBadge(parseFloat(parts[0]), budget)}</div>`;
-    }
-  }
-  return `<div class="price-tag price-fixed">${GEM}Festpreis: ${n} ${affordBadge(parseFloat(n), budget)}</div>`;
-}
-function moneyCell(n,i,showPrice,budget,q){
-  return `<div class="itemcell"><div class="slot">${iconImg(i)}${(typeof n==='number'&&n>1)?`<span class="n">${n}</span>`:''}</div><div class="itemname"><span class="en">${typeof n==='string'?n+' ':''}${highlight(i,q)}</span><span class="de">${highlight(deName(i),q)}</span>${showPrice?priceLabel(n,i,budget):''}</div></div>`;
-}
-
-function tradeMatches(p, t, q){
-  if(!q) return true;
-  const text = (p.en+' '+p.de+' '+t.want.map(w=>w.i+' '+deName(w.i)).join(' ')+' '+t.give.i+' '+deName(t.give.i)).toLowerCase();
-  return text.includes(q);
-}
-function enchantMatches(e, q){
-  if(!q) return true;
-  return (e.en+' '+e.de).toLowerCase().includes(q);
-}
-function tradeEmeraldCost(t){
-  const w = t.want.find(w=>w.i==='Emerald');
-  return w ? priceMinValue(w.n) : Infinity;
-}
-
-function buildProfession(p, q){
-  let visibleTrades = p.trades.filter(t=>tradeMatches(p,t,q));
-  const visibleEnchants = p.hasEnchants ? ENCHANTS.filter(e=>enchantMatches(e,q)) : [];
-  if(q && visibleTrades.length===0 && visibleEnchants.length===0) return null;
-  if(sortByPrice){
-    visibleTrades = [...visibleTrades].sort((a,b)=>tradeEmeraldCost(a)-tradeEmeraldCost(b));
-  }
-
-  const wrap = document.createElement('div');
-  wrap.className = 'profession' + (q ? ' open' : '');
-
-  const head = document.createElement('div');
-  head.className = 'prof-head';
-  head.innerHTML = `
-    <div class="prof-portrait"><img src="${portraitUrl(p.en.replace(/ /g,'_'))}" alt="" onerror="this.style.display='none'"></div>
-    <div class="prof-titles">
-      <div class="en">${highlight(p.en,q)}</div>
-      <div class="de">${highlight(p.de,q)} <span class="prof-count">· ${p.trades.length} Angebote${p.hasEnchants?' + '+ENCHANTS.length+' Bücher':''}</span></div>
-    </div>
-    <div class="station-btn" data-station="${p.id}"><img src="${blockUrl(p.station.slug)}" alt="" onerror="this.style.display='none'">${p.station.de}</div>
-    <svg class="chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-  `;
-  head.addEventListener('click', e=>{
-    if(e.target.closest('.station-btn')) return;
-    wrap.classList.toggle('open');
-
-  });
-  head.querySelector('.station-btn').addEventListener('click', ()=>{ openModal(p); });
-
-  const body = document.createElement('div');
-  body.className = 'prof-body';
-
-  if(visibleTrades.length){
-    const table = document.createElement('table');
-    table.innerHTML = `<thead><tr><th style="width:74px">Level</th><th>Dorfbewohner will</th><th>Du erhältst</th><th class="num">Vorrat</th></tr></thead><tbody></tbody>`;
-    const tbody = table.querySelector('tbody');
-    visibleTrades.forEach(t=>{
-      const tr = document.createElement('tr');
-      const wantHtml = t.want.map(w=>moneyCell(w.n,w.i,true,myBudget,q)).join('<span class="plus">+</span>');
-      const cost = tradeEmeraldCost(t);
-      if(myBudget != null && !isNaN(myBudget) && myBudget>0 && isFinite(cost)){
-        totalPriced++;
-        if(myBudget >= cost){ tr.classList.add('afford-yes-row'); affordableCount++; }
-        else tr.classList.add('afford-no-row');
-      }
-      tr.innerHTML = `
-        <td><span class="lvl lvl-${t.lvl}">${LVL_NAMES[t.lvl]}</span></td>
-        <td><div class="want-list">${wantHtml}</div></td>
-        <td>${moneyCell(t.give.n, t.give.i, false, null, q)}${t.treasure?'<span class="tag">SCHATZ</span>':''}${t.note?`<div class="note">${t.note}</div>`:''}</td>
-        <td class="num stock">${t.stock}×</td>`;
-      tbody.appendChild(tr);
-    });
-    body.appendChild(table);
-  }
-
-  if(p.hasEnchants){
-    body.appendChild(buildEnchantPanel(q));
-  }
-
-  wrap.appendChild(head);
-  wrap.appendChild(body);
-  return wrap;
-}
-
-/* ===================== ENCHANT SUB-PANEL ===================== */
-let enchantCat = 'all';
-let enchantQ = '';
-function buildEnchantPanel(searchQ){
-  const panel = document.createElement('div');
-  panel.className = 'ench-panel';
-  panel.innerHTML = `
-    <div class="ench-head" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">📖 VERZAUBERTE BÜCHER — FIXE SMARAGD-PREISLISTE
-      <button type="button" class="anvil-btn" style="font-size:9px;padding:6px 10px;margin-left:auto" onclick="window.openAnvilPlanner&&window.openAnvilPlanner()">🔨 Reihenfolge planen</button>
-    </div>
-    <div class="ench-search"><span>🔎</span><input type="text" placeholder="Verzauberung suchen... z.B. Mending, Schärfe" id="enchSearch"></div>
-    <div class="ench-filters" id="enchFilters">
-      <span class="chip active" data-cat="all">Alle</span>
-      <span class="chip" data-cat="Werkzeuge">Werkzeuge</span>
-      <span class="chip" data-cat="Schwert">Schwert</span>
-      <span class="chip" data-cat="Rüstung">Rüstung</span>
-      <span class="chip" data-cat="Fernkampf">Bogen &amp; Co.</span>
-      <span class="chip" data-cat="Angel">Angel</span>
-    </div>
-    <div class="ench-count" id="enchCount"></div>
-    <table>
-      <thead><tr><th>Verzauberung</th><th class="num">Level</th><th class="num">Min</th><th class="num">Max</th></tr></thead>
-      <tbody id="enchBody"></tbody>
-    </table>
-  `;
-
-  const enchSearchEl = panel.querySelector('#enchSearch');
-  const enchBody = panel.querySelector('#enchBody');
-  const enchCountEl = panel.querySelector('#enchCount');
-  enchSearchEl.value = enchantQ;
-
-  function renderEnch(){
-    const q = enchSearchEl.value.trim().toLowerCase();
-    enchantQ = enchSearchEl.value;
-    const globalQ = (searchQ||'').toLowerCase();
-    const rows = ENCHANTS.filter(e=>{
-      const catOk = enchantCat==='all' || e.cat===enchantCat;
-      const text = (e.en+' '+e.de).toLowerCase();
-      const searchOk = !q || text.includes(q);
-      const globalOk = !globalQ || text.includes(globalQ);
-      return catOk && searchOk && globalOk;
-    });
-    enchBody.innerHTML = '';
-    if(rows.length===0){
-      enchBody.innerHTML = `<tr><td colspan="4" class="empty">Nichts gefunden. ⛏</td></tr>`;
-      enchCountEl.textContent = '0 BÜCHER';
-      return;
-    }
-    let lastCat = null;
-    rows.forEach((d, idx)=>{
-      if(d.cat!==lastCat){
-        const cr = document.createElement('tr');
-        cr.className='cat-row';
-        cr.innerHTML = `<td colspan="4">${CAT_LABEL[d.cat]}</td>`;
-        enchBody.appendChild(cr);
-        lastCat = d.cat;
-      }
-      const tr = document.createElement('tr');
-      const rowId = 'einfo_'+d.en.replace(/[^a-zA-Z]/g,'')+'_'+idx;
-      tr.innerHTML =
-        `<td><div class="ench-name-row"><div class="itemname"><span class="en">${d.en}${d.treasure?'<span class="tag">TREASURE</span>':''}</span><span class="de">${d.de}</span></div><span class="info-btn" data-target="${rowId}">i</span></div></td>`+
-        `<td class="num"><span class="lvl lvl-${['I','II','III','IV','V'].indexOf(d.lvl)+1}">${d.lvl}</span></td>`+
-        `<td class="num min"><span class="cost">${GEM}${d.min}</span></td>`+
-        `<td class="num max"><span class="cost">${GEM}${d.max}</span></td>`;
-      enchBody.appendChild(tr);
-      const infoTr = document.createElement('tr');
-      infoTr.className = 'info-row';
-      infoTr.id = rowId;
-      infoTr.innerHTML = `<td colspan="4"><b>${d.de}:</b> ${d.desc} <span style="display:inline-block;margin-top:6px"><button type="button" class="anvil-btn" style="font-size:8px;padding:5px 9px" onclick="window.openAnvilPlannerByEn&&window.openAnvilPlannerByEn('${d.en.replace(/'/g,"\\'")}')">🔨 im Amboss-Planer öffnen</button></span></td>`;
-      enchBody.appendChild(infoTr);
-    });
-    enchCountEl.textContent = rows.length + (rows.length===1?' BUCH':' BÜCHER');
-  }
-
-  enchSearchEl.addEventListener('input', renderEnch);
-  panel.querySelector('#enchFilters').addEventListener('click', e=>{
-    const chip = e.target.closest('.chip');
-    if(!chip) return;
-    panel.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    enchantCat = chip.dataset.cat;
-    renderEnch();
-  });
-  enchBody.addEventListener('click', e=>{
-    const btn = e.target.closest('.info-btn');
-    if(!btn) return;
-    document.getElementById(btn.dataset.target).classList.toggle('show');
-  });
-
-  renderEnch();
-  return panel;
-}
-
-let myBudget = null;
-let sortByPrice = false;
-let totalPriced = 0;
-let affordableCount = 0;
-
-function render(){
-  const q = searchEl.value.trim().toLowerCase();
-  container.innerHTML = '';
-  totalPriced = 0;
-  affordableCount = 0;
-  let profs = activeProf==='all' ? PROFESSIONS : PROFESSIONS.filter(p=>p.id===activeProf);
-  let shown = 0;
-  let totalTrades = 0;
-  profs.forEach(p=>{
-    const el = buildProfession(p, q);
-    if(el){ container.appendChild(el); shown++; totalTrades += p.trades.length; }
-  });
-  if(shown===0){
-    container.innerHTML = `<div class="profession"><div class="empty">Nichts gefunden – probier's mal anders. ⛏</div></div>`;
-    countEl.textContent = '0 TREFFER';
-  } else {
-    countEl.textContent = shown + (shown===1?' BERUF':' BERUFE') + ' ANGEZEIGT' + (activeProf==='all' && !q ? ' · Tab anklicken für einzelnen Beruf' : '');
-  }
-  const budgetSummaryEl = document.getElementById('budgetSummary');
-  if(myBudget != null && !isNaN(myBudget) && myBudget > 0 && totalPriced > 0){
-    budgetSummaryEl.classList.add('show');
-    budgetSummaryEl.textContent = `💰 Mit ${myBudget} Smaragd${myBudget===1?'':'en'} sind ${affordableCount} von ${totalPriced} angezeigten Angeboten leistbar.`;
-  } else {
-    budgetSummaryEl.classList.remove('show');
-  }
-}
-searchEl.addEventListener('input', render);
-render();
-
-/* ===================== TOOLBAR: EXPAND / COLLAPSE ALL ===================== */
-document.getElementById('expandAllBtn').addEventListener('click', ()=>{
-  document.querySelectorAll('.profession').forEach(p=>p.classList.add('open'));
-
-});
-document.getElementById('collapseAllBtn').addEventListener('click', ()=>{
-  document.querySelectorAll('.profession').forEach(p=>p.classList.remove('open'));
-
-});
-
-/* ===================== TOOLBAR: SORT BY PRICE ===================== */
-const sortPriceBtn = document.getElementById('sortPriceBtn');
-sortPriceBtn.addEventListener('click', ()=>{
-  sortByPrice = !sortByPrice;
-  sortPriceBtn.classList.toggle('on', sortByPrice);
-
-  render();
-});
-
-/* ===================== TOOLBAR: BUDGET ("Was kann ich mir leisten?") ===================== */
-document.getElementById('budgetInput').addEventListener('input', e=>{
-  const v = parseFloat(e.target.value);
-  myBudget = e.target.value === '' ? null : v;
-  render();
-});
-
-/* ===================== KEYBOARD SHORTCUTS ===================== */
-document.addEventListener('keydown', e=>{
-  if(e.key === '/' && document.activeElement !== searchEl){
-    e.preventDefault();
-    searchEl.focus();
-  } else if(e.key === 'Escape' && document.activeElement === searchEl){
-    searchEl.value = '';
-    render();
-    searchEl.blur();
-  }
-});
-
-/* ===================== HOLZ-RECHNER (Stapel ⇄ Log ⇄ Planks ⇄ Sticks ⇄ Emerald) ===================== */
-(function(){
-  const calcPanel = document.getElementById('calcPanel');
-  const calcToggleBtn = document.getElementById('calcToggleBtn');
-  calcToggleBtn.addEventListener('click', ()=>{
-    calcPanel.classList.toggle('show');
-    calcToggleBtn.classList.toggle('on');
-  });
-
-  const stacksEl = document.getElementById('calcStacks');
-  const logsEl = document.getElementById('calcLogs');
-  const planksEl = document.getElementById('calcPlanks');
-  const sticksEl = document.getElementById('calcSticks');
-  const emeraldsEl = document.getElementById('calcEmeralds');
-  // Fixed Java-Edition ratios: 1 Stapel -> 64 Stämme -> 256 Bretter -> 512 Stöcke; Bogner kauft 32 Stöcke pro Smaragd.
-  let updating = false;
-  function fromLogsCore(logs, stacks){
-    const planks = logs*4;
-    const sticks = planks*2;
-    const emeralds = sticks/32;
-    setAll(stacks, logs, planks, sticks, emeralds);
-  }
-  function fromStacks(stacks){
-    stacks = Math.max(0, stacks||0);
-    fromLogsCore(stacks*64, stacks);
-  }
-  function fromLogs(logs){
-    logs = Math.max(0, logs||0);
-    fromLogsCore(logs, logs/64);
-  }
-  function fromPlanks(planks){
-    planks = Math.max(0, planks||0);
-    const logs = planks/4;
-    fromLogsCore(logs, logs/64);
-  }
-  function fromSticks(sticks){
-    sticks = Math.max(0, sticks||0);
-    const logs = (sticks/2)/4;
-    fromLogsCore(logs, logs/64);
-  }
-  function fromEmeralds(emeralds){
-    emeralds = Math.max(0, emeralds||0);
-    const logs = ((emeralds*32)/2)/4;
-    fromLogsCore(logs, logs/64);
-  }
-  function fmt(n){
-    if(!isFinite(n)) return '';
-    const r = Math.round(n*100)/100;
-    return r === 0 ? '' : String(r);
-  }
-  function setAll(stacks, logs, planks, sticks, emeralds){
-    updating = true;
-    stacksEl.value = fmt(stacks);
-    logsEl.value = fmt(logs);
-    planksEl.value = fmt(planks);
-    sticksEl.value = fmt(sticks);
-    emeraldsEl.value = fmt(emeralds);
-    updating = false;
-  }
-  stacksEl.addEventListener('input', ()=>{ if(!updating) fromStacks(parseFloat(stacksEl.value)); });
-  logsEl.addEventListener('input', ()=>{ if(!updating) fromLogs(parseFloat(logsEl.value)); });
-  planksEl.addEventListener('input', ()=>{ if(!updating) fromPlanks(parseFloat(planksEl.value)); });
-  sticksEl.addEventListener('input', ()=>{ if(!updating) fromSticks(parseFloat(sticksEl.value)); });
-  emeraldsEl.addEventListener('input', ()=>{ if(!updating) fromEmeralds(parseFloat(emeraldsEl.value)); });
-})();
-
-/* ===================================================================
-   AMBOSS-PLANER — optimale Verzauberungs-Reihenfolge
-   Rechnet mit echter Minecraft-Amboss-Mechanik:
-   Kosten je Vorgang = Verzauber-Transfer + Reparaturstrafe(links)
-                       + Reparaturstrafe(rechts),   Strafe(n) = 2^n − 1.
-   Ergebnis-Strafezähler = max(links,rechts) + 1.  ≥ 40 Level ⇒ „Zu teuer!"
-   =================================================================== */
-(function(){
-  GIF_ICONS.add("Enchanted Book"); // animierter Glitzer-Sprite
-
-  const ROMAN = ['','I','II','III','IV','V','VI','VII','VIII','IX','X'];
-  const bookIcon = () => `<img src="${iconUrl('Enchanted Book')}" data-name="${encodeURIComponent('Enchanted Book')}" alt="Buch" loading="lazy" onerror="handleIconError(this)">`;
-
-  /* ---- Items: Tags steuern, welche Verzauberungen passen ---- */
-  const ITEMS = [
-    {k:'helmet', en:'Helmet', de:'Helm', icon:'Diamond Helmet', tags:['helmet','armorhead','armor','durable','wearable']},
-    {k:'chestplate', en:'Chestplate', de:'Brustplatte', icon:'Diamond Chestplate', tags:['chestplate','armor','durable','wearable']},
-    {k:'leggings', en:'Leggings', de:'Hose', icon:'Diamond Leggings', tags:['leggings','armor','durable','wearable']},
-    {k:'boots', en:'Boots', de:'Stiefel', icon:'Diamond Boots', tags:['boots','armor','durable','wearable']},
-    {k:'turtle', en:'Turtle Shell', de:'Schildkrötenpanzer', icon:'Turtle Shell', tags:['helmet','armorhead','armor','durable','wearable','turtle']},
-    {k:'elytra', en:'Elytra', de:'Elytren', icon:'Elytra', tags:['elytra','durable','wearable']},
-    {k:'sword', en:'Sword', de:'Schwert', icon:'Diamond Sword', tags:['sword','melee','durable']},
-    {k:'axe', en:'Axe', de:'Axt', icon:'Diamond Axe', tags:['axe','tool','melee','durable']},
-    {k:'mace', en:'Mace', de:'Streitkolben', icon:'Mace', tags:['mace','durable']},
-    {k:'trident', en:'Trident', de:'Dreizack', icon:'Trident', tags:['trident','durable']},
-    {k:'bow', en:'Bow', de:'Bogen', icon:'Bow', tags:['bow','durable']},
-    {k:'crossbow', en:'Crossbow', de:'Armbrust', icon:'Crossbow', tags:['crossbow','durable']},
-    {k:'pickaxe', en:'Pickaxe', de:'Spitzhacke', icon:'Diamond Pickaxe', tags:['pickaxe','tool','durable']},
-    {k:'shovel', en:'Shovel', de:'Schaufel', icon:'Diamond Shovel', tags:['shovel','tool','durable']},
-    {k:'hoe', en:'Hoe', de:'Hacke', icon:'Diamond Hoe', tags:['hoe','tool','durable']},
-    {k:'shield', en:'Shield', de:'Schild', icon:'Shield', tags:['shield','durable']},
-    {k:'fishing', en:'Fishing Rod', de:'Angel', icon:'Fishing Rod', tags:['fishing','durable']},
-    {k:'shears', en:'Shears', de:'Schere', icon:'Shears', tags:['shears','tool','durable']},
-    {k:'flint', en:'Flint and Steel', de:'Feuerzeug', icon:'Flint and Steel', tags:['flint','durable']},
-    {k:'brush', en:'Brush', de:'Pinsel', icon:'Brush', tags:['brush','durable']},
-    {k:'cos', en:'Carrot on a Stick', de:'Karottenrute', icon:'Carrot on a Stick', tags:['cos','durable']},
-    {k:'wfos', en:'Warped Fungus on a Stick', de:'Wirrpilzrute', icon:'Warped Fungus on a Stick', tags:['cos','durable']},
-    {k:'pumpkin', en:'Carved Pumpkin', de:'Geschnitzter Kürbis', icon:'Carved Pumpkin', tags:['pumpkin','wearable']},
-    {k:'book', en:'Book', de:'Buch (Verzaubertes Buch bauen)', icon:'Book', tags:['*']},
-  ];
-
-  /* ---- Verzauberungen: bm = Buch-Multiplikator (Amboss-Kosten = Level × bm) ---- */
-  const E = [
-    // universal
-    {k:'unbreaking', en:'Unbreaking', de:'Haltbarkeit', max:3, bm:1, on:['durable']},
-    {k:'mending', en:'Mending', de:'Reparatur', max:1, bm:2, on:['durable'], tr:true},
-    {k:'vanishing', en:'Curse of Vanishing', de:'Fluch des Verschwindens', max:1, bm:4, on:['durable','wearable'], tr:true},
-    {k:'binding', en:'Curse of Binding', de:'Fluch der Bindung', max:1, bm:4, on:['wearable'], tr:true},
-    // armor
-    {k:'protection', en:'Protection', de:'Schutz', max:4, bm:1, on:['armor']},
-    {k:'fire_protection', en:'Fire Protection', de:'Feuerschutz', max:4, bm:1, on:['armor']},
-    {k:'blast_protection', en:'Blast Protection', de:'Explosionsschutz', max:4, bm:2, on:['armor']},
-    {k:'projectile_protection', en:'Projectile Protection', de:'Geschossschutz', max:4, bm:1, on:['armor']},
-    {k:'thorns', en:'Thorns', de:'Dornen', max:3, bm:4, on:['armor']},
-    {k:'respiration', en:'Respiration', de:'Atmung', max:3, bm:2, on:['armorhead']},
-    {k:'aqua_affinity', en:'Aqua Affinity', de:'Wassergängigkeit', max:1, bm:2, on:['armorhead']},
-    {k:'feather_falling', en:'Feather Falling', de:'Federfall', max:4, bm:1, on:['boots']},
-    {k:'depth_strider', en:'Depth Strider', de:'Tiefenläufer', max:3, bm:2, on:['boots']},
-    {k:'frost_walker', en:'Frost Walker', de:'Frostläufer', max:2, bm:2, on:['boots'], tr:true},
-    {k:'soul_speed', en:'Soul Speed', de:'Seelentempo', max:3, bm:4, on:['boots'], tr:true},
-    {k:'swift_sneak', en:'Swift Sneak', de:'Sanfter Schleicher', max:3, bm:4, on:['leggings'], tr:true},
-    // sword / melee
-    {k:'sharpness', en:'Sharpness', de:'Schärfe', max:5, bm:1, on:['sword','axe']},
-    {k:'smite', en:'Smite', de:'Bann', max:5, bm:1, on:['sword','axe']},
-    {k:'bane', en:'Bane of Arthropods', de:'Nemesis d. Gliederfüßer', max:5, bm:1, on:['sword','axe']},
-    {k:'knockback', en:'Knockback', de:'Rückstoß', max:2, bm:1, on:['sword']},
-    {k:'fire_aspect', en:'Fire Aspect', de:'Verbrennung', max:2, bm:2, on:['sword']},
-    {k:'looting', en:'Looting', de:'Plünderung', max:3, bm:2, on:['sword']},
-    {k:'sweeping', en:'Sweeping Edge', de:'Schwungkraft', max:3, bm:2, on:['sword']},
-    // tools
-    {k:'efficiency', en:'Efficiency', de:'Effizienz', max:5, bm:1, on:['pickaxe','shovel','axe','hoe','shears']},
-    {k:'silk_touch', en:'Silk Touch', de:'Behutsamkeit', max:1, bm:4, on:['pickaxe','shovel','axe','hoe']},
-    {k:'fortune', en:'Fortune', de:'Glück', max:3, bm:2, on:['pickaxe','shovel','axe','hoe']},
-    // bow
-    {k:'power', en:'Power', de:'Stärke', max:5, bm:1, on:['bow']},
-    {k:'punch', en:'Punch', de:'Schlag', max:2, bm:2, on:['bow']},
-    {k:'flame', en:'Flame', de:'Flamme', max:1, bm:2, on:['bow']},
-    {k:'infinity', en:'Infinity', de:'Unendlichkeit', max:1, bm:4, on:['bow']},
-    // crossbow
-    {k:'piercing', en:'Piercing', de:'Durchschlag', max:4, bm:1, on:['crossbow']},
-    {k:'quick_charge', en:'Quick Charge', de:'Schnellladen', max:3, bm:1, on:['crossbow']},
-    {k:'multishot', en:'Multishot', de:'Mehrfachschuss', max:1, bm:2, on:['crossbow']},
-    // trident
-    {k:'impaling', en:'Impaling', de:'Harpune', max:5, bm:2, on:['trident']},
-    {k:'loyalty', en:'Loyalty', de:'Treue', max:3, bm:1, on:['trident']},
-    {k:'riptide', en:'Riptide', de:'Sog', max:3, bm:2, on:['trident']},
-    {k:'channeling', en:'Channeling', de:'Entladung', max:1, bm:4, on:['trident']},
-    // fishing
-    {k:'luck', en:'Luck of the Sea', de:'Glück des Meeres', max:3, bm:2, on:['fishing']},
-    {k:'lure', en:'Lure', de:'Köder', max:3, bm:2, on:['fishing']},
-    // mace
-    {k:'density', en:'Density', de:'Dichte', max:5, bm:1, on:['mace']},
-    {k:'breach', en:'Breach', de:'Bruch', max:4, bm:2, on:['mace']},
-    {k:'wind_burst', en:'Wind Burst', de:'Windstoß', max:3, bm:2, on:['mace'], tr:true},
-  ];
-  const EMAP = Object.fromEntries(E.map(e=>[e.k,e]));
-
-  /* Unverträglichkeits-Gruppen (können nur gemeinsam, wenn erlaubt) */
-  const INCOMPAT_GROUPS = [
-    ['protection','fire_protection','blast_protection','projectile_protection'],
-    ['sharpness','smite','bane'],
-    ['silk_touch','fortune'],
-    ['infinity','mending'],
-    ['depth_strider','frost_walker'],
-    ['multishot','piercing'],
-    ['riptide','loyalty'],
-    ['riptide','channeling'],
-  ];
-  function conflicts(a, b){
-    return INCOMPAT_GROUPS.some(g=>g.includes(a)&&g.includes(b));
-  }
-  function itemAccepts(item, e){
-    if(item.tags.includes('*')) return true;              // Buch nimmt alles
-    return e.on.some(t=>item.tags.includes(t));
-  }
-
-  /* ---------- DOM ---------- */
-  const panel   = document.getElementById('anvilPanel');
-  const toggle  = document.getElementById('anvilToggleBtn');
-  const itemSel = document.getElementById('anvilItemSelect');
-  const itemIcon= document.getElementById('anvilItemIcon');
-  const listEl  = document.getElementById('anvilEnchList');
-  const searchE = document.getElementById('anvilEnchSearch');
-  const resultEl= document.getElementById('anvilResult');
-  const calcBtn = document.getElementById('anvilCalcBtn');
-  const clearBtn= document.getElementById('anvilClearBtn');
-  const optXp   = document.getElementById('optXp');
-  const optPwp  = document.getElementById('optPwp');
-  const optInc  = document.getElementById('optIncompat');
-
-  let curItem = ITEMS[0];
-  let picked  = new Map();   // key -> level
-  let objective = 'xp';      // 'xp' | 'pwp'
-  let allowIncompat = false;
-
-  ITEMS.forEach(it=>{
-    const o=document.createElement('option'); o.value=it.k; o.textContent=`${it.de}  ·  ${it.en}`; itemSel.appendChild(o);
-  });
-
-  function setItemIcon(){
-    itemIcon.src = iconUrl(curItem.icon);
-    itemIcon.dataset.name = encodeURIComponent(curItem.icon);
-    itemIcon.dataset.step = '0';
-    itemIcon.style.display = '';
-    itemIcon.onerror = ()=>handleIconError(itemIcon);
-  }
-
-  function renderList(){
-    const q = searchE.value.trim().toLowerCase();
-    const applicable = E.filter(e=>itemAccepts(curItem,e));
-    const rows = applicable.filter(e=>!q || (e.en+' '+e.de).toLowerCase().includes(q));
-    if(!rows.length){ listEl.innerHTML = `<div class="ench-pick-empty">Keine passenden Verzauberungen. ⛏</div>`; return; }
-    listEl.innerHTML = rows.map(e=>{
-      const isPicked = picked.has(e.k);
-      // ist e mit etwas bereits Gewähltem unverträglich?
-      let blocked=false, blocker=null;
-      if(!allowIncompat && !isPicked){
-        for(const k of picked.keys()){ if(conflicts(e.k,k)){ blocked=true; blocker=EMAP[k]; break; } }
-      }
-      const lvlOpts = Array.from({length:e.max},(_,i)=>i+1)
-        .map(l=>`<option value="${l}" ${isPicked&&picked.get(e.k)===l?'selected':''}>${ROMAN[l]}</option>`).join('');
-      return `<div class="ench-pick ${isPicked?'picked':''} ${blocked?'incompat':''}" data-k="${e.k}" ${blocked?'data-blocked="1"':''}>
-        <span class="ench-check">${isPicked?'✔':''}</span>
-        <span class="ench-pick-name">
-          <span class="en">${e.en}${e.tr?'<span class="tag">TREASURE</span>':''}</span>
-          <span class="de">${e.de}${blocked?`<span class="incompat-note">⚠ unverträglich mit ${blocker.de}</span>`:''}</span>
-        </span>
-        <select class="ench-lvl-select" data-lvlfor="${e.k}" ${e.max===1?'disabled':''} ${!isPicked?'disabled':''}>${lvlOpts}</select>
-      </div>`;
-    }).join('');
-  }
-
-  listEl.addEventListener('click', ev=>{
-    const row = ev.target.closest('.ench-pick');
-    if(!row || ev.target.closest('.ench-lvl-select')) return;
-    const k = row.dataset.k;
-    if(picked.has(k)){ picked.delete(k); }
-    else {
-      if(row.dataset.blocked) return;          // gesperrt
-      picked.set(k, EMAP[k].max);              // Standard = Maximallevel
-    }
-    renderList();
-  });
-  listEl.addEventListener('change', ev=>{
-    const sel = ev.target.closest('.ench-lvl-select'); if(!sel) return;
-    const k = sel.dataset.lvlfor;
-    if(picked.has(k)) picked.set(k, parseInt(sel.value,10));
-  });
-  searchE.addEventListener('input', renderList);
-
-  itemSel.addEventListener('change', ()=>{
-    curItem = ITEMS.find(i=>i.k===itemSel.value) || ITEMS[0];
-    picked.clear(); setItemIcon(); renderList();
-    resultEl.innerHTML = placeholderHtml();
-  });
-
-  function setObjective(o){ objective=o; optXp.classList.toggle('active',o==='xp'); optPwp.classList.toggle('active',o==='pwp'); }
-  optXp.addEventListener('click', ()=>setObjective('xp'));
-  optPwp.addEventListener('click', ()=>setObjective('pwp'));
-  optInc.addEventListener('click', ()=>{ allowIncompat=!allowIncompat; optInc.classList.toggle('active',allowIncompat); renderList(); });
-  clearBtn.addEventListener('click', ()=>{ picked.clear(); renderList(); resultEl.innerHTML=placeholderHtml(); });
-
-  function placeholderHtml(){
-    return `<div class="anvil-placeholder">Wähl links ein Item und ein paar Verzauberungen,<br>dann auf <b>„Reihenfolge berechnen"</b> tippen. 🔨</div>`;
-  }
-
-  /* ---------- SOLVER ---------- */
-  function penalty(pw){ return (1<<pw) - 1; }               // 2^pw − 1
-  function paretoPush(list, cand){
-    for(const x of list){ if(x.cost<=cand.cost && x.pw<=cand.pw) return; } // dominiert
-    for(let i=list.length-1;i>=0;i--){ if(cand.cost<=list[i].cost && cand.pw<=list[i].pw) list.splice(i,1); }
-    list.push(cand);
-  }
-
-  // Baut den optimalen Plan. leaves = Array der ausgewählten Buch-Verzauberungen.
-  // hasItem = true => es gibt ein separates Ziel-Item (kein reines Buch).
-  function solve(leaves, hasItem, capOn){
-    const N = leaves.length;
-    const cost = leaves.map(l => l.level * l.bm);           // Transferkosten je Buch
-    const groupCost = mask => { let s=0; for(let i=0;i<N;i++) if(mask&(1<<i)) s+=cost[i]; return s; };
-
-    const bookMemo = new Map();
-    function solveBook(mask){
-      if(bookMemo.has(mask)) return bookMemo.get(mask);
-      let res;
-      // einzelnes Buch
-      if((mask & (mask-1))===0){ res=[{cost:0,pw:0,node:{t:'book',bit:Math.log2(mask)}}]; }
-      else {
-        const front=[];
-        for(let a=(mask-1)&mask; a>0; a=(a-1)&mask){        // a = Ziel, b = Opfer
-          const b = mask ^ a;
-          const tf=solveBook(a), sf=solveBook(b), tc=groupCost(b);
-          for(const t of tf) for(const s of sf){
-            const step = tc + penalty(t.pw) + penalty(s.pw);
-            if(capOn && step>=40) continue;
-            paretoPush(front, {cost:t.cost+s.cost+step, pw:Math.max(t.pw,s.pw)+1,
-              node:{t:'m', L:t.node, R:s.node, tc, step, sac:b}});
-          }
-        }
-        res=front;
-      }
-      bookMemo.set(mask,res); return res;
-    }
-
-    if(!hasItem){                                            // Ziel ist ein Buch
-      const full=(1<<N)-1;
-      return {frontier: solveBook(full), leaves, cost};
-    }
-
-    const itemMemo=new Map();
-    function solveItem(mask){
-      if(itemMemo.has(mask)) return itemMemo.get(mask);
-      let res;
-      if(mask===0){ res=[{cost:0,pw:0,node:{t:'item'}}]; }
-      else{
-        const front=[];
-        for(let b=mask; b>0; b=(b-1)&mask){                 // b = zuletzt aufgelegtes Buch-Bündel (Opfer)
-          const a=mask^b;
-          const tf=solveItem(a), sf=solveBook(b), tc=groupCost(b);
-          for(const t of tf) for(const s of sf){
-            const step = tc + penalty(t.pw) + penalty(s.pw);
-            if(capOn && step>=40) continue;
-            paretoPush(front, {cost:t.cost+s.cost+step, pw:Math.max(t.pw,s.pw)+1,
-              node:{t:'m', L:t.node, R:s.node, tc, step, sac:b, item:true}});
-          }
-        }
-        res=front;
-      }
-      itemMemo.set(mask,res); return res;
-    }
-    const full=(1<<N)-1;
-    return {frontier: solveItem(full), leaves, cost};
-  }
-
-  function pickBest(frontier){
-    if(!frontier.length) return null;
-    let best=frontier[0];
-    for(const f of frontier){
-      if(objective==='xp'){ if(f.cost<best.cost || (f.cost===best.cost && f.pw<best.pw)) best=f; }
-      else { if(f.pw<best.pw || (f.pw===best.pw && f.cost<best.cost)) best=f; }
-    }
-    return best;
-  }
-
-  /* Baum -> nummerierte Schritte (Post-Order: Kinder zuerst) */
-  function flatten(node, leaves){
-    const steps=[]; let counter=0;
-    // Inhalt eines Knotens: Item-ja/nein + welche Verzauberungen drauf sind
-    function contents(n){
-      if(n.t==='item') return {isItem:true, bits:[]};
-      if(n.t==='book') return {isItem:false, bits:[n.bit]};
-      const L=contents(n.L), R=contents(n.R);
-      return {isItem:L.isItem||R.isItem, bits:L.bits.concat(R.bits)};
-    }
-    function tok(n){
-      if(n.t==='item') return {kind:'item'};
-      if(n.t==='book'){ const e=leaves[n.bit]; return {kind:'book', e}; }
-      return {kind:'result', step:n._step};
-    }
-    function walk(n){
-      if(n.t!=='m') return;
-      walk(n.L); walk(n.R);
-      n._step = ++counter;
-      steps.push({n:n._step, left:tok(n.L), right:tok(n.R), tc:n.tc, step:n.step, sac:n.sac,
-        resPw: Math.max(pwOf(n.L), pwOf(n.R))+1, contents: contents(n)});
-    }
-    function pwOf(n){ if(n.t==='item'||n.t==='book') return 0; return n._pw; }
-    // pw-Rekonstruktion parallel zur Nummerierung
-    function walk2(n){ if(n.t!=='m'){ n._pw=0; return 0;} const l=walk2(n.L), r=walk2(n.R); n._pw=Math.max(l,r)+1; return n._pw; }
-    walk2(node); walk(node);
-    return steps;
-  }
-
-  // Tooltip-Text: „was ist auf Ergebnis N drauf?"
-  function contentsTip(c, leaves){
-    const list = c.bits.map(b=>`${leaves[b].de} ${ROMAN[leaves[b].level]}`).join(', ');
-    if(c.isItem) return `${curItem.de} mit: ${list || '(noch nichts)'}`;
-    return `📖 Verzaubertes Buch mit: ${list}`;
-  }
-
-  /* Deutlich unterscheidbare Farben je Schritt — so kann man „kommt aus Schritt X" verfolgen */
-  const STEP_COLORS = ['#e0b341','#5cc8ff','#8b7cff','#57d982','#ff8f6b','#ff79c6','#4ad0c0','#f4d03f','#b39ddb','#7fd1ae','#ffab73','#9bd0ff'];
-  function stepColor(n){ return STEP_COLORS[(n-1) % STEP_COLORS.length]; }
-
-  // t = Token einer Seite; tip = optionaler Hover-Text (was ist auf dem Ergebnis drauf)
-  function tokenHtml(t, tip){
-    if(t.kind==='item'){
-      return `<span class="anvil-token"><span class="slot">${iconImg(curItem.icon)}</span><span><span class="tk-name">${curItem.de}</span><small>frisch · Strafe 0</small></span></span>`;
-    }
-    if(t.kind==='book'){
-      return `<span class="anvil-token" style="border-color:#8b7cff"><span class="slot">${bookIcon()}</span><span><span class="tk-name">${t.e.de} ${ROMAN[t.e.level]}</span><small>📖 Buch</small></span></span>`;
-    }
-    // Referenz auf das Ergebnis eines früheren Schritts — gleiche Farbe wie jener Schritt,
-    // beim Hovern zeigt der Tooltip, was genau auf diesem Ergebnis liegt.
-    const c = stepColor(t.step);
-    const tipAttr = tip ? ` data-tip="${tip.replace(/"/g,'&quot;')}" tabindex="0"` : '';
-    return `<span class="anvil-token ref" style="border-color:${c}"${tipAttr}>`+
-      `<span class="refnum" style="background:${c}">${t.step}</span>`+
-      `<span><span class="tk-name" style="color:${c}">Ergebnis ${t.step}</span><small>aus Schritt ${t.step} ↑ · hover für Inhalt</small></span></span>`;
-  }
-
-  function costClass(c){ return c>=40?'too-exp':(c>=25?'warn':'good'); }
-
-  function calculate(){
-    const leaves = [...picked.entries()].map(([k,level])=>({k, level, bm:EMAP[k].bm, en:EMAP[k].en, de:EMAP[k].de}));
-    const hasItem = curItem.k!=='book';
-
-    if(leaves.length===0){
-      resultEl.innerHTML = `<div class="anvil-placeholder">Noch keine Verzauberung angehakt. Wähl links mindestens eine aus. 👆</div>`;
-      return;
-    }
-    if(!hasItem && leaves.length===1){
-      resultEl.innerHTML = `<div class="anvil-placeholder">Nur eine Verzauberung fürs Buch — das ist schon ein fertiges Buch, kein Amboss nötig. 📖</div>`;
-      return;
-    }
-    if(hasItem && leaves.length===0){ return; }
-
-    if(leaves.length>13){
-      resultEl.innerHTML = `<div class="anvil-warn-banner"><b>Zu viele Verzauberungen (${leaves.length}).</b> Bitte auf 13 oder weniger reduzieren — mehr passt in Minecraft ohnehin nicht sinnvoll auf ein Item.</div>`;
-      return;
-    }
-
-    // 1) survival-legal (Cap an). 2) fällt aus -> ohne Cap, rot markiert.
-    let overCap=false;
-    let out = solve(leaves, hasItem, true);
-    let best = pickBest(out.frontier);
-    if(!best){ overCap=true; out = solve(leaves, hasItem, false); best = pickBest(out.frontier); }
-    if(!best){ resultEl.innerHTML = `<div class="anvil-warn-banner">Konnte keinen Plan finden. 🤔</div>`; return; }
-
-    const steps = flatten(best.node, out.leaves);
-    const totalLevels = steps.reduce((a,s)=>a+s.step,0);
-    const maxStep = steps.reduce((a,s)=>Math.max(a,s.step),0);
-    const finalPw = best.pw;
-
-    let html='';
-    if(overCap){
-      html += `<div class="anvil-warn-banner"><b>Achtung — in Survival nicht baubar!</b> Mindestens ein Schritt kostet 40 Level oder mehr → der Amboss sagt „Zu teuer!". Das Ganze klappt nur im Kreativmodus. Die roten Schritte zeigen, wo es klemmt.</div>`;
-    }
-    html += `<div class="anvil-summary">
-      <div class="sumbox tip" tabindex="0" data-tip="Alle Level zusammengezählt, die du über sämtliche Amboss-Vorgänge ausgibst. Das ist der Wert, den „Wenigste Level" minimiert.">
-        <div class="k">GESAMT-LEVEL <span class="q">?</span></div><div class="v ${overCap?'warn':'good'}">${totalLevels}</div></div>
-      <div class="sumbox tip" tabindex="0" data-tip="Der teuerste einzelne Amboss-Vorgang. So viele Erfahrungslevel brauchst du mindestens auf einmal auf dem Konto. Ab 40 sagt der Amboss ‚Zu teuer!'.">
-        <div class="k">TEUERSTER SCHRITT <span class="q">?</span></div><div class="v ${costClass(maxStep)}">${maxStep} Lvl</div></div>
-      <div class="sumbox tip" tabindex="0" data-tip="So oft musst du den Amboss insgesamt benutzen, um das fertige Item zu bauen.">
-        <div class="k">SCHRITTE <span class="q">?</span></div><div class="v info">${steps.length}×</div></div>
-      <div class="sumbox tip" tabindex="0" data-tip="Reparaturstrafe des FERTIGEN Items. Jede Amboss-Nutzung erhöht sie; sie kostet beim nächsten Bearbeiten 2^Stufe − 1 Extra-Level. Niedrig = du kannst das Item später günstiger weiter verzaubern/reparieren. Genau das minimiert ‚Wenigste Reparaturstrafe'.">
-        <div class="k">END-STRAFE <span class="q">?</span></div><div class="v info">Stufe ${finalPw}</div></div>
-    </div>`;
-
-    html += `<div class="astep-legend">🎨 <b style="color:#8b7cff">Lila</b> = Buch &nbsp;·&nbsp; <b>graues Item</b> = dein frisches Teil &nbsp;·&nbsp; <b>farbige Nummer</b> = Zwischen-Ergebnis. Taucht dieselbe Farbe/Nummer später wieder auf, ist es genau <b>dieses</b> Ergebnis — <b>fahr mit der Maus drüber</b>, dann siehst du, was drauf ist. 🔍</div>`;
-
-    const stepContents = {};
-    steps.forEach(s=>{ stepContents[s.n] = s.contents; });
-    const tipFor = tok => (tok.kind==='result' && stepContents[tok.step]) ? contentsTip(stepContents[tok.step], out.leaves) : '';
-
-    html += `<div class="anvil-steps">`;
-    steps.forEach(s=>{
-      const cc = costClass(s.step);
-      const isFinal = s.n === steps.length;
-      const col = stepColor(s.n);
-      const lp = penalty(pwSide(s.left,steps)), rp = penalty(pwSide(s.right,steps));
-      const outTip = contentsTip(s.contents, out.leaves).replace(/"/g,'&quot;');
-      const outToken = isFinal
-        ? `<span class="anvil-token result-out final-out" data-tip="${outTip}" tabindex="0"><span class="slot" style="background:#173c22;display:flex;align-items:center;justify-content:center;font-size:15px">🏆</span><span><span class="tk-name" style="color:var(--emerald)">FERTIGES ITEM</span><small>Strafe → Stufe ${s.resPw} · hover für Inhalt</small></span></span>`
-        : `<span class="anvil-token result-out" style="border-color:${col}" data-tip="${outTip}" tabindex="0"><span class="outnum" style="background:${col}">${s.n}</span><span><span class="tk-name" style="color:${col}">Ergebnis ${s.n}</span><small>Strafe → Stufe ${s.resPw} · hover für Inhalt</small></span></span>`;
-      html += `<div class="astep ${s.step>=40?'too-exp':''}" style="border-left-color:${isFinal?'var(--emerald)':col}">
-        <div class="astep-top">
-          <span class="step-badge" style="background:${isFinal?'var(--emerald)':col}">Schritt ${s.n}</span>
-          <span class="astep-cost ${cc}">💠 ${s.step} Level${s.step>=40?' — ZU TEUER':''}</span>
-        </div>
-        <div class="astep-combo">
-          ${tokenHtml(s.left, tipFor(s.left))}<span class="anvil-plus">+</span>${tokenHtml(s.right, tipFor(s.right))}<span class="anvil-eq">=</span>${outToken}
-        </div>
-        <div class="astep-pw tip" tabindex="0" data-tip="Amboss-Kosten = Verzauber-Transfer + Reparaturstrafe des linken Teils + Reparaturstrafe des rechten Teils. Strafe(Stufe n) = 2^n − 1.">Transfer ${s.tc} + Strafe links ${lp} + Strafe rechts ${rp} = <b>${s.step} Level</b> <span class="q">?</span></div>
-      </div>`;
-    });
-    html += `</div>`;
-    html += `<div class="anvil-tip" style="border:none;padding-top:8px;margin-top:8px"><b>Merke:</b> Du brauchst beim teuersten Schritt kurzzeitig <b>${maxStep} Erfahrungslevel</b> auf einmal. Sammle also genug XP, bevor du loslegst.</div>`;
-
-    resultEl.innerHTML = html;
-  }
-
-  // Strafe einer Seite eines Schritts (fürs Kosten-Kleingedruckte)
-  function pwSide(tok, steps){
-    if(tok.kind==='item'||tok.kind==='book') return 0;
-    const s = steps.find(x=>x.n===tok.step);
-    return s ? s.resPw : 0;
-  }
-
-  calcBtn.addEventListener('click', calculate);
-
-  /* ---------- Panel öffnen/schließen ---------- */
-  function openAnvil(prefillKey){
-    panel.classList.add('show'); toggle.classList.add('on');
-    // andere Panels schließen (aufgeräumt)
-    const cp=document.getElementById('calcPanel'); if(cp){ cp.classList.remove('show'); document.getElementById('calcToggleBtn').classList.remove('on'); }
-    if(prefillKey && EMAP[prefillKey]){
-      // passendes Item wählen, das diese Verzauberung akzeptiert
-      const it = ITEMS.find(i=>i.k!=='book' && itemAccepts(i,EMAP[prefillKey])) || ITEMS[0];
-      curItem=it; itemSel.value=it.k; setItemIcon();
-      picked.clear(); picked.set(prefillKey, EMAP[prefillKey].max); renderList();
-    }
-    panel.scrollIntoView({behavior:'smooth', block:'start'});
-  }
-  toggle.addEventListener('click', ()=>{
-    const show=!panel.classList.contains('show');
-    panel.classList.toggle('show',show); toggle.classList.toggle('on',show);
-    if(show) panel.scrollIntoView({behavior:'smooth', block:'start'});
-  });
-  window.openAnvilPlanner = openAnvil;  // von überall aufrufbar (z.B. aus dem Bücher-Panel)
-  window.openAnvilPlannerByEn = function(en){
-    const e = E.find(x=>x.en.toLowerCase()===String(en||'').toLowerCase());
-    openAnvil(e ? e.k : null);
-  };
-
-  setItemIcon(); renderList();
-})();
-
-/* ===================== CRAFTING MODAL ===================== */
-const overlay = document.getElementById('modalOverlay');
-const craftGrid = document.getElementById('craftGrid');
-function openModal(p){
-  document.getElementById('modalIcon').src = blockUrl(p.station.slug);
-  document.getElementById('modalIcon').onerror = function(){ this.style.display='none'; };
-  document.getElementById('modalEn').textContent = p.station.en;
-  document.getElementById('modalDe').textContent = p.station.de + ' — Werkstatt für ' + p.de;
-  craftGrid.innerHTML = '';
-  p.station.grid.forEach(cell=>{
-    const slot = document.createElement('div');
-    slot.className = 'craft-slot';
-    if(cell){ slot.innerHTML = `${iconImg(cell.i)}${cell.n && cell.n>1 ? `<span class="n">${cell.n}</span>`:''}`; }
-    craftGrid.appendChild(slot);
-  });
-  document.getElementById('craftNote').innerHTML = `<div class="craft-result">→ <div class="slot">${iconImg(p.station.en)}</div> <b>${p.station.en}</b></div><div style="margin-top:10px">${p.station.note}</div>`;
-  overlay.classList.add('show');
-}
-document.getElementById('modalClose').addEventListener('click', ()=> overlay.classList.remove('show'));
-overlay.addEventListener('click', e=>{ if(e.target===overlay) overlay.classList.remove('show'); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape') overlay.classList.remove('show'); });
-</script>
+<script type="module" src="./professions.js"></script>
+<script type="module" src="./app.js"></script>
+<script type="module" src="./anvil.js"></script>
+<script type="module" src="./main.js"></script>
 </body>
 </html>
